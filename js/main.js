@@ -482,7 +482,7 @@
   var cmdProjectCount = 1;
   // the full record carries both flight legs — the runway liftoff and the
   // fly-through landing; the acoustic plays only inside the 360 look-around
-  var cmdSceneTracks = ["vauntfull", "vauntfull"];
+  var cmdSceneTracks = ["runway", "runway"];
   var cmdPanels = gsap.utils.toArray("#work .command__panel");
   var cmdCount = document.getElementById("cmdCount");
   var CMD_FADE = 0.03; // narrower bands with six scenes need tighter crossfades
@@ -827,13 +827,15 @@
       "whodidtheshoot": document.getElementById("track-whodidtheshoot"),
       "antisocial": document.getElementById("track-antisocial"),
       "vaunt": document.getElementById("track-vaunt"),
-      "vauntfull": document.getElementById("track-vauntfull"),
+      "runway": document.getElementById("track-runway"),
+      "environmental-injustice": document.getElementById("track-environmental-injustice"),
       "here": document.getElementById("track-here"),
     };
     var zones = [
       { sel: "#hero", track: "whodidtheshoot" },
       { sel: "#wantsite", track: "whodidtheshoot" },
       { sel: "#pillars", track: "antisocial" },
+      { sel: "#uprise", track: "environmental-injustice" },
       // the command scroll picks its track per scene
       { sel: "#work", track: function () { return cmdSceneTracks[lastCmdActive]; } },
       { sel: "#book", track: "whodidtheshoot" },
