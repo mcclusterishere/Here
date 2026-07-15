@@ -61,7 +61,8 @@
      "src": "assets/audio/got-wifi.mp3",
      "video": "assets/video/prim3.mp4",
      "poster": "assets/frames/prim3_0001.jpg",
-     "lyrics": "data/lyrics/got-wifi.json"
+     "lyrics": "data/lyrics/got-wifi.json",
+     "reel": "data/reels/got-wifi.json"
     }
    ]
   },
@@ -78,7 +79,8 @@
      "src": "assets/audio/environmental-injustice-brave.mp3",
      "video": "assets/video/uprise.mp4",
      "poster": "assets/frames/uprise_0001.jpg",
-     "lyrics": "data/lyrics/environmental-injustice-brave.dk.json"
+     "lyrics": "data/lyrics/environmental-injustice-brave.dk.json",
+     "reel": "data/reels/environmental-injustice-brave.json"
     },
     {
      "title": "Please Set Me Free",
@@ -123,7 +125,8 @@
      "src": "assets/audio/dealer-plates.mp3",
      "video": "assets/video/whip.mp4",
      "poster": "assets/frames/whip_0001.jpg",
-     "lyrics": "data/lyrics/dealer-plates.json"
+     "lyrics": "data/lyrics/dealer-plates.json",
+     "reel": "data/reels/dealer-plates.json"
     },
     {
      "title": "Dealer Plates (B-Side)",
