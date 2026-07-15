@@ -180,7 +180,7 @@
         <li data-src="assets/audio/runway-walk.mp3" data-video="assets/video/vauntlive.mp4" data-poster="assets/frames/vauntlive_0001.jpg" data-lyrics="" data-title="Runway Walk"><span class="n">2</span><span class="t">Runway Walk</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
         <li data-src="assets/audio/write-a-song.mp3" data-video="assets/video/studio360.mp4" data-poster="assets/frames/studio360_0001.jpg" data-lyrics="" data-title="Write a Song"><span class="n">3</span><span class="t">Write a Song</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
         <li data-src="assets/audio/here.mp3" data-video="assets/video/keynote.mp4" data-poster="assets/frames/keynote_0001.jpg" data-lyrics="" data-title="Here"><span class="n">4</span><span class="t">Here<small>the title track</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/antisocial.mp3" data-video="assets/video/nightscroll.mp4" data-poster="assets/frames/nightscroll_0001.jpg" data-lyrics="data/lyrics/antisocial.json" data-title="Antisocial"><span class="n">5</span><span class="t">Antisocial</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/antisocial.mp3" data-video="assets/video/nightscroll.mp4" data-reel="data/reels/antisocial.json" data-poster="assets/frames/nightscroll_0001.jpg" data-lyrics="data/lyrics/antisocial.json" data-title="Antisocial"><span class="n">5</span><span class="t">Antisocial</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
         <li data-src="assets/audio/lightroom.mp3" data-video="assets/video/editors.mp4" data-poster="assets/frames/editors_0001.jpg" data-lyrics="" data-title="Lightroom"><span class="n">6</span><span class="t">Lightroom</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
       </ul>
       <audio id="deck" preload="metadata"></audio>
@@ -380,11 +380,15 @@
       var row = rows[cur];
       now.dataset.on = "1";
       el("nowTitle").textContent = row.getAttribute("data-title");
-      var v = row.getAttribute("data-video") || "";
-      nowFilm.poster = row.getAttribute("data-poster") || "";
-      if (v && nowFilm.getAttribute("src") !== v) {
-        nowFilm.src = v;
-        nowFilm.load();
+      var reelSrc = row.getAttribute("data-reel") || "";
+      loadReel(reelSrc);
+      if (!reelSrc) {
+        var v = row.getAttribute("data-video") || "";
+        nowFilm.poster = row.getAttribute("data-poster") || "";
+        if (v && nowFilm.getAttribute("src") !== v) {
+          nowFilm.src = v;
+          nowFilm.load();
+        }
       }
       nowFilm.muted = true;
       if (!deck.paused) { var pr = nowFilm.play(); if (pr && pr.catch) pr.catch(function () {}); }
@@ -397,11 +401,42 @@
       try { nowFilm.pause(); } catch (e) {}
     }
     /* THE LOCK: the scrub dial is the master clock — the film rides the
-       song's position (looping over its own length), freezes on pause,
-       and jumps when you jump. Lyrics already read the same clock. */
+       song's position, freezes on pause, and jumps when you jump. A track
+       with a REEL (the old lyric-page music video) switches scenes on the
+       song's own timestamps; inside a scene the clip loops scene-relative. */
+    var reelScenes = null, reelCache = {}, sceneBegin = 0, sceneSrc = "";
+    function loadReel(src) {
+      reelScenes = null; sceneBegin = 0; sceneSrc = "";
+      if (!src) return;
+      if (reelCache[src]) { reelScenes = reelCache[src]; return; }
+      fetch(src, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+        reelCache[src] = (j && j.scenes) || null;
+        reelScenes = reelCache[src];
+        syncFilm(true);
+      }).catch(function () {});
+    }
+    function sceneFor(t) {
+      var s = reelScenes[0];
+      for (var i = 0; i < reelScenes.length; i++) if (t >= reelScenes[i].begin) s = reelScenes[i];
+      return s;
+    }
     function syncFilm(hard) {
-      if (!sheetOn() || !nowFilm.duration) return;
-      var want = deck.currentTime % nowFilm.duration;
+      if (!sheetOn()) return;
+      var base = 0;
+      if (reelScenes && reelScenes.length) {
+        var sc = sceneFor(deck.currentTime);
+        if (sc.src !== sceneSrc) {
+          sceneSrc = sc.src; sceneBegin = sc.begin;
+          nowFilm.poster = sc.poster || "";
+          nowFilm.src = sc.src;
+          nowFilm.load();
+          if (!deck.paused) { var p0 = nowFilm.play(); if (p0 && p0.catch) p0.catch(function () {}); }
+          return; // position settles on loadedmetadata
+        }
+        base = sceneBegin;
+      }
+      if (!nowFilm.duration) return;
+      var want = Math.max(0, deck.currentTime - base) % nowFilm.duration;
       var drift = Math.abs(nowFilm.currentTime - want);
       if (hard || drift > 0.4) { try { nowFilm.currentTime = want; } catch (e) {} }
       if (deck.paused && !nowFilm.paused) nowFilm.pause();
