@@ -482,7 +482,7 @@
   var cmdProjectCount = 1;
   // the full record carries both flight legs — the runway liftoff and the
   // fly-through landing; the acoustic plays only inside the 360 look-around
-  var cmdSceneTracks = ["runway", "runway"];
+  var cmdSceneTracks = ["vauntfull", "vauntfull"];
   var cmdPanels = gsap.utils.toArray("#work .command__panel");
   var cmdCount = document.getElementById("cmdCount");
   var CMD_FADE = 0.03; // narrower bands with six scenes need tighter crossfades
@@ -619,7 +619,7 @@
       // inside the 360 the acoustic takes the cabin; either side of it,
       // the full record flies
       if (commandInView && commandAudioHook) {
-        commandAudioHook(on ? "writeasong" : cmdSceneTracks[lastCmdActive]);
+        commandAudioHook(on ? "vaunt" : cmdSceneTracks[lastCmdActive]);
       }
     }
   }
@@ -824,24 +824,22 @@
     var toggle = document.getElementById("soundToggle");
     var floatPause = document.getElementById("floatPause");
     var tracks = {
-      "here": document.getElementById("track-here"),
-      "runway": document.getElementById("track-runway"),
-      "antisocial": document.getElementById("track-antisocial"),
       "whodidtheshoot": document.getElementById("track-whodidtheshoot"),
-      "lightroom": document.getElementById("track-lightroom"),
-      "writeasong": document.getElementById("track-writeasong"),
+      "antisocial": document.getElementById("track-antisocial"),
+      "vaunt": document.getElementById("track-vaunt"),
+      "vauntfull": document.getElementById("track-vauntfull"),
+      "here": document.getElementById("track-here"),
     };
     var zones = [
-      { sel: "#hero", track: "here" },
-      { sel: "#wantsite", track: "lightroom" },
-      { sel: "#uprise", track: "whodidtheshoot" },
+      { sel: "#hero", track: "whodidtheshoot" },
+      { sel: "#wantsite", track: "whodidtheshoot" },
       { sel: "#pillars", track: "antisocial" },
       // the command scroll picks its track per scene
       { sel: "#work", track: function () { return cmdSceneTracks[lastCmdActive]; } },
-      { sel: "#book", track: "here" },
+      { sel: "#book", track: "whodidtheshoot" },
     ];
     var soundOn = false;
-    var currentTrack = "here"; // the OS layer — the site opens on the title track
+    var currentTrack = "whodidtheshoot"; // the film opens on Who Did The Shoot
     var avail = {};
 
     // tracks the manifest says exist; show the toggle once there's at least one
@@ -861,8 +859,10 @@
     var unlocked = {};
 
     function fadeTo(name) {
-      // if a variant isn't in the manifest (yet), fall back to the main cut
-      if (!avail[name]) name = "here";
+      // a track the loaded manifest says is missing falls back to the OS
+      // layer — but never before the manifest answers, or the opener loses
+      // its own name to the fallback in the boot race
+      if (Object.keys(avail).length && !avail[name]) name = "here";
       var previous = currentTrack;
       if (soundOn && name !== currentTrack) {
         var prev = tracks[currentTrack];
