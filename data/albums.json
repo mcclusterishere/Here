@@ -87,7 +87,8 @@
      "sub": "the civic poll",
      "src": "assets/audio/please-set-me-free.mp3",
      "video": "assets/video/church.mp4",
-     "poster": "assets/frames/church_0001.jpg"
+     "poster": "assets/frames/church_0001.jpg",
+     "lyrics": "data/lyrics/please-set-me-free.json"
     },
     {
      "title": "Money or the Power",
