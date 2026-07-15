@@ -100,6 +100,23 @@
    ]
   },
   {
+   "slug": "heal-the-3",
+   "name": "Heal the 3",
+   "tag": "The EP · with VVS Madè",
+   "art": "assets/img/heal-the-3-cover.jpg",
+   "by": "Two sides: the healing and the deep end.",
+   "tracks": [
+    {
+     "title": "Deep End",
+     "sub": "the B-side · McCluster × VVS Madè",
+     "src": "assets/audio/deep-end.m4a",
+     "video": "assets/video/warroom.mp4",
+     "poster": "assets/frames/warroom_0001.jpg",
+     "lyrics": "data/lyrics/deep-end.json"
+    }
+   ]
+  },
+  {
    "slug": "vaunt-ep",
    "name": "Vaunt \u2014 EP",
    "tag": "The campaign jingle",
