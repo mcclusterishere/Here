@@ -387,7 +387,7 @@
         nowFilm.load();
       }
       nowFilm.muted = true;
-      var pr = nowFilm.play(); if (pr && pr.catch) pr.catch(function () {});
+      if (!deck.paused) { var pr = nowFilm.play(); if (pr && pr.catch) pr.catch(function () {}); }
       loadLyrics(row.getAttribute("data-lyrics") || "");
       paintSheet();
       if (window.MCC_TRACK) window.MCC_TRACK("now_sheet_open", { track: row.getAttribute("data-title") });
@@ -396,6 +396,22 @@
       now.dataset.on = "0";
       try { nowFilm.pause(); } catch (e) {}
     }
+    /* THE LOCK: the scrub dial is the master clock — the film rides the
+       song's position (looping over its own length), freezes on pause,
+       and jumps when you jump. Lyrics already read the same clock. */
+    function syncFilm(hard) {
+      if (!sheetOn() || !nowFilm.duration) return;
+      var want = deck.currentTime % nowFilm.duration;
+      var drift = Math.abs(nowFilm.currentTime - want);
+      if (hard || drift > 0.4) { try { nowFilm.currentTime = want; } catch (e) {} }
+      if (deck.paused && !nowFilm.paused) nowFilm.pause();
+      if (!deck.paused && nowFilm.paused) { var p = nowFilm.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    deck.addEventListener("seeked", function () { syncFilm(true); });
+    deck.addEventListener("play", function () { syncFilm(true); });
+    deck.addEventListener("pause", function () { syncFilm(false); });
+    deck.addEventListener("timeupdate", function () { syncFilm(false); });
+    nowFilm.addEventListener("loadedmetadata", function () { syncFilm(true); });
     function loadLyrics(src) {
       lyrTimed = null; lyrPlain = false; lyrLines = [];
       if (!src) {
