@@ -140,6 +140,20 @@
   <link rel="license" href="LICENSE">
   <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <style>
+    /* the case rail — flat cards between films */
+    .case { position: relative; min-height: 92svh; display: grid; align-items: end; overflow: hidden; }
+    .case__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .case__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,8,7,0.55) 0%, rgba(10,8,7,0.25) 42%, rgba(10,8,7,0.92) 100%); }
+    .case__inner { position: relative; max-width: 44rem; margin: 0 auto; padding: 0 clamp(1.1rem, 4vw, 2rem) clamp(3rem, 8vh, 5rem); width: 100%; }
+    .case__seal { width: 46px; height: 46px; border-radius: 12px; margin-bottom: 0.9rem; }
+    .case__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.6rem, 11vw, 4.6rem); }
+    .case__sub { color: var(--cream-dim); line-height: 1.7; margin-top: 0.9rem; max-width: 46ch; font-size: 1rem; }
+    .case__sub b { color: var(--cream); }
+    .case__cta { display: inline-block; margin-top: 1.4rem; text-decoration: none; padding: 0.9rem 1.3rem; border-radius: 14px;
+      border: 1px solid rgba(201,157,69,0.55); color: var(--cream); font-weight: 800; touch-action: manipulation; }
+    .case__cta:hover { background: rgba(201,157,69,0.12); }
+  </style>
 </head>
 <body>
 
@@ -303,21 +317,40 @@
           <p class="work__slowhint-tiny">scroll slow &middot; homie</p>
         </div>
         <header class="command__head">
+          <p class="kicker">Case study 01 · VR commercial production</p>
           <h2 class="section-title">Brand<br>Collabs</h2>
-          <p class="work__answer">The campaigns and the spots.</p>
+          <p class="work__answer">Vaunt Private Flights — a commercial you stand inside. Shot on the runway,
+            finished in 360: drag around the cabin and you're in the spot.</p>
         </header>
         <div class="command__panels">
           <article class="command__panel" data-scene="0">
-            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Vaunt Private Flights — The Performance</span></p>
+            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Case 01 · Vaunt — The Performance</span></p>
             <h3 class="command__title">Commercial<br>Production</h3>
             <p class="command__pitch">The spot itself: performed live on the runway with Zakir on guitar — the original jingle that became the campaign.</p>
           </article>
           <article class="command__panel" data-scene="1">
-            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Vaunt Private Flights — The Launch</span></p>
+            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Case 01 · Vaunt — The 360 Launch</span></p>
             <h3 class="command__title">Fly<br>Vaunt</h3>
           </article>
         </div>
         <div class="command__count" id="cmdCount">01 / 03</div>
+      </div>
+    </section>
+
+
+    <!-- ============ CASE 02 — EQUITY UPRISE: the civic engine ============ -->
+    <section class="case" id="uprise" aria-label="Case study 02 — Equity Uprise">
+      <img class="case__bg" src="assets/img/uprise-still.jpg" alt="Matthew McCluster at the mixing desk, directing a packed civic assembly" loading="lazy" decoding="async">
+      <div class="case__scrim" aria-hidden="true"></div>
+      <div class="case__inner">
+        <img class="case__seal" src="assets/img/eu-favicon.png" alt="">
+        <p class="kicker">Case study 02 · the civic engine</p>
+        <h2 class="case__title">Equity<br>Uprise</h2>
+        <p class="case__sub"><b>Funding the arts and workforce development.</b> Equity Uprise puts artists in
+          Connecticut and Georgia on real campaigns with real budgets — shoots, records, and civic productions
+          that pay creators to build their portfolio and their city at once. The work earned proclamations from
+          the <b>State of Georgia</b> and the <b>City of Bridgeport</b>.</p>
+        <a class="case__cta" href="https://streetcreditbureau.com/equity-uprise.html" data-cta="case-uprise">Read the case &#8594;</a>
       </div>
     </section>
 
