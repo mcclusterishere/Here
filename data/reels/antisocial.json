@@ -6,32 +6,37 @@
    "poster": "assets/frames/redjet_0001.jpg"
   },
   {
-   "begin": 12.6,
+   "begin": 8.63,
    "src": "assets/video/nightscroll.mp4",
    "poster": "assets/frames/nightscroll_0001.jpg"
   },
   {
-   "begin": 17.7,
+   "begin": 12.555,
+   "src": "assets/video/coffeecam.mp4",
+   "poster": "assets/frames/coffeecam_0001.jpg"
+  },
+  {
+   "begin": 17.69,
    "src": "assets/video/gmcall.mp4",
    "poster": "assets/frames/gmcall_0001.jpg"
   },
   {
-   "begin": 22.1,
+   "begin": 22.12,
    "src": "assets/video/yachtheli.mp4",
    "poster": "assets/frames/yachtheli_0001.jpg"
   },
   {
-   "begin": 26.6,
+   "begin": 26.556,
    "src": "assets/video/vaunt.mp4",
    "poster": "assets/frames/vaunt_0001.jpg"
   },
   {
-   "begin": 30.7,
+   "begin": 30.723,
    "src": "assets/video/dossier.mp4",
    "poster": "assets/frames/dossier_0001.jpg"
   },
   {
-   "begin": 35.3,
+   "begin": 35.293,
    "src": "assets/video/warroom.mp4",
    "poster": "assets/frames/warroom_0001.jpg"
   },
@@ -41,39 +46,84 @@
    "poster": "assets/frames/moneyglitch_0001.jpg"
   },
   {
-   "begin": 39.5,
+   "begin": 39.494,
    "src": "assets/video/church.mp4",
    "poster": "assets/frames/church_0001.jpg"
   },
   {
-   "begin": 44.1,
+   "begin": 44.104,
    "src": "assets/video/editors.mp4",
    "poster": "assets/frames/editors_0001.jpg"
   },
   {
-   "begin": 48.4,
-   "src": "assets/video/coffeecam.mp4",
-   "poster": "assets/frames/coffeecam_0001.jpg"
+   "begin": 48.419,
+   "src": "assets/video/study.mp4",
+   "poster": "assets/frames/study_0001.jpg"
   },
   {
-   "begin": 70.7,
+   "begin": 53.258,
+   "src": "assets/video/vauntlive.mp4",
+   "poster": "assets/frames/vauntlive_0001.jpg"
+  },
+  {
+   "begin": 70.713,
    "src": "assets/video/keynote.mp4",
    "poster": "assets/frames/keynote_0001.jpg"
   },
   {
-   "begin": 79.4,
+   "begin": 74.927,
+   "src": "assets/video/designer.mp4",
+   "poster": "assets/frames/designer_0001.jpg"
+  },
+  {
+   "begin": 79.444,
    "src": "assets/video/studio360.mp4",
    "poster": "assets/frames/studio360_0001.jpg"
   },
   {
-   "begin": 83.8,
+   "begin": 83.799,
    "src": "assets/video/hero.mp4",
    "poster": "assets/frames/hero_0001.jpg"
   },
   {
-   "begin": 138.9,
+   "begin": 88.249,
+   "src": "assets/video/keynote.mp4",
+   "poster": "assets/frames/keynote_0001.jpg"
+  },
+  {
+   "begin": 92.053,
+   "src": "assets/video/designer.mp4",
+   "poster": "assets/frames/designer_0001.jpg"
+  },
+  {
+   "begin": 96.778,
+   "src": "assets/video/studio360.mp4",
+   "poster": "assets/frames/studio360_0001.jpg"
+  },
+  {
+   "begin": 100.898,
+   "src": "assets/video/hero.mp4",
+   "poster": "assets/frames/hero_0001.jpg"
+  },
+  {
+   "begin": 105.301,
    "src": "assets/video/daniel.mp4",
    "poster": "assets/frames/daniel_0001.jpg"
+  },
+  {
+   "begin": 122.386,
+   "src": "assets/video/redjet.mp4",
+   "poster": "assets/frames/redjet_0001.jpg"
+  },
+  {
+   "begin": 138.914,
+   "src": "assets/video/daniel.mp4",
+   "poster": "assets/frames/daniel_0001.jpg"
+  },
+  {
+   "begin": 157.32,
+   "src": "assets/video/hero.mp4",
+   "poster": "assets/frames/hero_0001.jpg"
   }
  ]
 }
