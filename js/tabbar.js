@@ -26,8 +26,8 @@
       slots: [
         ["album.html", "note", "The album", { ic: "♫", title: "HERE — the album",
           sub: "Six tracks in the site's own player — the deck, lock-screen controls, and a memory. It picks up where you left off." }],
-        ["catalogue.html", "disc", "The catalog", { ic: "📀", title: "The registered catalog",
-          sub: "Every song on the record, numbered under the QT6KV ISRC prefix — the discography with receipts." }],
+        ["catalogue.html", "disc", "The catalog", { ic: "📀", title: "The catalog — the shelf",
+          sub: "Every album on one shelf — HERE, PRIM3, Equity Uprise, Vaunt, Whip Equipped, the singles. Tap one and it plays; the QT6KV registry rides below." }],
         ["index.html", "film", "The film", { ic: "🎬", title: "The film",
           sub: "The cinematic front page — the studio orbit, the Vaunt commercial, the 360 jet. Scroll it slow." }],
       ],

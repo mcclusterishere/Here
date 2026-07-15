@@ -165,24 +165,17 @@
 
   <main class="hr">
     <header class="alb">
-      <img class="alb__art" src="assets/img/og-card.jpg" alt="HERE — album art">
+      <img class="alb__art" id="albArt" src="assets/img/og-card.jpg" alt="Album art">
       <div>
-        <p class="alb__k">The album · 6 tracks</p>
-        <h1>Here</h1>
-        <p class="alb__by">by <b>Matthew McCluster</b> · Have no fear.</p>
+        <p class="alb__k" id="albTag">The album</p>
+        <h1 id="albName">Here</h1>
+        <p class="alb__by">by <b>Matthew McCluster</b> · <span id="albBy">Have no fear.</span></p>
         <button class="alb__play" id="playAll" type="button">▶ Play</button>
       </div>
     </header>
 
     <section id="album" aria-label="The album">
-      <ul class="tr" id="tracks">
-        <li data-src="assets/audio/who-did-the-shoot.mp3" data-video="assets/video/hero.mp4" data-poster="assets/frames/hero_0001.jpg" data-lyrics="data/lyrics/who-did-the-shoot.json" data-title="Who Did The Shoot"><span class="n">1</span><span class="t">Who Did The Shoot</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/runway-walk.mp3" data-video="assets/video/vauntlive.mp4" data-poster="assets/frames/vauntlive_0001.jpg" data-lyrics="" data-title="Runway Walk"><span class="n">2</span><span class="t">Runway Walk</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/write-a-song.mp3" data-video="assets/video/studio360.mp4" data-poster="assets/frames/studio360_0001.jpg" data-lyrics="" data-title="Write a Song"><span class="n">3</span><span class="t">Write a Song</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/here.mp3" data-video="assets/video/keynote.mp4" data-poster="assets/frames/keynote_0001.jpg" data-lyrics="" data-title="Here"><span class="n">4</span><span class="t">Here<small>the title track</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/antisocial.mp3" data-video="assets/video/nightscroll.mp4" data-reel="data/reels/antisocial.json" data-poster="assets/frames/nightscroll_0001.jpg" data-lyrics="data/lyrics/antisocial.json" data-title="Antisocial"><span class="n">5</span><span class="t">Antisocial</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/lightroom.mp3" data-video="assets/video/editors.mp4" data-poster="assets/frames/editors_0001.jpg" data-lyrics="" data-title="Lightroom"><span class="n">6</span><span class="t">Lightroom</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-      </ul>
+      <ul class="tr" id="tracks"></ul>
       <audio id="deck" preload="metadata"></audio>
     </section>
 
@@ -201,7 +194,7 @@
       <button class="now__down" id="nowDown" type="button" aria-label="Close">
         <svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg>
       </button>
-      <span class="now__from">Playing from HERE — the album</span>
+      <span class="now__from" id="nowFrom">Playing from HERE</span>
     </div>
     <div class="now__art">
       <video class="now__film" id="nowFilm" muted loop playsinline preload="none"></video>
@@ -263,8 +256,41 @@
      ============================================================ */
   (function () {
     "use strict";
+    var ALBUM = (new URLSearchParams(location.search).get("album") || "here").toLowerCase();
     var deck = document.getElementById("deck");
-    var rows = Array.prototype.slice.call(document.querySelectorAll("#tracks li"));
+    var rows = [];
+    function esc(x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; }
+    function boot(data) {
+      var alb = null;
+      (data.albums || []).forEach(function (a) { if (a.slug === ALBUM) alb = a; });
+      if (!alb) alb = data.albums[0];
+      ALBUM = alb.slug;
+      document.getElementById("albArt").src = alb.art;
+      document.getElementById("albName").textContent = alb.name;
+      document.getElementById("albTag").textContent = alb.tag || ("The album · " + alb.tracks.length + " tracks");
+      document.getElementById("albBy").textContent = alb.by || "";
+      document.getElementById("nowFrom").textContent = "Playing from " + alb.name;
+      document.querySelector(".deckbar__art").src = alb.art;
+      document.getElementById("tracks").innerHTML = alb.tracks.map(function (t, i) {
+        return '<li data-src="' + t.src + '"' +
+          (t.video ? ' data-video="' + t.video + '"' : "") +
+          (t.poster ? ' data-poster="' + t.poster + '"' : "") +
+          (t.lyrics ? ' data-lyrics="' + t.lyrics + '"' : "") +
+          (t.reel ? ' data-reel="' + t.reel + '"' : "") +
+          ' data-title="' + esc(t.title) + '">' +
+          '<span class="n">' + (i + 1) + '</span><span class="t">' + esc(t.title) +
+          (t.sub ? "<small>" + esc(t.sub) + "</small>" : "") + "</span>" +
+          '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>';
+      }).join("");
+      rows = Array.prototype.slice.call(document.querySelectorAll("#tracks li"));
+      init();
+    }
+    fetch("data/albums.json", { cache: "no-cache" })
+      .then(function (r) { return r.json(); }).then(boot)
+      .catch(function () {
+        document.getElementById("tracks").innerHTML = "<li><span class='t'>The shelf is warming up — refresh in a moment.</span></li>";
+      });
+    function init() {
     var bar = document.getElementById("deckbar");
     var KEY = "mcc_here_radio";
     var cur = -1;
@@ -289,7 +315,7 @@
       }));
     }
     function save() {
-      try { localStorage.setItem(KEY, JSON.stringify({ i: cur, t: deck.currentTime || 0, paused: deck.paused })); } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify({ album: ALBUM, i: cur, t: deck.currentTime || 0, paused: deck.paused })); } catch (e) {}
     }
     function paintRows() {
       rows.forEach(function (r, i) {
@@ -310,7 +336,7 @@
       navigator.mediaSession.metadata = new MediaMetadata({
         title: rows[cur].getAttribute("data-title"),
         artist: "Matthew McCluster",
-        album: "Here",
+        album: document.getElementById("albName").textContent,
         artwork: [{ src: "assets/img/og-card.jpg", sizes: "1200x630", type: "image/jpeg" }],
       });
     }
@@ -368,7 +394,7 @@
     /* the memory: pick up exactly where you left off (paused, ready) */
     try {
       var r0 = JSON.parse(localStorage.getItem(KEY));
-      if (r0 && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
+      if (r0 && r0.album === ALBUM && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
     } catch (e) {}
 
     /* ---------- THE NOW SHEET: the record, opened up ---------- */
@@ -525,7 +551,8 @@
     window.MCC_NP_PLAY = function () { play(); };
     window.MCC_NP_PAUSE = function () { deck.pause(); };
     announce(false);
-    if (window.MCC_TRACK) window.MCC_TRACK("here_view", {});
+    if (window.MCC_TRACK) window.MCC_TRACK("here_view", { album: ALBUM });
+    }
   })();
   </script>
   <script src="js/tabbar.js?v=__STAMP__"></script>

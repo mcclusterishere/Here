@@ -26,6 +26,14 @@
     .reg a { color: #e8c877; text-decoration: none; }
     .cg__note { margin-top: 1.6rem; color: var(--cream-dim); font-size: 0.82rem; line-height: 1.7; }
     .cg__note a { color: #c99d45; text-decoration: none; }
+    /* the shelf — tap an album, it plays */
+    .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.9rem; margin-top: 1.6rem; }
+    .shelf a { display: block; text-decoration: none; color: var(--cream); }
+    .shelf .cov { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; background: #16110c;
+      box-shadow: 0 14px 40px -16px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,157,69,0.25); transition: transform 0.15s ease; }
+    .shelf a:hover .cov, .shelf a:active .cov { transform: translateY(-3px); }
+    .shelf b { display: block; font-family: var(--display); font-weight: 400; font-size: 1rem; margin-top: 0.55rem; line-height: 1.15; }
+    .shelf small { color: var(--cream-dim); font-size: 0.74rem; }
   </style>
 </head>
 <body class="songpage">
@@ -36,6 +44,8 @@
     <p class="cg__sub">Every song on the record — numbered, credited, registered under the
       <b>QT6KV</b> ISRC prefix of McCluster Corp. The six-track album <b>HERE</b> plays in
       <a href="album.html" style="color:#e8c877;text-decoration:none">the player</a>.</p>
+    <div class="shelf" id="shelf" aria-label="The albums"></div>
+    <p class="cg__k" style="margin-top:2.4rem">The registry</p>
     <ul class="reg" id="reg"><li><small style="color:var(--cream-dim)">Loading the registry…</small></li></ul>
     <p class="cg__note">Written &amp; performed by Matthew McCluster unless credited otherwise.
       Licensing &amp; sync: <a href="mailto:matthew@mccluster.org">matthew@mccluster.org</a></p>
@@ -62,6 +72,13 @@
   <script>
   (function () {
     "use strict";
+    fetch("data/albums.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
+      document.getElementById("shelf").innerHTML = (d.albums || []).map(function (a) {
+        return '<a href="album.html?album=' + a.slug + '" data-cta="shelf-' + a.slug + '">' +
+          '<img class="cov" src="' + a.art + '" alt="" loading="lazy">' +
+          "<b>" + a.name + "</b><small>" + a.tracks.length + (a.tracks.length === 1 ? " track" : " tracks") + "</small></a>";
+      }).join("");
+    }).catch(function () {});
     fetch("data/catalogue.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (c) {
       var rows = (c.tracks || []).map(function (t) {
         var here = (t.album || "").toLowerCase() === "here";
