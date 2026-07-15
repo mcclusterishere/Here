@@ -836,6 +836,7 @@
       { sel: "#wantsite", track: "whodidtheshoot" },
       { sel: "#pillars", track: "antisocial" },
       { sel: "#uprise", track: "environmental-injustice" },
+      { sel: "#wings", track: "whodidtheshoot" },
       // the command scroll picks its track per scene
       { sel: "#work", track: function () { return cmdSceneTracks[lastCmdActive]; } },
       { sel: "#book", track: "whodidtheshoot" },

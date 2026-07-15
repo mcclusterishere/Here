@@ -153,6 +153,20 @@
     .case__cta { display: inline-block; margin-top: 1.4rem; text-decoration: none; padding: 0.9rem 1.3rem; border-radius: 14px;
       border: 1px solid rgba(201,157,69,0.55); color: var(--cream); font-weight: 800; touch-action: manipulation; }
     .case__cta:hover { background: rgba(201,157,69,0.12); }
+
+    /* the wings — three doors on one card */
+    .wings { min-height: 72svh; display: grid; align-content: center; }
+    .wings__inner { max-width: 44rem; margin: 0 auto; padding: 0 clamp(1.1rem, 4vw, 2rem); width: 100%; text-align: center; }
+    .wings__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 9vw, 3.6rem); }
+    .wings__sub { color: var(--cream-dim); line-height: 1.65; margin-top: 0.7rem; font-size: 0.95rem; }
+    .wings__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin-top: 1.6rem; }
+    .wings__tab { display: grid; justify-items: center; gap: 0.55rem; text-decoration: none; padding: 1.15rem 0.6rem 1rem;
+      border: 1px solid rgba(201,157,69,0.4); border-radius: 16px; background: rgba(18,14,11,0.78);
+      color: var(--cream); font-weight: 800; font-size: clamp(0.72rem, 2.6vw, 0.9rem); letter-spacing: 0.04em;
+      touch-action: manipulation; transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease; }
+    .wings__tab:hover, .wings__tab:active { transform: translateY(-3px); border-color: #e8c877; background: rgba(201,157,69,0.1); }
+    .wings__tab img { width: 44px; height: 44px; object-fit: contain; }
+    .wings__tab small { font-weight: 600; color: var(--cream-dim); font-size: 0.68rem; letter-spacing: 0.02em; }
   </style>
 </head>
 <body>
@@ -384,15 +398,47 @@
           workforce development</b> for artists in Connecticut and Georgia, recognized by the <b>State of
           Georgia</b> and the <b>City of Bridgeport</b>.</p>
         <div class="eu-portals" style="margin-top:1.1rem">
+          <a class="eu-portal eu-portal--terminal" href="https://streetcreditbureau.com/fellowship.html" data-cta="fellowship">
+            <svg class="eu-portal__ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/><path d="M6.5 8l2.2 2-2.2 2"/><path d="M11.5 12h4"/></g></svg>
+            <span class="eu-portal__txt">Enter the terminal</span>
+          </a>
           <a class="eu-portal eu-portal--safe" href="https://streetcreditbureau.com/docket-516.html" data-cta="docket-516-panel">
             <svg class="eu-portal__ic" viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="10.5" cy="12" r="4.4"/><circle cx="10.5" cy="12" r="1" fill="currentColor" stroke="none"/><path d="M10.5 7.6v1.4M10.5 15v1.4M6.1 12h1.4M13.5 12h1.4"/><path d="M18 9.5v5"/></g></svg>
             <span class="eu-portal__txt">The evidence room</span>
           </a>
         </div>
-        <nav class="eu-ctas" aria-label="Equity Uprise" style="margin-top:0.9rem">
+        <nav class="eu-ctas" aria-label="Equity Uprise platform" style="margin-top:0.9rem">
+          <a href="https://streetcreditbureau.com/verify.html" data-cta="eu-profile">Apply for a Profile</a>
+          <a href="https://streetcreditbureau.com/fellowship.html" data-cta="eu-fellowship">Join the Policy Fellowship</a>
           <a href="mailto:matthew@mccluster.org?subject=Civic%20Anthem%20Submission%2C%20Equity%20Uprise" data-cta="eu-anthem">Submit a Civic Anthem</a>
           <a href="mailto:matthew@mccluster.org?subject=Outreach%20Campaign%2C%20Equity%20Uprise" data-cta="eu-outreach">Launch an Outreach Campaign</a>
+          <a href="mailto:matthew@mccluster.org?subject=Vendor%2FPartner%20Access%2C%20Equity%20Uprise" data-cta="eu-vendor-login">Vendor / Partner Login</a>
+          <a href="mailto:matthew@mccluster.org?subject=Admin%20Access%2C%20Equity%20Uprise" data-cta="eu-admin-login">Admin Login</a>
         </nav>
+      </div>
+    </section>
+
+
+    <!-- ============ THE WINGS — three doors on one card, riding Who Did The Shoot ============ -->
+    <section class="wings" id="wings" aria-label="Equity Uprise, Whip Equipped, and the catalog">
+      <div class="wings__inner">
+        <p class="kicker kicker--center">The wings of the operation</p>
+        <h2 class="wings__title">Pick a door.</h2>
+        <p class="wings__sub">Three rooms, one house.</p>
+        <div class="wings__row">
+          <a class="wings__tab" href="https://streetcreditbureau.com/equity-uprise.html" data-cta="wing-uprise">
+            <img src="assets/img/equity-uprise-logo.webp" alt="">
+            Equity Uprise<small>the civic engine</small>
+          </a>
+          <a class="wings__tab" href="https://streetcreditbureau.com/brand.html?brand=whip-equipped" data-cta="wing-whip">
+            <img src="assets/img/we-mark.png" alt="">
+            Whip Equipped<small>the fleet</small>
+          </a>
+          <a class="wings__tab" href="https://streetcreditbureau.com/catalogue.html" data-cta="wing-catalog">
+            <img src="assets/img/m-mark.png" alt="">
+            Catalog<small>the registered discography</small>
+          </a>
+        </div>
       </div>
     </section>
 
