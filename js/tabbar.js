@@ -8,8 +8,9 @@
    always has time to cancel the first. The anchor law holds:
    the tab you tapped never moves and never changes — only the
    other slots rearrange into the wing's menu.
-   Tabs: WE (Whip Equipped) · HOME (the M, back to the front
-   page) · PROFILE (for those who can log in).
+   Tabs: MUSIC (the old law — once for the sound, twice for the
+   album) · HERE, center (the M emblem over the word, back to the
+   front page) · PROFILE (for those who can log in).
    ============================================================ */
 (function () {
   "use strict";
@@ -18,11 +19,11 @@
 
   var SCB = "https://streetcreditbureau.com/";
   var WINGS = {
-    we: {
-      home: SCB + "brand.html?brand=whip-equipped",
+    music: {
+      home: "album.html",
       slots: [
-        [SCB + "brand.html?brand=whip-equipped", "flag", "The brand"],
-        [SCB + "rides.html", "car", "The rides"],
+        ["album.html", "note", "The album"],
+        ["index.html", "film", "The film"],
       ],
     },
     home: {
@@ -40,13 +41,13 @@
       ],
     },
   };
-  var ORDER = ["we", "home", "profile"];
+  var ORDER = ["music", "home", "profile"];
   var HOME_BAR = dock.innerHTML;
   var wingOn = null, taps = 0, tapKey = null, timer = null;
 
   var ICONS = {
     flag: '<path d="M5 21V4"/><path d="M5 4h12l-2.5 3.5L17 11H5"/>',
-    car: '<path d="M4 15l1.5-5.5A2 2 0 0 1 7.4 8h9.2a2 2 0 0 1 1.9 1.5L20 15"/><path d="M3 15h18v4h-2.5M3 19h2.5"/><circle cx="7.5" cy="17.5" r="1.4"/><circle cx="16.5" cy="17.5" r="1.4"/>',
+    film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 5v4M12 5v4M17 5v4"/>',
     note: '<path d="M9 18V6l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="15" r="2.5"/>',
     case: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
     key: '<circle cx="8" cy="14" r="4"/><path d="M11 11L20 2"/><path d="M17 5l2.5 2.5M14.5 7.5L17 10"/>',
@@ -54,6 +55,20 @@
   };
   function ic(k) {
     return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[k] || ICONS.desk) + "</svg>";
+  }
+
+  var SOUND_ON = false;
+  window.addEventListener("mcc:nowplaying", function (e) {
+    SOUND_ON = !!(e.detail && e.detail.playing);
+    var mt = dock.querySelector('[data-appnav="music"]');
+    if (mt) mt.classList.toggle("is-sound", SOUND_ON);
+  });
+  function soundLive() { return SOUND_ON; }
+  function hushAll() {
+    document.querySelectorAll("audio, video").forEach(function (a) { try { a.pause(); } catch (e) {} });
+    SOUND_ON = false;
+    var mt = dock.querySelector('[data-appnav="music"]');
+    if (mt) mt.classList.remove("is-sound");
   }
 
   /* the veil the departure rides behind */
@@ -122,6 +137,8 @@
       var n = taps;
       taps = 0;
       if (n === 1) {
+        if (key === "music" && soundLive()) { hushAll(); return; }       // playing? one tap hushes
+        if (key === "music" && window.MCC_NP_PLAY) { window.MCC_NP_PLAY(); return; } // once for the sound
         if (w) { if (wingOn === key) revert(); else morph(key); } // open (or close) the wing
         else sail(slot, 460); // a slot in an open wing is already the answer — go
       } else if (n === 2) {

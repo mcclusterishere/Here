@@ -378,7 +378,7 @@
           </div>
           <p class="antiabout__sound"><span class="antiabout__spk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span> Your attention is the scarcest thing in the room. Turn the sound on. Let it move you.</p>
           <div class="antiabout__tabprompt" aria-hidden="false">
-            <span class="antiabout__tabprompt-txt">Turn the sound on — tap <b>Sound</b> in the top corner.</span>
+            <span class="antiabout__tabprompt-txt">Turn the sound on — tap <b>&#9835; Music</b> below.<br><small>Once for the sound &middot; twice for the album.</small></span>
             <svg class="antiabout__tabprompt-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v13"/><path d="M6 12l6 6 6-6"/></svg>
           </div>
         </div>
@@ -424,13 +424,13 @@
   
   <!-- THE BAR — WE · the M home · Profile. One tap opens the wing, two taps go through, three do nothing. -->
   <nav class="appbar" aria-label="Sections">
-    <a class="appbar__tab appbar__tab--we" href="https://streetcreditbureau.com/brand.html?brand=whip-equipped" data-appnav="we">
-      <img class="appbar__m" src="assets/img/we-mark.png" alt="">
-      <span>WE</span>
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
     </a>
     <a class="appbar__tab" href="index.html" data-appnav="home">
       <img class="appbar__m" src="assets/img/m-mark.png" alt="">
-      <span>Home</span>
+      <span>HERE</span>
     </a>
     <a class="appbar__tab" href="https://streetcreditbureau.com/profile.html" data-appnav="profile">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
@@ -455,7 +455,11 @@
     <p class="site-foot__note">© 2026 Matthew McCluster · McCluster Corp. Every frame, chord, and line of code on this page is his — the intellectual property of McCluster Corp. All rights reserved. <em style="font-style:normal;color:var(--cream-dim)">For the kingdom.</em></p>
   </footer>
 
-  <!-- Here album — one track per section, driven by the sound toggle -->
+  <!-- HERE — the six-track album IS the soundtrack. One track per movement;
+       the title track is the OS layer the site opens and closes on. -->
+  <audio id="track-here" preload="none" loop>
+    <source src="assets/audio/here.mp3" type="audio/mpeg">
+  </audio>
   <audio id="track-runway" preload="none" loop>
     <source src="assets/audio/runway.mp3" type="audio/mpeg">
   </audio>
@@ -465,20 +469,11 @@
   <audio id="track-whodidtheshoot" preload="none" loop>
     <source src="assets/audio/who-did-the-shoot.mp3" type="audio/mpeg">
   </audio>
-  <audio id="track-environmental-injustice" preload="none" loop>
-    <source src="assets/audio/environmental-injustice.mp3" type="audio/mpeg">
+  <audio id="track-lightroom" preload="none" loop>
+    <source src="assets/audio/lightroom.mp3" type="audio/mpeg">
   </audio>
-  <audio id="track-vaunt" preload="none" loop>
-    <source src="assets/audio/vaunt.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="track-vauntfull" preload="none" loop>
-    <source src="assets/audio/vaunt-full.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="track-gotwifi" preload="none" loop>
-    <source src="assets/audio/got-wifi.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="track-dealerplates" preload="none" loop>
-    <source src="assets/audio/dealer-plates.mp3" type="audio/mpeg">
+  <audio id="track-writeasong" preload="none" loop>
+    <source src="assets/audio/write-a-song.mp3" type="audio/mpeg">
   </audio>
 
   <script src="js/analytics.js?v=__STAMP__"></script>
