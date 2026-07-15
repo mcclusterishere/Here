@@ -558,13 +558,40 @@
   <script>
     /* the wing films: not scroll-driven — they just play. The muted IDL
        property must be set before play() or some browsers hold autoplay;
-       the poster stands in until the first frame lands. */
-    document.querySelectorAll(".wings__vid").forEach(function (v) {
-      v.muted = true;
-      var kick = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+       the poster stands in until the first frame lands. Low Power Mode and
+       data savers veto the first attempt, so every touch and the section
+       coming into view retry until all three doors are rolling. */
+    (function () {
+      var vids = Array.prototype.slice.call(document.querySelectorAll(".wings__vid"));
+      function kick() {
+        var still = false;
+        vids.forEach(function (v) {
+          if (!v.paused) return;
+          still = true;
+          v.muted = true;
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        });
+        if (!still) {
+          document.removeEventListener("touchend", kick);
+          document.removeEventListener("pointerdown", kick);
+        }
+      }
       kick();
-      v.addEventListener("canplay", kick, { once: true });
-    });
+      vids.forEach(function (v) { v.addEventListener("canplay", kick, { once: true }); });
+      document.addEventListener("touchend", kick, { passive: true });
+      document.addEventListener("pointerdown", kick, { passive: true });
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.preload = "auto";
+            kick();
+          });
+        }, { threshold: 0.15 });
+        vids.forEach(function (v) { io.observe(v); });
+      }
+    })();
   </script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script src="js/payments.js?v=__STAMP__"></script>
