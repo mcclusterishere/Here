@@ -115,32 +115,37 @@
       color: var(--cream-dim); font-size: 0.82rem; line-height: 1.8; }
     .hr__foot a { color: #c99d45; text-decoration: none; }
 
-    /* THE NOW SHEET — tap the playing song and the record opens up:
-       its film behind, the words rolling with the music */
-    .now { position: fixed; inset: 0; z-index: 210; background: #060504; display: flex; flex-direction: column;
+    /* THE NOW SHEET — a regular player window: the art card in the
+       middle carries the film AND the words; the dials sit below */
+    .now { position: fixed; inset: 0; z-index: 210; background: #0a0807; display: flex; flex-direction: column;
       opacity: 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1);
       transform: translateY(6%); }
     .now[data-on="1"] { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .now__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
-    .now__scrim { position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(6,5,4,0.86) 0%, rgba(6,5,4,0.25) 34%, rgba(6,5,4,0.35) 60%, rgba(6,5,4,0.94) 100%); }
-    .now__head { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.8rem;
+    .now__head { display: flex; align-items: center; gap: 0.8rem;
       padding: calc(env(safe-area-inset-top, 0px) + 0.9rem) 1.1rem 0.4rem; }
     .now__down { -webkit-appearance: none; appearance: none; border: 0; background: rgba(244,239,230,0.08);
       color: var(--cream); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; touch-action: manipulation; }
     .now__down svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
     .now__from { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
-    .now__meta { position: relative; z-index: 2; padding: 0.4rem 1.3rem 0; }
-    .now__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2rem, 9vw, 3.2rem); }
+    /* the art window: the record's film with the words inside its frame */
+    .now__art { position: relative; width: min(88vw, 24rem); flex: 1; min-height: 0; max-height: 52vh;
+      margin: 0.9rem auto 0; border-radius: 20px; overflow: hidden; background: #14100c;
+      box-shadow: 0 24px 70px -20px rgba(0,0,0,0.95), 0 0 0 1px rgba(201,157,69,0.28), 0 0 90px -40px rgba(232,200,119,0.5); }
+    .now__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+    .now__scrim { position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(6,5,4,0.42) 0%, rgba(6,5,4,0.12) 40%, rgba(6,5,4,0.78) 100%); }
+    .now__lyr { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 1.1rem 1.1rem 46%; mask-image: linear-gradient(180deg, transparent 0, #000 1.6rem, #000 74%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 1.6rem, #000 74%, transparent 100%); }
+    .now__lyr p { font-family: var(--display); font-size: clamp(1.05rem, 4.4vw, 1.45rem); line-height: 1.4;
+      color: rgba(244,239,230,0.45); margin: 0 0 0.8em; transition: color 0.3s ease, transform 0.3s ease; transform-origin: left center;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.7); }
+    .now__lyr p.is-live { color: #e8c877; transform: scale(1.04); text-shadow: 0 2px 22px rgba(0,0,0,0.85); }
+    .now__lyr .now__none { font-family: var(--body); font-size: 0.9rem; color: var(--cream-dim); }
+    .now__meta { padding: 1rem 1.3rem 0; text-align: center; }
+    .now__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(1.7rem, 7.5vw, 2.5rem); }
     .now__by { color: var(--cream-dim); font-size: 0.85rem; margin-top: 0.25rem; }
-    .now__lyr { position: relative; z-index: 2; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-      padding: 1.4rem 1.3rem 30vh; mask-image: linear-gradient(180deg, transparent 0, #000 2.2rem, #000 78%, transparent 100%);
-      -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 2.2rem, #000 78%, transparent 100%); }
-    .now__lyr p { font-family: var(--display); font-size: clamp(1.25rem, 5vw, 1.8rem); line-height: 1.45;
-      color: rgba(244,239,230,0.4); margin: 0 0 0.85em; transition: color 0.3s ease, transform 0.3s ease; transform-origin: left center; }
-    .now__lyr p.is-live { color: #e8c877; transform: scale(1.03); text-shadow: 0 2px 24px rgba(232,200,119,0.25); }
-    .now__lyr .now__none { font-family: var(--body); font-size: 0.95rem; color: var(--cream-dim); }
-    .now__deck { position: relative; z-index: 2; padding: 0.6rem 1.2rem calc(env(safe-area-inset-bottom, 0px) + 1.2rem); }
+    .now__deck { padding: 0.6rem 1.4rem calc(env(safe-area-inset-bottom, 0px) + 1.2rem); }
     .now__seek { display: block; width: 100%; height: 18px; padding: 7px 0; background: none; border: 0; cursor: pointer; }
     .now__seek i { display: block; height: 4px; background: rgba(244,239,230,0.16); border-radius: 3px; overflow: hidden; }
     .now__seek b { display: block; height: 100%; width: 0; background: #e8c877; }
@@ -192,19 +197,21 @@
 
   <!-- THE NOW SHEET — the record, opened up -->
   <div class="now" id="now" data-on="0" role="dialog" aria-label="Now playing">
-    <video class="now__film" id="nowFilm" muted loop playsinline preload="none"></video>
-    <div class="now__scrim" aria-hidden="true"></div>
     <div class="now__head">
       <button class="now__down" id="nowDown" type="button" aria-label="Close">
         <svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg>
       </button>
       <span class="now__from">Playing from HERE — the album</span>
     </div>
+    <div class="now__art">
+      <video class="now__film" id="nowFilm" muted loop playsinline preload="none"></video>
+      <div class="now__scrim" aria-hidden="true"></div>
+      <div class="now__lyr" id="nowLyr"><p class="now__none">…</p></div>
+    </div>
     <div class="now__meta">
       <div class="now__title" id="nowTitle">—</div>
       <p class="now__by">Matthew McCluster</p>
     </div>
-    <div class="now__lyr" id="nowLyr"><p class="now__none">…</p></div>
     <div class="now__deck">
       <button class="now__seek" id="nowSeek" type="button" aria-label="Seek"><i><b id="nowSeekFill"></b></i></button>
       <div class="now__times"><span id="nowT0">0:00</span><span id="nowT1">–:––</span></div>
