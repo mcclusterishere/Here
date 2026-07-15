@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Career — McCluster</title>
+  <meta name="description" content="The career record — Matthew McCluster's roles, dates, and credentials, every claim backed by a document.">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-head">
+    <a class="brand" href="index.html"><img class="brand__mark" src="assets/img/m-mark.png" alt="M"><span class="brand__rest">cCluster</span></a>
+    <nav class="site-head__nav">
+      <a href="resume.html#bio">← Back to profile</a>
+      <a class="head-cta" href="index.html#book">Lock In</a>
+    </nav>
+  </header>
+  <main>
+    <section class="bexp" id="roleBody">
+      <div class="bexp__hero"><h1>Loading…</h1></div>
+    </section>
+  </main>
+  <footer class="site-foot">
+    <div class="site-foot__brand"><img class="brand__mark" src="assets/img/m-mark.png" alt="M">cCluster</div>
+    <p class="site-foot__note">© 2026 Matthew McCluster · McCluster Corp.</p>
+  </footer>
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script>
+    (function () {
+      "use strict";
+      function track(n, p) { if (window.MCC_TRACK) window.MCC_TRACK(n, p); }
+      function esc(s) { var d = document.createElement("i"); d.textContent = s == null ? "" : s; return d.innerHTML; }
+      var body = document.getElementById("roleBody");
+      var want = new URLSearchParams(location.search).get("role");
+
+      fetch("data/roles.json", { cache: "no-cache" })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var roles = data.roles || [];
+          var i = roles.findIndex(function (x) { return x.slug === want; });
+          var role = roles[i];
+          if (!role) {
+            body.innerHTML =
+              '<p class="kicker"><img class="kicker__mark" src="assets/img/m-mark.png" alt="M"> The Career</p>' +
+              '<div class="bexp__hero"><div><p class="bexp__section">Career History</p><h1>The Career</h1></div></div>' +
+              '<div class="bexp__legend">' +
+              roles.map(function (r2) {
+                return '<a class="bexp__card" href="role.html?role=' + encodeURIComponent(r2.slug) + '">' +
+                  "<span><b>" + esc(r2.title) + "</b><small>" + esc(r2.dates + " · " + r2.org) + "</small></span></a>";
+              }).join("") + "</div>" +
+              ((data.certifications && data.certifications.length)
+                ? "<h2 class='bexp__section' style='margin:2.2rem 0 0.5rem'>Certifications &amp; Recognition</h2>" +
+                  '<div class="bexp__legend">' + data.certifications.map(function (c) {
+                    var meta = (c.date || "") + (c.date && c.url ? " · " : "") + (c.url ? "View credential &#8599;" : "");
+                    return c.url
+                      ? '<a class="bexp__card" href="' + esc(c.url) + '" target="_blank" rel="noopener"><span><b>' + esc(c.label) + "</b><small>" + meta + "</small></span></a>"
+                      : '<div class="bexp__card"><span><b>' + esc(c.label) + "</b>" + (meta ? "<small>" + meta + "</small>" : "") + "</span></div>";
+                  }).join("") + "</div>"
+                : "");
+            track("role_index_view", {});
+            return;
+          }
+          document.title = role.title + " — " + role.org + " · McCluster";
+          var prev = roles[i + 1], next = roles[i - 1]; // roles run newest-first
+          body.innerHTML =
+            '<p class="kicker"><img class="kicker__mark" src="assets/img/m-mark.png" alt="M"> Experience · ' + esc(role.dates) + "</p>" +
+            '<div class="bexp__hero"><div><p class="bexp__section">' + esc(role.org + (role.location ? " · " + role.location : "")) + "</p><h1>" + esc(role.title) + "</h1></div></div>" +
+            '<p class="songhero__sub" style="text-align:left;max-width:60ch;margin-top:0.5rem">' + esc(role.summary) + "</p>" +
+            '<div class="bexp__panel"><h3>Responsibilities &amp; Impact</h3><ul>' +
+            role.bullets.map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul></div>" +
+            '<div class="bexp__panel"><h3>Credentials</h3>' +
+            (role.credentials && role.credentials.length
+              ? '<div class="bexp__legend">' + role.credentials.map(function (c) {
+                  return c.url
+                    ? '<a class="bexp__card" href="' + esc(c.url) + '" target="_blank" rel="noopener"><span><b>' + esc(c.label) + "</b><small>View credential &#8599;</small></span></a>"
+                    : '<div class="bexp__card"><span><b>' + esc(c.label) + "</b></span></div>";
+                }).join("") + "</div>"
+              : "<p>Verified credentials for this role link here as they come online.</p>") +
+            "</div>" +
+            '<div class="finale__actions" style="margin-top:1.8rem">' +
+            (prev ? '<a class="btn btn--ghost" href="role.html?role=' + encodeURIComponent(prev.slug) + '">&#8592; ' + esc(prev.title) + "</a>" : "") +
+            (next ? '<a class="btn btn--ghost" href="role.html?role=' + encodeURIComponent(next.slug) + '">' + esc(next.title) + " &#8594;</a>" : "") +
+            '<a class="btn btn--ruby" href="resume.html#bio">Back to Experience</a></div>';
+          track("role_view", { role: role.slug });
+        })
+        .catch(function () { body.innerHTML = '<div class="bexp__hero"><h1>Offline</h1></div><div class="bexp__panel"><p>Try again in a moment.</p></div>'; });
+    })();
+  </script>
+
+  <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+</body>
+</html>

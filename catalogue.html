@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Catalog — the registered discography · McCluster</title>
+  <meta name="description" content="The registered McCluster discography — every song in the QT6KV catalogue, numbered and on the record.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/catalogue.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <meta name="theme-color" content="#0a0807">
+  <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <style>
+    html, body { background: #0a0807; }
+    .cg { max-width: 40rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 10rem; }
+    .cg__k { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .cg h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.6rem, 11vw, 4.2rem); margin-top: 0.35rem; }
+    .cg__sub { color: var(--cream-dim); line-height: 1.7; margin-top: 0.8rem; font-size: 0.95rem; }
+    .cg__sub b { color: var(--cream); }
+    .reg { list-style: none; padding: 0; margin: 1.8rem 0 0; border-top: 1px solid rgba(201,157,69,0.3); }
+    .reg li { display: flex; align-items: baseline; gap: 0.8rem; padding: 0.8rem 0.1rem; border-bottom: 1px solid rgba(244,239,230,0.09); }
+    .reg .no { font-size: 0.72rem; color: #c99d45; font-weight: 800; width: 2.6rem; flex: none; font-variant-numeric: tabular-nums; }
+    .reg .t { color: var(--cream); font-family: var(--display); font-size: 1.05rem; flex: 1; }
+    .reg .t small { display: block; font-family: var(--body); color: var(--cream-dim); font-size: 0.74rem; margin-top: 0.1rem; }
+    .reg .al { flex: none; font-size: 0.74rem; color: var(--cream-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+    .reg a { color: #e8c877; text-decoration: none; }
+    .cg__note { margin-top: 1.6rem; color: var(--cream-dim); font-size: 0.82rem; line-height: 1.7; }
+    .cg__note a { color: #c99d45; text-decoration: none; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="cg">
+    <p class="cg__k">QT6KV · the registered catalogue</p>
+    <h1>The Catalog</h1>
+    <p class="cg__sub">Every song on the record — numbered, credited, registered under the
+      <b>QT6KV</b> ISRC prefix of McCluster Corp. The six-track album <b>HERE</b> plays in
+      <a href="album.html" style="color:#e8c877;text-decoration:none">the player</a>.</p>
+    <ul class="reg" id="reg"><li><small style="color:var(--cream-dim)">Loading the registry…</small></li></ul>
+    <p class="cg__note">Written &amp; performed by Matthew McCluster unless credited otherwise.
+      Licensing &amp; sync: <a href="mailto:matthew@mccluster.org">matthew@mccluster.org</a></p>
+  </main>
+
+  <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    fetch("data/catalogue.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (c) {
+      var rows = (c.tracks || []).map(function (t) {
+        var here = (t.album || "").toLowerCase() === "here";
+        return "<li><span class='no'>" + (c.isrc_prefix || "QT6KV") + "·" + String(t.no || t.order || "—").padStart(2, "0") + "</span>" +
+          "<span class='t'>" + (here ? "<a href='album.html'>" + t.title + "</a>" : t.title) +
+          (t.credit ? "<small>" + t.credit + "</small>" : "") + "</span>" +
+          "<span class='al'>" + (t.album || "") + "</span></li>";
+      });
+      document.getElementById("reg").innerHTML = rows.join("") || "<li><small>The registry is warming up.</small></li>";
+    }).catch(function () {
+      document.getElementById("reg").innerHTML = "<li><small style='color:var(--cream-dim)'>The registry is warming up — check back.</small></li>";
+    });
+    if (window.MCC_TRACK) window.MCC_TRACK("catalogue_view", {});
+  })();
+  </script>
+</body>
+</html>
