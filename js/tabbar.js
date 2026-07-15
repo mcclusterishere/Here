@@ -18,13 +18,16 @@
   var dock = document.querySelector(".appbar");
   if (!dock) return;
 
-  /* slots: [href, icon, label, peek {ic, title, sub, dyn}] */
+  /* slots: [href, icon, label, peek {ic, title, sub, dyn}] — every room in
+     the house lives in one of the three wings */
   var WINGS = {
     music: {
       home: "album.html",
       slots: [
         ["album.html", "note", "The album", { ic: "♫", title: "HERE — the album",
-          sub: "Six tracks in the site's own player — durations, a deck, lock-screen controls. It remembers where you left off." }],
+          sub: "Six tracks in the site's own player — the deck, lock-screen controls, and a memory. It picks up where you left off." }],
+        ["catalogue.html", "disc", "The catalog", { ic: "📀", title: "The registered catalog",
+          sub: "Every song on the record, numbered under the QT6KV ISRC prefix — the discography with receipts." }],
         ["index.html", "film", "The film", { ic: "🎬", title: "The film",
           sub: "The cinematic front page — the studio orbit, the Vaunt commercial, the 360 jet. Scroll it slow." }],
       ],
@@ -32,10 +35,14 @@
     home: {
       home: "index.html",
       slots: [
-        ["album.html", "note", "The album", { ic: "♫", title: "HERE — the album",
-          sub: "Six tracks, playing in place. The record keeps spinning." }],
         ["hire.html", "case", "Hire", { ic: "🤝", title: "Hire the agency",
           sub: "Brand films, photography, web builds, campaign strategy — one team, start to finish." }],
+        ["ecosystem.html", "grid", "Ecosystem", { ic: "🗺", title: "The ecosystem",
+          sub: "The brand map — Whip Equipped, Vaunt, PRIM3, Zakir, every wing of the operation on one board." }],
+        ["equity-uprise.html", "flag", "Uprise", { ic: "✊", title: "Equity Uprise",
+          sub: "The civic engine — funding the arts and workforce development in Connecticut and Georgia. The fellowship, the anthems, the record." }],
+        ["docket-516.html", "folder", "Evidence", { ic: "📁", title: "The evidence room",
+          sub: "Docket 516 — the full public-record archive: 325 filings, transcripts, and rulings, explained." }],
       ],
     },
     profile: {
@@ -47,8 +54,12 @@
             var u = window.MCC_AUTH && window.MCC_AUTH.user && window.MCC_AUTH.user();
             return u ? "Signed in as " + (u.email || "your instant account") + " — your bookings and receipts are on the record." : null;
           } }],
-        ["pay.html?to=mccluster", "card", "Pay an invoice", { ic: "💳", title: "Pay an invoice",
+        ["pay.html?to=mccluster", "card", "Pay", { ic: "💳", title: "Pay an invoice",
           sub: "Apple Pay, Google Pay, or card — straight to the agency, receipt to your email." }],
+        ["matthew-mccluster.html", "desk", "About", { ic: "👤", title: "Matthew McCluster",
+          sub: "The founder — creative director, recognized by the State of Georgia and the City of Bridgeport." }],
+        ["press.html", "news", "Press", { ic: "📰", title: "The press kit",
+          sub: "Fast facts, ready-to-run bios, and the proclamations to download — everything a reporter needs." }],
       ],
     },
   };
@@ -62,6 +73,11 @@
     case: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
     key: '<circle cx="8" cy="14" r="4"/><path d="M11 11L20 2"/><path d="M17 5l2.5 2.5M14.5 7.5L17 10"/>',
     card: '<rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 15h4"/>',
+    disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.6"/>',
+    grid: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+    flag: '<path d="M5 21V4"/><path d="M5 4h12l-2.5 3.5L17 11H5"/>',
+    folder: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    news: '<rect x="3" y="4.5" width="15" height="15" rx="2"/><path d="M18 8h1.5a1.5 1.5 0 0 1 1.5 1.5V17a2.5 2.5 0 0 1-2.5 2.5H5"/><path d="M6.5 8.5h8M6.5 12h8M6.5 15.5h5"/>',
     desk: '<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
   };
   function ic(k) {
@@ -160,9 +176,15 @@
       return '<a class="appbar__tab appbar__tab--slot" href="' + s[0] + '" data-dock="' + s[0] + '">' +
         ic(s[1]) + "<span>" + s[2] + "</span></a>";
     });
-    var idx = ORDER.indexOf(key), cells = [], si = 0;
-    for (var i = 0; i < ORDER.length; i++) {
-      if (i === idx) cells.push(anchor ? anchor.outerHTML : "");
+    /* the anchor keeps its side of the bar: left tab stays leftmost, the
+       center tab stays centered, the right tab stays rightmost — however
+       many rooms its wing carries */
+    var total = slotHtml.length + 1;
+    var idx = ORDER.indexOf(key);
+    var anchorAt = idx === 0 ? 0 : idx === ORDER.length - 1 ? total - 1 : Math.floor(total / 2);
+    var cells = [], si = 0;
+    for (var i = 0; i < total; i++) {
+      if (i === anchorAt) cells.push(anchor ? anchor.outerHTML : "");
       else cells.push(slotHtml[si++]);
     }
     dock.innerHTML = cells.join("");
@@ -193,8 +215,8 @@
       var n = taps;
       taps = 0;
       if (n === 1) {
-        if (!practice && key === "music" && soundLive()) { hushAll(); return; }       // playing? one tap hushes
-        if (!practice && key === "music" && window.MCC_NP_PLAY && !wingOn) { window.MCC_NP_PLAY(); return; } // once for the sound
+        if (!practice && key === "music" && soundLive()) { hushAll(); revert(); return; } // playing? one tap hushes and folds
+        if (!practice && key === "music" && window.MCC_NP_PLAY && !wingOn) { window.MCC_NP_PLAY(); } // once for the sound — and the wing opens with it
         if (w) { if (wingOn === key) revert(); else morph(key); } // a tab opens (or closes) its wing
         else peek(slot); // a slot previews its widget — travel waits
       } else if (n === 2) {
