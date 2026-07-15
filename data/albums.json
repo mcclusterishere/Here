@@ -108,11 +108,18 @@
    "tracks": [
     {
      "title": "Deep End",
-     "sub": "the B-side · McCluster × VVS Madè",
+     "sub": "the dark side · McCluster × VVS Madè",
      "src": "assets/audio/deep-end.m4a",
      "video": "assets/video/warroom.mp4",
      "poster": "assets/frames/warroom_0001.jpg",
      "lyrics": "data/lyrics/deep-end.json"
+    },
+    {
+     "title": "Heal the 3rd World",
+     "sub": "the light side · McCluster × VVS Madè",
+     "src": "assets/audio/heal-the-3rd-world.m4a",
+     "video": "assets/video/angel.mp4",
+     "poster": "assets/frames/angel_0001.jpg"
     }
    ]
   },
