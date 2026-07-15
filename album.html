@@ -114,6 +114,45 @@
     .hr__foot { margin-top: 4.5rem; border-top: 1px solid rgba(201,157,69,0.22); padding-top: 1.3rem;
       color: var(--cream-dim); font-size: 0.82rem; line-height: 1.8; }
     .hr__foot a { color: #c99d45; text-decoration: none; }
+
+    /* THE NOW SHEET — tap the playing song and the record opens up:
+       its film behind, the words rolling with the music */
+    .now { position: fixed; inset: 0; z-index: 210; background: #060504; display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1);
+      transform: translateY(6%); }
+    .now[data-on="1"] { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .now__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+    .now__scrim { position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(6,5,4,0.86) 0%, rgba(6,5,4,0.25) 34%, rgba(6,5,4,0.35) 60%, rgba(6,5,4,0.94) 100%); }
+    .now__head { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.8rem;
+      padding: calc(env(safe-area-inset-top, 0px) + 0.9rem) 1.1rem 0.4rem; }
+    .now__down { -webkit-appearance: none; appearance: none; border: 0; background: rgba(244,239,230,0.08);
+      color: var(--cream); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; touch-action: manipulation; }
+    .now__down svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+    .now__from { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
+    .now__meta { position: relative; z-index: 2; padding: 0.4rem 1.3rem 0; }
+    .now__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2rem, 9vw, 3.2rem); }
+    .now__by { color: var(--cream-dim); font-size: 0.85rem; margin-top: 0.25rem; }
+    .now__lyr { position: relative; z-index: 2; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 1.4rem 1.3rem 30vh; mask-image: linear-gradient(180deg, transparent 0, #000 2.2rem, #000 78%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 2.2rem, #000 78%, transparent 100%); }
+    .now__lyr p { font-family: var(--display); font-size: clamp(1.25rem, 5vw, 1.8rem); line-height: 1.45;
+      color: rgba(244,239,230,0.4); margin: 0 0 0.85em; transition: color 0.3s ease, transform 0.3s ease; transform-origin: left center; }
+    .now__lyr p.is-live { color: #e8c877; transform: scale(1.03); text-shadow: 0 2px 24px rgba(232,200,119,0.25); }
+    .now__lyr .now__none { font-family: var(--body); font-size: 0.95rem; color: var(--cream-dim); }
+    .now__deck { position: relative; z-index: 2; padding: 0.6rem 1.2rem calc(env(safe-area-inset-bottom, 0px) + 1.2rem); }
+    .now__seek { display: block; width: 100%; height: 18px; padding: 7px 0; background: none; border: 0; cursor: pointer; }
+    .now__seek i { display: block; height: 4px; background: rgba(244,239,230,0.16); border-radius: 3px; overflow: hidden; }
+    .now__seek b { display: block; height: 100%; width: 0; background: #e8c877; }
+    .now__times { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--cream-dim);
+      font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+    .now__tp { display: flex; align-items: center; justify-content: center; gap: 2.2rem; margin-top: 0.5rem; }
+    .now__tp button { -webkit-appearance: none; appearance: none; border: 0; background: none; color: var(--cream);
+      width: 52px; height: 52px; display: grid; place-items: center; cursor: pointer; touch-action: manipulation; }
+    .now__tp button svg { width: 26px; height: 26px; fill: currentColor; }
+    .now__tp .now__play { background: #e8c877; color: #16110b; border-radius: 50%; width: 66px; height: 66px;
+      box-shadow: 0 14px 40px -14px rgba(232,200,119,0.7); }
+    .now__tp .now__play svg { width: 30px; height: 30px; }
   </style>
 </head>
 <body class="songpage">
@@ -132,12 +171,12 @@
 
     <section id="album" aria-label="The album">
       <ul class="tr" id="tracks">
-        <li data-src="assets/audio/who-did-the-shoot.mp3" data-title="Who Did The Shoot"><span class="n">1</span><span class="t">Who Did The Shoot</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/runway-walk.mp3" data-title="Runway Walk"><span class="n">2</span><span class="t">Runway Walk</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/write-a-song.mp3" data-title="Write a Song"><span class="n">3</span><span class="t">Write a Song</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/here.mp3" data-title="Here"><span class="n">4</span><span class="t">Here<small>the title track</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/antisocial.mp3" data-title="Antisocial"><span class="n">5</span><span class="t">Antisocial</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
-        <li data-src="assets/audio/lightroom.mp3" data-title="Lightroom"><span class="n">6</span><span class="t">Lightroom</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/who-did-the-shoot.mp3" data-video="assets/video/hero.mp4" data-poster="assets/frames/hero_0001.jpg" data-lyrics="data/lyrics/who-did-the-shoot.json" data-title="Who Did The Shoot"><span class="n">1</span><span class="t">Who Did The Shoot</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/runway-walk.mp3" data-video="assets/video/vauntlive.mp4" data-poster="assets/frames/vauntlive_0001.jpg" data-lyrics="" data-title="Runway Walk"><span class="n">2</span><span class="t">Runway Walk</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/write-a-song.mp3" data-video="assets/video/studio360.mp4" data-poster="assets/frames/studio360_0001.jpg" data-lyrics="" data-title="Write a Song"><span class="n">3</span><span class="t">Write a Song</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/here.mp3" data-video="assets/video/keynote.mp4" data-poster="assets/frames/keynote_0001.jpg" data-lyrics="" data-title="Here"><span class="n">4</span><span class="t">Here<small>the title track</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/antisocial.mp3" data-video="assets/video/nightscroll.mp4" data-poster="assets/frames/nightscroll_0001.jpg" data-lyrics="data/lyrics/antisocial.json" data-title="Antisocial"><span class="n">5</span><span class="t">Antisocial</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
+        <li data-src="assets/audio/lightroom.mp3" data-video="assets/video/editors.mp4" data-poster="assets/frames/editors_0001.jpg" data-lyrics="" data-title="Lightroom"><span class="n">6</span><span class="t">Lightroom</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>
       </ul>
       <audio id="deck" preload="metadata"></audio>
     </section>
@@ -150,6 +189,32 @@
       © 2026 Matthew McCluster · McCluster Corp.
     </footer>
   </main>
+
+  <!-- THE NOW SHEET — the record, opened up -->
+  <div class="now" id="now" data-on="0" role="dialog" aria-label="Now playing">
+    <video class="now__film" id="nowFilm" muted loop playsinline preload="none"></video>
+    <div class="now__scrim" aria-hidden="true"></div>
+    <div class="now__head">
+      <button class="now__down" id="nowDown" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg>
+      </button>
+      <span class="now__from">Playing from HERE — the album</span>
+    </div>
+    <div class="now__meta">
+      <div class="now__title" id="nowTitle">—</div>
+      <p class="now__by">Matthew McCluster</p>
+    </div>
+    <div class="now__lyr" id="nowLyr"><p class="now__none">…</p></div>
+    <div class="now__deck">
+      <button class="now__seek" id="nowSeek" type="button" aria-label="Seek"><i><b id="nowSeekFill"></b></i></button>
+      <div class="now__times"><span id="nowT0">0:00</span><span id="nowT1">–:––</span></div>
+      <div class="now__tp">
+        <button id="nowPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14l-10-7z"/></svg></button>
+        <button class="now__play" id="nowPlay" type="button" aria-label="Play or pause"><svg id="nowPlayIc" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
+        <button id="nowNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M18 5h-2.5v14H18zM4 5v14l10-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
 
   <!-- the deck: the mini player that rides above the bar -->
   <div class="deckbar" id="deckbar" data-off="1">
@@ -298,6 +363,105 @@
       var r0 = JSON.parse(localStorage.getItem(KEY));
       if (r0 && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
     } catch (e) {}
+
+    /* ---------- THE NOW SHEET: the record, opened up ---------- */
+    var now = el("now"), nowFilm = el("nowFilm"), nowLyr = el("nowLyr");
+    var lyrCache = {}, lyrTimed = null, lyrPlain = false, lyrLines = [];
+    function sheetOn() { return now.dataset.on === "1"; }
+    function openSheet() {
+      if (cur < 0) return;
+      var row = rows[cur];
+      now.dataset.on = "1";
+      el("nowTitle").textContent = row.getAttribute("data-title");
+      var v = row.getAttribute("data-video") || "";
+      nowFilm.poster = row.getAttribute("data-poster") || "";
+      if (v && nowFilm.getAttribute("src") !== v) {
+        nowFilm.src = v;
+        nowFilm.load();
+      }
+      nowFilm.muted = true;
+      var pr = nowFilm.play(); if (pr && pr.catch) pr.catch(function () {});
+      loadLyrics(row.getAttribute("data-lyrics") || "");
+      paintSheet();
+      if (window.MCC_TRACK) window.MCC_TRACK("now_sheet_open", { track: row.getAttribute("data-title") });
+    }
+    function closeSheet() {
+      now.dataset.on = "0";
+      try { nowFilm.pause(); } catch (e) {}
+    }
+    function loadLyrics(src) {
+      lyrTimed = null; lyrPlain = false; lyrLines = [];
+      if (!src) {
+        nowLyr.innerHTML = "<p class='now__none'>The words land here soon — for now, let the record talk.</p>";
+        return;
+      }
+      if (lyrCache[src]) { paintLyrics(lyrCache[src]); return; }
+      nowLyr.innerHTML = "<p class='now__none'>…</p>";
+      fetch(src, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+        lyrCache[src] = j; paintLyrics(j);
+      }).catch(function () {
+        nowLyr.innerHTML = "<p class='now__none'>The words land here soon.</p>";
+      });
+    }
+    function paintLyrics(j) {
+      var timed = j && j.timed && j.timed.line && j.timed.line.length ? j.timed.line : null;
+      if (timed) {
+        lyrTimed = timed;
+        nowLyr.innerHTML = timed.map(function (l) { return "<p>" + l.content + "</p>"; }).join("");
+      } else if (j && j.plain) {
+        lyrPlain = true;
+        nowLyr.innerHTML = j.plain.split("\n").map(function (l) { return "<p>" + l + "</p>"; }).join("");
+      } else {
+        nowLyr.innerHTML = "<p class='now__none'>The words land here soon.</p>";
+      }
+      lyrLines = Array.prototype.slice.call(nowLyr.querySelectorAll("p"));
+      nowLyr.scrollTop = 0;
+    }
+    function paintSheet() {
+      if (!sheetOn()) return;
+      el("nowT0").textContent = fmt(deck.currentTime);
+      el("nowT1").textContent = deck.duration ? fmt(deck.duration) : "–:––";
+      el("nowSeekFill").style.width = deck.duration ? (deck.currentTime / deck.duration * 100) + "%" : "0";
+      el("nowPlayIc").innerHTML = deck.paused ? '<path d="M8 5l11 7-11 7z"/>' : '<path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/>';
+      /* the words ride the music: timed lines light up; plain lyrics
+         roll with the song's progress */
+      if (lyrTimed && lyrLines.length) {
+        var t = deck.currentTime, live = -1;
+        for (var i = 0; i < lyrTimed.length; i++) if (t >= lyrTimed[i].begin) live = i;
+        lyrLines.forEach(function (p, i2) { p.classList.toggle("is-live", i2 === live); });
+        if (live > -1) {
+          var target = lyrLines[live];
+          nowLyr.scrollTo({ top: target.offsetTop - nowLyr.clientHeight * 0.32, behavior: "smooth" });
+        }
+      } else if (lyrPlain && deck.duration && lyrLines.length) {
+        var prog = deck.currentTime / deck.duration;
+        var live2 = Math.min(lyrLines.length - 1, Math.floor(prog * lyrLines.length));
+        lyrLines.forEach(function (p, i3) { p.classList.toggle("is-live", i3 === live2); });
+        var target2 = lyrLines[live2];
+        if (target2) nowLyr.scrollTo({ top: target2.offsetTop - nowLyr.clientHeight * 0.32, behavior: "smooth" });
+      }
+    }
+    /* tap the PLAYING row again: instead of pausing, the record opens up
+       (capture phase, stopping the old pause-on-retap underneath) */
+    rows.forEach(function (row, i) {
+      row.addEventListener("click", function (e) {
+        if (i === cur && !deck.paused) { e.stopPropagation(); openSheet(); }
+      }, true);
+    });
+    el("deckbar").querySelector(".deckbar__meta").addEventListener("click", openSheet);
+    el("deckbar").querySelector(".deckbar__art").addEventListener("click", openSheet);
+    el("nowDown").addEventListener("click", closeSheet);
+    el("nowPlay").addEventListener("click", function () { if (deck.paused) play(); else deck.pause(); });
+    el("nowNext").addEventListener("click", function () { next(); setTimeout(openSheet, 60); });
+    el("nowPrev").addEventListener("click", function () { prev(); setTimeout(openSheet, 60); });
+    el("nowSeek").addEventListener("click", function (e) {
+      if (!deck.duration) return;
+      var r = this.getBoundingClientRect();
+      deck.currentTime = ((e.clientX - r.left) / r.width) * deck.duration;
+    });
+    deck.addEventListener("timeupdate", paintSheet);
+    deck.addEventListener("play", paintSheet);
+    deck.addEventListener("pause", paintSheet);
 
     /* the bar's Music tab: once for the sound (the old law) */
     window.MCC_NP_PLAY = function () { play(); };
