@@ -4,7 +4,7 @@
    "slug": "here",
    "name": "HERE",
    "tag": "The album \u00b7 6 tracks",
-   "art": "assets/img/og-card.jpg",
+   "art": "assets/img/here-cover.jpg",
    "by": "Have no fear.",
    "tracks": [
     {
@@ -60,7 +60,8 @@
      "title": "Got WiFi?",
      "src": "assets/audio/got-wifi.mp3",
      "video": "assets/video/prim3.mp4",
-     "poster": "assets/frames/prim3_0001.jpg"
+     "poster": "assets/frames/prim3_0001.jpg",
+     "lyrics": "data/lyrics/got-wifi.json"
     }
    ]
   },
@@ -143,7 +144,8 @@
      "title": "Upset",
      "src": "assets/audio/upset.mp3",
      "video": "assets/video/coffeecam.mp4",
-     "poster": "assets/frames/coffeecam_0001.jpg"
+     "poster": "assets/frames/coffeecam_0001.jpg",
+     "lyrics": "data/lyrics/upset.json"
     }
    ]
   }

@@ -14,9 +14,9 @@
   <meta property="og:title" content="HERE — the album">
   <meta property="og:description" content="Six songs. One player. Have no fear, McCluster is here.">
   <meta property="og:url" content="https://mcclusterishere.github.io/Here/album.html">
-  <meta property="og:image" content="https://mcclusterishere.github.io/Here/assets/img/og-card.jpg">
+  <meta property="og:image" content="https://mcclusterishere.github.io/Here/assets/img/here-cover.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://mcclusterishere.github.io/Here/assets/img/og-card.jpg">
+  <meta name="twitter:image" content="https://mcclusterishere.github.io/Here/assets/img/here-cover.jpg">
 
   <script type="application/ld+json">
   {
@@ -29,7 +29,7 @@
         "albumProductionType": "https://schema.org/StudioAlbum",
         "numTracks": 6,
         "byArtist": { "@id": "https://streetcreditbureau.com/#matthew-mccluster" },
-        "image": "https://mcclusterishere.github.io/Here/assets/img/og-card.jpg",
+        "image": "https://mcclusterishere.github.io/Here/assets/img/here-cover.jpg",
         "track": {
           "@type": "ItemList",
           "numberOfItems": 6,
@@ -165,7 +165,7 @@
 
   <main class="hr">
     <header class="alb">
-      <img class="alb__art" id="albArt" src="assets/img/og-card.jpg" alt="Album art">
+      <img class="alb__art" id="albArt" src="assets/img/here-cover.jpg" alt="Album art">
       <div>
         <p class="alb__k" id="albTag">The album</p>
         <h1 id="albName">Here</h1>
@@ -220,7 +220,7 @@
   <div class="deckbar" id="deckbar" data-off="1">
     <button class="deckbar__seek" id="seek" type="button" aria-label="Seek"><i><b id="seekFill"></b></i></button>
     <div class="deckbar__row">
-      <img class="deckbar__art" src="assets/img/og-card.jpg" alt="">
+      <img class="deckbar__art" src="assets/img/here-cover.jpg" alt="">
       <div class="deckbar__meta"><b id="npTitle">—</b><small id="npTime">0:00 · HERE</small></div>
       <button class="tp" id="tpPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14l-10-7z"/></svg></button>
       <button class="tp tp--play" id="tpPlay" type="button" aria-label="Play or pause"><svg id="tpPlayIc" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
@@ -337,7 +337,7 @@
         title: rows[cur].getAttribute("data-title"),
         artist: "Matthew McCluster",
         album: document.getElementById("albName").textContent,
-        artwork: [{ src: "assets/img/og-card.jpg", sizes: "1200x630", type: "image/jpeg" }],
+        artwork: [{ src: document.getElementById("albArt").src, type: "image/jpeg" }],
       });
     }
     function load(i, at) {
