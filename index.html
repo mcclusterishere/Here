@@ -161,15 +161,19 @@
     .wings__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.2rem, 9vw, 3.6rem); }
     .wings__sub { color: var(--cream-dim); line-height: 1.65; margin-top: 0.7rem; font-size: 0.95rem; }
     .wings__row { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
-    .wings__tab { display: grid; align-content: center; justify-items: center; gap: 0.7rem; text-decoration: none;
-      padding: 1.2rem 0.6rem; border-top: 1px solid rgba(201,157,69,0.4); border-radius: 0;
-      background: rgba(18,14,11,0.78);
+    .wings__tab { position: relative; overflow: hidden; display: grid; align-content: end; justify-items: center; gap: 0.55rem;
+      text-decoration: none; padding: 1.2rem 0.6rem clamp(1.6rem, 5vh, 2.6rem);
+      border-top: 1px solid rgba(201,157,69,0.4); border-radius: 0; background: #100c09;
       color: var(--cream); font-weight: 800; font-size: clamp(0.78rem, 2.8vw, 1.05rem); letter-spacing: 0.04em;
-      touch-action: manipulation; transition: background 0.18s ease, box-shadow 0.18s ease; }
+      touch-action: manipulation; transition: box-shadow 0.18s ease; }
     .wings__tab + .wings__tab { border-left: 1px solid rgba(201,157,69,0.25); }
-    .wings__tab:hover, .wings__tab:active { background: rgba(201,157,69,0.12);
-      box-shadow: inset 0 0 60px -30px rgba(232,200,119,0.55); }
-    .wings__tab img { width: clamp(52px, 9vw, 84px); height: clamp(52px, 9vw, 84px); object-fit: contain; }
+    .wings__tab:hover, .wings__tab:active { box-shadow: inset 0 0 80px -30px rgba(232,200,119,0.6); }
+    .wings__vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+    .wings__scrim { position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(180deg, rgba(10,8,7,0.35) 0%, rgba(10,8,7,0.05) 45%, rgba(10,8,7,0.88) 100%); }
+    .wings__tab > img, .wings__tab > span, .wings__tab > small { position: relative; z-index: 2; }
+    .wings__tab > img { width: clamp(40px, 7vw, 64px); height: clamp(40px, 7vw, 64px); object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
     .wings__tab small { font-weight: 600; color: var(--cream-dim); font-size: clamp(0.66rem, 2vw, 0.8rem); letter-spacing: 0.02em; max-width: 16ch; }
   </style>
 </head>
@@ -451,16 +455,25 @@
         </div>
         <div class="wings__row">
           <a class="wings__tab" href="https://streetcreditbureau.com/equity-uprise.html" data-cta="wing-uprise">
+            <video class="wings__vid" src="assets/video/ocho3.mp4" poster="assets/img/wing-uprise-poster.jpg"
+              autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <span class="wings__scrim" aria-hidden="true"></span>
             <img src="assets/img/equity-uprise-logo.webp" alt="">
-            Equity Uprise<small>the civic engine</small>
+            <span>Equity Uprise</span><small>the civic engine</small>
           </a>
           <a class="wings__tab" href="https://streetcreditbureau.com/brand.html?brand=whip-equipped" data-cta="wing-whip">
+            <video class="wings__vid" src="assets/video/dealer-plates-b-video.mp4" poster="assets/img/wing-whip-poster.jpg"
+              autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <span class="wings__scrim" aria-hidden="true"></span>
             <img src="assets/img/we-mark.png" alt="">
-            Whip Equipped<small>the fleet</small>
+            <span>Whip Equipped</span><small>the fleet</small>
           </a>
           <a class="wings__tab" href="https://streetcreditbureau.com/catalogue.html" data-cta="wing-catalog">
+            <video class="wings__vid" src="assets/video/studio360.mp4" poster="assets/img/wing-catalog-poster.jpg"
+              autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <span class="wings__scrim" aria-hidden="true"></span>
             <img src="assets/img/m-mark.png" alt="">
-            Catalog<small>the registered discography</small>
+            <span>Catalog</span><small>the registered discography</small>
           </a>
         </div>
       </div>
@@ -538,6 +551,17 @@
     <source src="assets/audio/here.mp3" type="audio/mpeg">
   </audio>
 
+  <script>
+    /* the wing films: not scroll-driven — they just play. The muted IDL
+       property must be set before play() or some browsers hold autoplay;
+       the poster stands in until the first frame lands. */
+    document.querySelectorAll(".wings__vid").forEach(function (v) {
+      v.muted = true;
+      var kick = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+      kick();
+      v.addEventListener("canplay", kick, { once: true });
+    });
+  </script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script src="js/payments.js?v=__STAMP__"></script>
   <script src="js/lead.js?v=__STAMP__"></script>
