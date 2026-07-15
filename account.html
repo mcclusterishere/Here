@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Your Account · McCluster</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Your account with the McCluster agency — sign in, see your record, pay an invoice.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/account.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <meta name="theme-color" content="#0a0807">
+
+  <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <style>
+    html, body { background: #0a0807; }
+    .ac { max-width: 27rem; margin: 0 auto; padding: clamp(4.6rem, 10vh, 6.5rem) clamp(1.1rem, 4vw, 2rem) 9rem; }
+    .ac__k { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .ac h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.92; font-size: clamp(2.4rem, 11vw, 3.6rem); margin-top: 0.4rem; }
+    .ac__sub { color: var(--cream-dim); line-height: 1.7; margin-top: 0.9rem; font-size: 0.98rem; }
+    .ac__card { border: 1px solid rgba(244,239,230,0.14); border-radius: 16px; background: rgba(18,14,11,0.75); padding: 1.15rem 1.15rem 1.3rem; margin-top: 1.6rem; }
+    .ac__lab { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .ac input[type=email] { width: 100%; margin-top: 0.6rem; padding: 0.95rem 1rem; border-radius: 12px; border: 1px solid rgba(201,157,69,0.4);
+      background: #16110c; color: var(--cream); font-size: 1rem; }
+    .ac__btn { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation; display: block; width: 100%;
+      margin-top: 0.8rem; padding: 1rem; border-radius: 13px; background: #e8c877; color: #16110b; font-weight: 800; font-size: 1.02rem; }
+    .ac__btn[disabled] { background: #2a241d; color: #8a8172; }
+    .ac__ghost { display: block; text-align: center; text-decoration: none; margin-top: 0.7rem; padding: 0.95rem; border-radius: 13px;
+      border: 1px solid rgba(201,157,69,0.5); color: var(--cream); font-weight: 700; }
+    .ac__note { margin-top: 0.8rem; font-size: 0.8rem; color: var(--cream-dim); line-height: 1.6; }
+    .ac__who { color: var(--cream); font-weight: 700; word-break: break-all; }
+    .rec { list-style: none; padding: 0; margin: 0.9rem 0 0; display: grid; gap: 0.55rem; }
+    .rec li { border: 1px solid rgba(244,239,230,0.1); border-radius: 12px; padding: 0.75rem 0.85rem; background: rgba(10,8,7,0.6); }
+    .rec b { color: var(--cream); display: block; font-size: 0.95rem; }
+    .rec small { color: var(--cream-dim); font-size: 0.78rem; }
+    .rec .st { float: right; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .ac__out { margin-top: 1rem; background: none; border: 0; color: var(--cream-dim); font-size: 0.82rem; text-decoration: underline; cursor: pointer; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="ac">
+    <p class="ac__k">McCluster · the agency</p>
+    <h1>Your<br>Account</h1>
+
+    <!-- signed out: the one door -->
+    <div class="ac__card" id="acDoor">
+      <p class="ac__lab">Sign in</p>
+      <p class="ac__sub" style="margin-top:0.5rem">Type your email — a sign-in link lands in your inbox. No password, no profile to build. Your record with the agency lives here.</p>
+      <input type="email" id="acEmail" placeholder="you@email.com" autocomplete="email" inputmode="email">
+      <button class="ac__btn" id="acSend">Send my sign-in link</button>
+      <p class="ac__note" id="acMsg"></p>
+    </div>
+
+    <!-- signed in: the record -->
+    <div class="ac__card" id="acDesk" hidden>
+      <p class="ac__lab">Signed in</p>
+      <p class="ac__sub" style="margin-top:0.4rem"><span class="ac__who" id="acWho">—</span></p>
+      <p class="ac__lab" style="margin-top:1.2rem">Your record</p>
+      <ul class="rec" id="acRec"><li><small>Loading…</small></li></ul>
+      <a class="ac__btn" style="text-decoration:none;text-align:center" href="hire.html" data-cta="account-hire">Hire the agency</a>
+      <a class="ac__ghost" href="pay.html?to=mccluster" data-cta="account-pay">Pay an invoice — Apple&nbsp;Pay / Google&nbsp;Pay</a>
+      <button class="ac__out" id="acOut">Sign out</button>
+    </div>
+
+    <p class="ac__note" style="margin-top:1.4rem">Questions, bookings, anything — <a href="mailto:matthew@mccluster.org" style="color:#c99d45;text-decoration:none">matthew@mccluster.org</a></p>
+  </main>
+
+  <!-- THE BAR — WE · the M home · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/network.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var el = function (id) { return document.getElementById(id); };
+    function paint() {
+      var u = window.MCC_AUTH && window.MCC_AUTH.user && window.MCC_AUTH.user();
+      el("acDoor").hidden = !!u;
+      el("acDesk").hidden = !u;
+      if (!u) return;
+      el("acWho").textContent = u.email || "Instant account (no email yet)";
+      if (window.MCC_TRACK) window.MCC_TRACK("account_view", {});
+      var rec = el("acRec");
+      if (window.MCC_NET && window.MCC_NET.myDeals) {
+        window.MCC_NET.myDeals().then(function (rows) {
+          rows = rows || [];
+          if (!rows.length) { rec.innerHTML = "<li><small>Nothing on the record yet — your bookings and receipts with the agency will land here.</small></li>"; return; }
+          rec.innerHTML = rows.slice(0, 12).map(function (d) {
+            var price = d.terms && d.terms.price ? "$" + (+d.terms.price).toLocaleString() : "";
+            return "<li><span class='st'>" + (d.status || "open") + "</span><b>" + (d.title || d.kind || "Deal") + "</b><small>" +
+              [price, (d.updated_at || "").slice(0, 10)].filter(Boolean).join(" · ") + "</small></li>";
+          }).join("");
+        }).catch(function () { rec.innerHTML = "<li><small>The record is warming up — check back in a moment.</small></li>"; });
+      } else {
+        rec.innerHTML = "<li><small>Your bookings and receipts with the agency land here.</small></li>";
+      }
+    }
+    el("acSend").addEventListener("click", function () {
+      var em = (el("acEmail").value || "").trim();
+      var msg = el("acMsg");
+      if (!/^\S+@\S+\.\S+$/.test(em)) { msg.textContent = "Type the whole email address first."; return; }
+      this.disabled = true; this.textContent = "Sending…";
+      var btn = this;
+      window.MCC_AUTH.signIn(em).then(function () {
+        msg.textContent = "Sent. Open the link on this device and you land back here, signed in.";
+        btn.textContent = "Link sent ✓";
+        if (window.MCC_TRACK) window.MCC_TRACK("account_link_sent", {});
+      }).catch(function () {
+        msg.textContent = "That didn't send — try again in a minute (links are rate-limited).";
+        btn.disabled = false; btn.textContent = "Send my sign-in link";
+      });
+    });
+    el("acOut").addEventListener("click", function () {
+      if (window.MCC_AUTH && window.MCC_AUTH.signOut) window.MCC_AUTH.signOut();
+      location.reload();
+    });
+    paint();
+    window.addEventListener("mcc:auth", paint);
+  })();
+  </script>
+</body>
+</html>

@@ -10,14 +10,14 @@
    other slots rearrange into the wing's menu.
    Tabs: MUSIC (the old law — once for the sound, twice for the
    album) · HERE, center (the M emblem over the word, back to the
-   front page) · PROFILE (for those who can log in).
+   front page) · PROFILE (your account with the agency — this site
+   is its own little ecosystem; nothing on the bar leaves it).
    ============================================================ */
 (function () {
   "use strict";
   var dock = document.querySelector(".appbar");
   if (!dock) return;
 
-  var SCB = "https://streetcreditbureau.com/";
   var WINGS = {
     music: {
       home: "album.html",
@@ -34,10 +34,10 @@
       ],
     },
     profile: {
-      home: SCB + "profile.html",
+      home: "account.html",
       slots: [
-        [SCB + "profile.html", "key", "Sign in"],
-        [SCB + "profile.html#yours", "desk", "Your desk"],
+        ["account.html", "key", "Sign in"],
+        ["pay.html?to=mccluster", "card", "Pay an invoice"],
       ],
     },
   };
@@ -51,6 +51,7 @@
     note: '<path d="M9 18V6l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="15" r="2.5"/>',
     case: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
     key: '<circle cx="8" cy="14" r="4"/><path d="M11 11L20 2"/><path d="M17 5l2.5 2.5M14.5 7.5L17 10"/>',
+    card: '<rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 15h4"/>',
     desk: '<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
   };
   function ic(k) {
