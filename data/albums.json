@@ -67,7 +67,7 @@
   {
    "slug": "equity-uprise",
    "name": "Equity Uprise",
-   "tag": "The civic anthems",
+   "tag": "The civic anthems \u00b7 3 tracks",
    "art": "assets/img/equity-uprise-logo.webp",
    "by": "The fight, on the record.",
    "tracks": [
@@ -77,7 +77,21 @@
      "src": "assets/audio/environmental-injustice-brave.mp3",
      "video": "assets/video/uprise.mp4",
      "poster": "assets/frames/uprise_0001.jpg",
-     "lyrics": "data/lyrics/environmental-injustice-brave.json"
+     "lyrics": "data/lyrics/environmental-injustice-brave.dk.json"
+    },
+    {
+     "title": "Please Set Me Free",
+     "sub": "the civic poll",
+     "src": "assets/audio/please-set-me-free.mp3",
+     "video": "assets/video/church.mp4",
+     "poster": "assets/frames/church_0001.jpg"
+    },
+    {
+     "title": "Money or the Power",
+     "src": "assets/audio/money-or-the-power.mp3",
+     "video": "assets/video/moneyglitch.mp4",
+     "poster": "assets/frames/moneyglitch_0001.jpg",
+     "lyrics": "data/lyrics/money-or-the-power.dk.json"
     }
    ]
   },
@@ -121,7 +135,7 @@
   {
    "slug": "singles",
    "name": "Singles",
-   "tag": "Singles & unfiled",
+   "tag": "The singles",
    "art": "assets/img/m-mark.png",
    "by": "Between the albums.",
    "tracks": [
@@ -130,13 +144,6 @@
      "src": "assets/audio/upset.mp3",
      "video": "assets/video/coffeecam.mp4",
      "poster": "assets/frames/coffeecam_0001.jpg"
-    },
-    {
-     "title": "Please Set Me Free",
-     "sub": "the civic poll",
-     "src": "assets/audio/please-set-me-free.mp3",
-     "video": "assets/video/church.mp4",
-     "poster": "assets/frames/church_0001.jpg"
     }
    ]
   }

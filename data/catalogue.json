@@ -1,7 +1,7 @@
 {
  "generated_at": "2026-07-09T17:37:58.808Z",
  "isrc_prefix": "QT6KV",
- "count": 13,
+ "count": 14,
  "tracks": [
   {
    "slug": "who-did-the-shoot",
@@ -92,6 +92,26 @@
    "no": 8
   },
   {
+   "slug": "please-set-me-free",
+   "title": "Please Set Me Free",
+   "credit": "",
+   "album": "Equity Uprise",
+   "page": "album.html",
+   "length": "3:22",
+   "available": true,
+   "no": 9
+  },
+  {
+   "slug": "money-or-the-power",
+   "title": "Money or the Power",
+   "credit": "",
+   "album": "Equity Uprise",
+   "page": "album.html",
+   "length": "",
+   "available": true,
+   "no": 10
+  },
+  {
    "slug": "vaunt",
    "title": "Vaunt (Acoustic)",
    "credit": "The Vaunt Private Flights jingle \u00b7 guitar by Zakir \u00b7 from the Vaunt EP (with \"Jet Pass\")",
@@ -100,7 +120,7 @@
    "length": "1:32",
    "available": true,
    "order": 8,
-   "no": 9
+   "no": 11
   },
   {
    "slug": "dealer-plates",
@@ -111,7 +131,7 @@
    "length": "1:37",
    "available": true,
    "order": 9,
-   "no": 10
+   "no": 12
   },
   {
    "slug": "dealer-plates-b",
@@ -122,18 +142,7 @@
    "length": "1:37",
    "available": true,
    "order": 10,
-   "no": 11
-  },
-  {
-   "slug": "please-set-me-free",
-   "title": "Please Set Me Free",
-   "credit": "",
-   "album": "Unfiled",
-   "page": "album.html",
-   "length": "3:22",
-   "available": true,
-   "order": 500,
-   "no": 12
+   "no": 13
   },
   {
    "slug": "upset",
@@ -144,7 +153,7 @@
    "length": "3:04",
    "available": true,
    "order": 11,
-   "no": 13
+   "no": 14
   }
  ]
 }

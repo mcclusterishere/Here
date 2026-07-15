@@ -489,6 +489,9 @@
     }
     function paintLyrics(j) {
       var timed = j && j.timed && j.timed.line && j.timed.line.length ? j.timed.line : null;
+      if (!timed && j && j.lines && j.lines.length && j.lines[0].t != null) {
+        timed = j.lines.map(function (l) { return { begin: l.t, content: l.text || l.line || "" }; });
+      }
       if (timed) {
         lyrTimed = timed;
         nowLyr.innerHTML = timed.map(function (l) { return "<p>" + l.content + "</p>"; }).join("");
