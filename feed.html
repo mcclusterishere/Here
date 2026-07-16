@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>The Wire — the daily record · McCluster</title>
-  <meta name="description" content="The Wire — the claims everyone's arguing about, put on the record with sources. Filed daily from the McCluster desk.">
-  <link rel="canonical" href="https://mcclusterishere.github.io/Here/wire.html">
+  <title>Feed — the daily record · McCluster</title>
+  <meta name="description" content="Feed — the claims everyone's arguing about, put on the record with sources. Filed daily from the McCluster desk.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/feed.html">
   <link rel="icon" type="image/png" href="assets/img/m-mark.png">
   <meta name="theme-color" content="#0a0807">
   <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -60,7 +60,7 @@
   <div class="grain" aria-hidden="true"></div>
   <main class="wr">
     <p class="wr__k">The daily record</p>
-    <h1>The Wire</h1>
+    <h1>Feed</h1>
     <p class="wr__sub">The claims everyone's arguing about, put <b>on the record</b> — background,
       context, and the sources that carry it. Filed from the desk; every entry is a citable link.</p>
 
@@ -79,7 +79,7 @@
         standard the notes program grades on.</p>
     </section>
 
-    <ul class="feed" id="feed"><li class="none">The wire is warming up…</li></ul>
+    <ul class="feed" id="feed"><li class="none">The feed is warming up…</li></ul>
   </main>
 
   <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
@@ -132,17 +132,17 @@
     }
     function paint(rows) {
       feed.innerHTML = rows.length ? rows.map(card).join("") :
-        "<li class='none'>The wire is armed — the desk files the first report soon.</li>";
+        "<li class='none'>The feed is live — the desk files the first report soon.</li>";
     }
     function loadFeed() {
-      if (!API) { feed.innerHTML = "<li class='none'>The wire is being armed — check back.</li>"; return; }
-      fetch(API + "/rest/v1/wire?select=*&order=created_at.desc&limit=50", {
+      if (!API) { feed.innerHTML = "<li class='none'>The feed is warming up — check back.</li>"; return; }
+      fetch(API + "/rest/v1/feed?select=*&order=created_at.desc&limit=50", {
         headers: { apikey: KEY, Authorization: "Bearer " + KEY },
       }).then(function (r) { return r.ok ? r.json() : null; }).then(function (rows) {
-        if (!rows) { feed.innerHTML = "<li class='none'>The wire is being armed — the desk pastes <b>docs/wire.sql</b> and the record opens.</li>"; return; }
+        if (!rows) { feed.innerHTML = "<li class='none'>The feed opens once the desk pastes <b>docs/feed.sql</b>.</li>"; return; }
         paint(rows);
       }).catch(function () {
-        feed.innerHTML = "<li class='none'>The wire is being armed — check back.</li>";
+        feed.innerHTML = "<li class='none'>The feed is warming up — check back.</li>";
       });
     }
     loadFeed();
@@ -153,17 +153,17 @@
       if (sh) {
         var li = sh.closest("li");
         var text = li.querySelector("h3").textContent + " — the record: " + li.querySelector(".ctx").textContent;
-        var url = "https://mcclusterishere.github.io/Here/wire.html";
-        if (navigator.share) navigator.share({ title: "The Wire — McCluster", text: text, url: url }).catch(function () {});
+        var url = "https://mcclusterishere.github.io/Here/feed.html";
+        if (navigator.share) navigator.share({ title: "Feed — McCluster", text: text, url: url }).catch(function () {});
         else { try { navigator.clipboard.writeText(text + " " + url); sh.textContent = "Copied"; } catch (e2) {} }
-        if (window.MCC_TRACK) window.MCC_TRACK("wire_share", {});
+        if (window.MCC_TRACK) window.MCC_TRACK("feed_share", {});
         return;
       }
       var pull = e.target.closest("[data-pull]");
       if (pull && window.MCC_SUPA) {
         var li2 = pull.closest("li");
         window.MCC_SUPA.token().then(function (t) {
-          return fetch(API + "/rest/v1/wire?id=eq." + li2.getAttribute("data-id"), {
+          return fetch(API + "/rest/v1/feed?id=eq." + li2.getAttribute("data-id"), {
             method: "DELETE", headers: { apikey: KEY, Authorization: "Bearer " + t },
           });
         }).then(function (r) { if (r && r.ok) li2.remove(); }).catch(function () {});
@@ -185,7 +185,7 @@
         var body = { claim: claim, context: ctx, sources: srcs, tag: document.getElementById("cTag").value.trim() };
         var btn = this; btn.disabled = true; btn.textContent = "Filing…";
         window.MCC_SUPA.token().then(function (t) {
-          return fetch(API + "/rest/v1/wire", {
+          return fetch(API + "/rest/v1/feed", {
             method: "POST",
             headers: { "Content-Type": "application/json", apikey: KEY, Authorization: "Bearer " + t, Prefer: "return=representation" },
             body: JSON.stringify(body),
@@ -195,16 +195,16 @@
           feed.insertAdjacentHTML("afterbegin", card(rows[0]));
           ["cClaim", "cCtx", "cSrc", "cTag"].forEach(function (id) { document.getElementById(id).value = ""; });
           btn.disabled = false; btn.textContent = "File the report";
-          if (window.MCC_TRACK) window.MCC_TRACK("wire_filed", { tag: body.tag });
+          if (window.MCC_TRACK) window.MCC_TRACK("feed_filed", { tag: body.tag });
         }).catch(function () {
-          btn.disabled = false; btn.textContent = "The wire hiccuped — try again";
+          btn.disabled = false; btn.textContent = "The feed hiccuped — try again";
         });
       });
     }
     armDesk();
     setTimeout(armDesk, 800); /* the session sometimes lands a beat after boot */
 
-    if (window.MCC_TRACK) window.MCC_TRACK("wire_view", {});
+    if (window.MCC_TRACK) window.MCC_TRACK("feed_view", {});
   })();
   </script>
 </body>
