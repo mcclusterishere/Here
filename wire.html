@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Wire — the daily record · McCluster</title>
+  <meta name="description" content="The Wire — the claims everyone's arguing about, put on the record with sources. Filed daily from the McCluster desk.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/wire.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <meta name="theme-color" content="#0a0807">
+  <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <style>
+    html, body { background: #0a0807; }
+    .wr { max-width: 40rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 10rem; }
+    .wr__k { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .wr h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.6rem, 11vw, 4.2rem); margin-top: 0.35rem; }
+    .wr__sub { color: var(--cream-dim); line-height: 1.7; margin-top: 0.8rem; font-size: 0.95rem; }
+    .wr__sub b { color: var(--cream); }
+
+    /* the desk: only the owner sees it */
+    .cmp { display: none; margin-top: 1.8rem; border: 1px solid rgba(201,157,69,0.35); border-radius: 16px;
+      padding: 1rem 1.1rem 1.2rem; background: rgba(22,17,12,0.6); }
+    .cmp.is-on { display: block; }
+    .cmp label { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c99d45;
+      font-weight: 800; margin: 0.9rem 0 0.3rem; }
+    .cmp label:first-child { margin-top: 0; }
+    .cmp input, .cmp textarea { width: 100%; box-sizing: border-box; background: rgba(10,8,7,0.8); color: var(--cream);
+      border: 1px solid rgba(244,239,230,0.18); border-radius: 10px; padding: 0.65rem 0.75rem; font: inherit; font-size: 0.92rem; }
+    .cmp textarea { min-height: 4.2rem; resize: vertical; }
+    .cmp button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      margin-top: 1rem; padding: 0.75rem 1.4rem; border-radius: 100px; background: #e8c877; color: #16110b;
+      font-weight: 800; font-size: 0.95rem; }
+    .cmp__note { font-size: 0.76rem; color: var(--cream-dim); margin-top: 0.6rem; line-height: 1.5; }
+
+    /* the record */
+    .feed { list-style: none; padding: 0; margin: 2rem 0 0; }
+    .feed li { border: 1px solid rgba(201,157,69,0.28); border-radius: 16px; background: rgba(22,17,12,0.5);
+      padding: 1.05rem 1.15rem 1.1rem; margin-bottom: 0.95rem; position: relative; }
+    .feed .meta { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
+    .feed .meta b { color: #c99d45; }
+    .feed h3 { font-family: var(--display); font-weight: 400; font-size: 1.15rem; line-height: 1.3; margin: 0.5rem 0 0; color: var(--cream); }
+    .feed .lbl { display: inline-block; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 800;
+      margin-top: 0.85rem; color: #c99d45; }
+    .feed .ctx { color: rgba(244,239,230,0.88); line-height: 1.65; font-size: 0.94rem; margin: 0.3rem 0 0; }
+    .feed .src { margin: 0.35rem 0 0; padding: 0; list-style: none; border: 0; }
+    .feed .src li { border: 0; padding: 0.15rem 0; margin: 0; background: none; }
+    .feed .src a { color: #e8c877; text-decoration: none; font-size: 0.82rem; word-break: break-all; }
+    .feed .acts { display: flex; gap: 0.5rem; margin-top: 0.95rem; }
+    .feed .acts button { -webkit-appearance: none; appearance: none; cursor: pointer; touch-action: manipulation;
+      background: none; border: 1px solid rgba(201,157,69,0.4); border-radius: 100px; color: var(--cream);
+      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.42rem 0.9rem; }
+    .feed .pull { position: absolute; top: 0.6rem; right: 0.7rem; display: none; background: none; border: 0;
+      color: var(--cream-dim); font-size: 1rem; cursor: pointer; padding: 0.2rem 0.4rem; }
+    body.is-desk .feed .pull { display: block; }
+    .feed .none { border-style: dashed; color: var(--cream-dim); font-size: 0.9rem; line-height: 1.7; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="wr">
+    <p class="wr__k">The daily record</p>
+    <h1>The Wire</h1>
+    <p class="wr__sub">The claims everyone's arguing about, put <b>on the record</b> — background,
+      context, and the sources that carry it. Filed from the desk; every entry is a citable link.</p>
+
+    <!-- THE DESK — the composer only the owner sees -->
+    <section class="cmp" id="cmp" aria-label="File a report">
+      <label>The claim going around</label>
+      <textarea id="cClaim" placeholder="What's being said — one sentence, neutral."></textarea>
+      <label>The record</label>
+      <textarea id="cCtx" placeholder="The context that corrects or completes it — a sentence or more."></textarea>
+      <label>Sources — one link per line</label>
+      <textarea id="cSrc" placeholder="https://…"></textarea>
+      <label>Tag</label>
+      <input id="cTag" placeholder="housing · courts · music · CT · GA">
+      <button type="button" id="cFile">File the report</button>
+      <p class="cmp__note">Public the moment it files. Neutral words, specific sources — the same
+        standard the notes program grades on.</p>
+    </section>
+
+    <ul class="feed" id="feed"><li class="none">The wire is warming up…</li></ul>
+  </main>
+
+  <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var API = window.MCC_SUPA ? window.MCC_SUPA.url : "";
+    var KEY = window.MCC_SUPA ? window.MCC_SUPA.key : "";
+    var DESK_EMAIL = "matthew@mccluster.org";
+    var feed = document.getElementById("feed");
+
+    function esc(x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; }
+    function when(iso) {
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) +
+          " · " + d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+      } catch (e) { return ""; }
+    }
+    function card(r) {
+      var srcs = [];
+      try { srcs = Array.isArray(r.sources) ? r.sources : JSON.parse(r.sources || "[]"); } catch (e) {}
+      return '<li data-id="' + esc(r.id) + '">' +
+        '<button class="pull" data-pull aria-label="Pull this report">✕</button>' +
+        '<p class="meta">' + when(r.created_at) + (r.tag ? ' · <b>' + esc(r.tag) + "</b>" : "") + "</p>" +
+        '<span class="lbl">The claim</span><h3>' + esc(r.claim) + "</h3>" +
+        '<span class="lbl">The record</span><p class="ctx">' + esc(r.context) + "</p>" +
+        (srcs.length ? '<span class="lbl">Sources</span><ul class="src">' +
+          srcs.map(function (s) { return '<li><a href="' + esc(s) + '" target="_blank" rel="noopener">' + esc(s) + "</a></li>"; }).join("") +
+          "</ul>" : "") +
+        '<div class="acts"><button type="button" data-share>Share the record</button></div></li>';
+    }
+    function paint(rows) {
+      feed.innerHTML = rows.length ? rows.map(card).join("") :
+        "<li class='none'>The wire is armed — the desk files the first report soon.</li>";
+    }
+    function loadFeed() {
+      if (!API) { feed.innerHTML = "<li class='none'>The wire is being armed — check back.</li>"; return; }
+      fetch(API + "/rest/v1/wire?select=*&order=created_at.desc&limit=50", {
+        headers: { apikey: KEY, Authorization: "Bearer " + KEY },
+      }).then(function (r) { return r.ok ? r.json() : null; }).then(function (rows) {
+        if (!rows) { feed.innerHTML = "<li class='none'>The wire is being armed — the desk pastes <b>docs/wire.sql</b> and the record opens.</li>"; return; }
+        paint(rows);
+      }).catch(function () {
+        feed.innerHTML = "<li class='none'>The wire is being armed — check back.</li>";
+      });
+    }
+    loadFeed();
+
+    /* share: the record travels with its link — the reel points back here */
+    feed.addEventListener("click", function (e) {
+      var sh = e.target.closest("[data-share]");
+      if (sh) {
+        var li = sh.closest("li");
+        var text = li.querySelector("h3").textContent + " — the record: " + li.querySelector(".ctx").textContent;
+        var url = "https://mcclusterishere.github.io/Here/wire.html";
+        if (navigator.share) navigator.share({ title: "The Wire — McCluster", text: text, url: url }).catch(function () {});
+        else { try { navigator.clipboard.writeText(text + " " + url); sh.textContent = "Copied"; } catch (e2) {} }
+        if (window.MCC_TRACK) window.MCC_TRACK("wire_share", {});
+        return;
+      }
+      var pull = e.target.closest("[data-pull]");
+      if (pull && window.MCC_SUPA) {
+        var li2 = pull.closest("li");
+        window.MCC_SUPA.token().then(function (t) {
+          return fetch(API + "/rest/v1/wire?id=eq." + li2.getAttribute("data-id"), {
+            method: "DELETE", headers: { apikey: KEY, Authorization: "Bearer " + t },
+          });
+        }).then(function (r) { if (r && r.ok) li2.remove(); }).catch(function () {});
+      }
+    });
+
+    /* THE DESK — the composer opens only for the desk's own email */
+    function armDesk() {
+      var em = window.MCC_SUPA && window.MCC_SUPA.email && window.MCC_SUPA.email();
+      if (em !== DESK_EMAIL) return;
+      document.body.classList.add("is-desk");
+      document.getElementById("cmp").classList.add("is-on");
+      document.getElementById("cFile").addEventListener("click", function () {
+        var claim = document.getElementById("cClaim").value.trim();
+        var ctx = document.getElementById("cCtx").value.trim();
+        if (!claim || !ctx) return;
+        var srcs = document.getElementById("cSrc").value.split("\n")
+          .map(function (s) { return s.trim(); }).filter(function (s) { return /^https?:\/\//.test(s); });
+        var body = { claim: claim, context: ctx, sources: srcs, tag: document.getElementById("cTag").value.trim() };
+        var btn = this; btn.disabled = true; btn.textContent = "Filing…";
+        window.MCC_SUPA.token().then(function (t) {
+          return fetch(API + "/rest/v1/wire", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", apikey: KEY, Authorization: "Bearer " + t, Prefer: "return=representation" },
+            body: JSON.stringify(body),
+          });
+        }).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }).then(function (rows) {
+          var none = feed.querySelector(".none"); if (none) none.remove();
+          feed.insertAdjacentHTML("afterbegin", card(rows[0]));
+          ["cClaim", "cCtx", "cSrc", "cTag"].forEach(function (id) { document.getElementById(id).value = ""; });
+          btn.disabled = false; btn.textContent = "File the report";
+          if (window.MCC_TRACK) window.MCC_TRACK("wire_filed", { tag: body.tag });
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "The wire hiccuped — try again";
+        });
+      });
+    }
+    armDesk();
+    setTimeout(armDesk, 800); /* the session sometimes lands a beat after boot */
+
+    if (window.MCC_TRACK) window.MCC_TRACK("wire_view", {});
+  })();
+  </script>
+</body>
+</html>

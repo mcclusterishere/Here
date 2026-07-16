@@ -43,6 +43,8 @@
           sub: "The civic engine — funding the arts and workforce development in Connecticut and Georgia. The fellowship, the anthems, the record." }],
         ["docket-516.html", "folder", "Evidence", { ic: "📁", title: "The evidence room",
           sub: "Docket 516 — the full public-record archive: 325 filings, transcripts, and rulings, explained." }],
+        ["wire.html", "news", "The Wire", { ic: "📡", title: "The Wire — the daily record",
+          sub: "The claims everyone's arguing about, put on the record with sources. Filed daily from the desk — every entry is a citable link." }],
       ],
     },
     profile: {
