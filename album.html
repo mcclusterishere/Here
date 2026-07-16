@@ -329,6 +329,7 @@
     </a>
   </nav>
 
+  <script src="js/env.js?v=__STAMP__"></script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script>
   /* ============================================================
@@ -431,6 +432,7 @@
         queue = alb.tracks.map(function (t) { return Object.assign({}, t, { albSlug: alb.slug, albName: "", art: alb.art }); });
       }
       document.getElementById("albArt").src = head.art;
+      if (window.MCC_ENV && !PL) window.MCC_ENV.mount(document.getElementById("albArt"), ALBUM);
       document.getElementById("albName").textContent = head.name;
       document.getElementById("albTag").textContent = head.tag;
       document.getElementById("albBy").textContent = head.by || "";
