@@ -14,7 +14,10 @@ never lies. Nothing else can write those columns.
 3. Stripe Dashboard → Developers → Webhooks → **Add endpoint**:
    `https://zmnhbrjyhxzhkxmhkexs.supabase.co/functions/v1/stripe-webhook`
    with events `account.updated`, `checkout.session.completed`,
-   `customer.subscription.deleted`. Copy the **signing secret** (`whsec_…`).
+   `customer.subscription.deleted`. **Important:** when creating the endpoint,
+   choose **"Listen to events on Connected accounts"** (not just your account) —
+   `account.updated` for creators only arrives on a Connect endpoint. Copy the
+   **signing secret** (`whsec_…`).
 4. Secrets: add `STRIPE_WEBHOOK_SECRET` = that `whsec_…` value.
 
 ## index.ts

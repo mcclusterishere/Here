@@ -1,21 +1,28 @@
-# pay-now v2 — the payment rail, Connect SaaS edition (dashboard redeploy)
+# pay-now v3 — the payment rail, SaaS Stripe-owned pricing (dashboard redeploy)
 
-`pay.html?to=<slug>` pays the named desk. The house slugs collect on the
-platform's own account; a creator with a live Express rail is paid by
-**destination charge** — their money lands in their bank, and the platform's
-application fee is carved off automatically. That fee is the SaaS revenue on
-every payment that moves through the app.
+`pay.html?to=<slug>` pays the named desk. Two lanes, per the Connect SaaS
+Stripe-owned pricing model:
 
-Replaces the v1 (house-only) function: open the existing `pay-now` function →
-Code → replace with the code below → Deploy. Settings stay: **JWT OFF**,
-`STRIPE_SK` already set. Requires `docs/connect-saas.sql` (the providers table).
+- **House slugs** (`mccluster`, `equity-uprise`) collect on the platform's own
+  account, as before.
+- **Creators** process **direct charges on their own Stripe account** — they
+  are the merchant of record, they pay Stripe's processing fees, they carry
+  their own refund/chargeback liability, and the platform's **application fee**
+  is carved off every transaction. Stripe charges the platform nothing in this
+  model.
+
+Replaces the earlier destination-charge edition: open the existing `pay-now`
+function → Code → replace with the code below → Deploy. Settings stay:
+**JWT OFF**, `STRIPE_SK` already set. Requires `docs/connect-saas.sql`.
 
 ## index.ts
 
 ```ts
-// PAY-NOW v2 (Here) — house collects direct; creators get destination
-// charges with the platform fee carved off. Server resolves the payee;
-// nothing client-supplied is trusted but the amount.
+// PAY-NOW v3 (Here) — house collects direct on the platform account;
+// creators process DIRECT CHARGES on their own account (merchant of
+// record, their Stripe fees, their liability) with the platform's
+// application fee carved off. Server resolves the payee; nothing
+// client-supplied is trusted but the amount.
 import Stripe from "npm:stripe@14";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SK")!);
@@ -41,22 +48,7 @@ Deno.serve(async (req) => {
   const gross = Math.max(0, Number(amount) || 0);
   if (!s || gross < 1) return json({ error: "bad_request" }, 400);
 
-  const house = !!HOUSE[s];
-  let acct: string | null = null;
-
-  if (!house) {
-    const rows = await fetch(
-      `${SB}/rest/v1/providers?slug=eq.${encodeURIComponent(s)}&select=stripe_acct,charges_enabled&limit=1`,
-      { headers: { apikey: SRV, Authorization: `Bearer ${SRV}` } },
-    ).then((r) => r.json()).catch(() => []);
-    const row = Array.isArray(rows) ? rows[0] : null;
-    if (!row || !row.stripe_acct || row.charges_enabled !== true) {
-      return json({ error: "not_live" }, 409); // finishing payout setup
-    }
-    acct = row.stripe_acct as string;
-  }
-
-  const session = await stripe.checkout.sessions.create({
+  const params: Stripe.Checkout.SessionCreateParams = {
     mode: "payment",
     line_items: [{
       price_data: {
@@ -66,17 +58,39 @@ Deno.serve(async (req) => {
       },
       quantity: 1,
     }],
-    ...(acct ? {
-      payment_intent_data: {
-        application_fee_amount: Math.round(gross * fee_pct), // the platform's cut, in cents
-        transfer_data: { destination: acct },
-      },
-    } : {}),
     metadata: { slug: s, kind: "direct" },
     success_url: `${SITE}/pay.html?to=${encodeURIComponent(s)}&done=1`,
     cancel_url: `${SITE}/pay.html?to=${encodeURIComponent(s)}`,
-  });
+  };
 
+  if (HOUSE[s]) {
+    // the house collects on the platform's own account
+    const session = await stripe.checkout.sessions.create(params);
+    return json({ url: session.url });
+  }
+
+  // a creator: resolve their rail server-side
+  const rows = await fetch(
+    `${SB}/rest/v1/providers?slug=eq.${encodeURIComponent(s)}&select=stripe_acct,charges_enabled&limit=1`,
+    { headers: { apikey: SRV, Authorization: `Bearer ${SRV}` } },
+  ).then((r) => r.json()).catch(() => []);
+  const row = Array.isArray(rows) ? rows[0] : null;
+  if (!row || !row.stripe_acct || row.charges_enabled !== true) {
+    return json({ error: "not_live" }, 409); // finishing payout setup
+  }
+
+  // DIRECT CHARGE — the session lives on the creator's account;
+  // the application fee is the platform's SaaS revenue per transaction
+  params.payment_intent_data = { application_fee_amount: Math.round(gross * fee_pct) };
+  const session = await stripe.checkout.sessions.create(params, { stripeAccount: row.stripe_acct });
   return json({ url: session.url });
 });
 ```
+
+## Note
+
+- `fee_pct` arrives in cents-per-dollar terms (8 → 8¢ per $1 = 8%), matching
+  the platform's quoted rate.
+- The `account.updated` webhook events for connected accounts only arrive if
+  the Stripe webhook endpoint has **"Listen to events on Connected accounts"**
+  selected — see docs/stripe-webhook.md.

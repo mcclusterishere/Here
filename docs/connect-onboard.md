@@ -1,7 +1,9 @@
 # connect-onboard — the payouts door (dashboard deploy)
 
 A signed-in creator taps "Set up payouts" on their desk; this function creates
-(or resumes) their Stripe **Express** account and returns a Stripe-hosted
+(or resumes) their Stripe **Standard** account — they become the merchant of
+record with their own Stripe dashboard, paying their own Stripe fees (the
+SaaS Stripe-owned pricing model) and returns a Stripe-hosted
 onboarding link. When Stripe reports `charges_enabled`, the function stamps the
 row and the creator's pay link goes live. Server resolves everything —
 the client never supplies an account id.
@@ -17,7 +19,8 @@ the client never supplies an account id.
 ## index.ts
 
 ```ts
-// CONNECT-ONBOARD (Here) — Express account + hosted onboarding link.
+// CONNECT-ONBOARD (Here) — Standard account + hosted onboarding link.
+// SaaS Stripe-owned pricing: the creator is the merchant of record.
 import Stripe from "npm:stripe@14";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SK")!);
@@ -61,7 +64,7 @@ Deno.serve(async (req) => {
 
   let acct = desk.stripe_acct as string | null;
   if (!acct) {
-    const account = await stripe.accounts.create({ type: "express", email: who.email || undefined });
+    const account = await stripe.accounts.create({ type: "standard", email: who.email || undefined });
     acct = account.id;
     await patch({ stripe_acct: acct });
   } else {
