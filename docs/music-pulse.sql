@@ -6,8 +6,8 @@
 -- saves, and the top record. Same first-party events table the
 -- play counter reads — totals only, nothing else readable.
 --
--- Requires docs/play-counts.sql (the per-track counter) and the
--- events table from docs/analytics-schema.sql (mothership).
+-- Requires the events table (docs/here-engine.sql paste 1) and
+-- docs/play-counts.sql.
 --
 -- PASTE: Supabase → SQL Editor → run this whole file once.
 -- ============================================================
@@ -22,10 +22,10 @@ as $$
   select json_build_object(
     'streams_total', (select count(*) from public.events where name = 'album_play'),
     'streams_7d',    (select count(*) from public.events where name = 'album_play'
-                        and created_at > now() - interval '7 days'),
+                        and at > now() - interval '7 days'),
     'streams_prev7d',(select count(*) from public.events where name = 'album_play'
-                        and created_at <= now() - interval '7 days'
-                        and created_at >  now() - interval '14 days'),
+                        and at <= now() - interval '7 days'
+                        and at >  now() - interval '14 days'),
     'saves_total',   (select count(*) from public.events where name = 'rotation_add'),
     'top_track',     (select props->>'track' from public.events
                        where name = 'album_play' and props ? 'track'
