@@ -84,6 +84,10 @@
     .tr .t { font-family: var(--display); font-size: 1.15rem; color: var(--cream); flex: 1; line-height: 1.15; }
     .tr .t small { display: block; font-family: var(--body); font-size: 0.76rem; color: var(--cream-dim); margin-top: 0.15rem; }
     .tr .d { flex: none; font-size: 0.78rem; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
+    .tr .hrt { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
+      flex: none; width: 34px; height: 34px; display: grid; place-items: center; color: rgba(244,239,230,0.35);
+      font-size: 1.05rem; line-height: 1; padding: 0; }
+    .tr .hrt.on { color: #e8c877; }
     .tr li.on .t, .tr li.on .n { color: #e8c877; }
     .tr .eq { flex: none; width: 18px; height: 14px; display: none; align-items: flex-end; gap: 2px; }
     .tr .eq i { width: 3px; background: #e8c877; animation: eq 0.9s ease-in-out infinite; }
@@ -110,6 +114,20 @@
       color: var(--cream); width: 40px; height: 40px; display: grid; place-items: center; flex: none; }
     .deckbar button.tp svg { width: 20px; height: 20px; fill: currentColor; }
     .deckbar button.tp--play { background: #e8c877; color: #16110b; border-radius: 50%; }
+
+    /* THE LIBRARY — every album and playlist in the system, one thumb-swipe away */
+    .lib { margin-top: 3rem; }
+    .lib__k { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c99d45; font-weight: 800; margin: 1.6rem 0 0.7rem; }
+    .rail { display: flex; gap: 0.85rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem;
+      scroll-snap-type: x proximity; scrollbar-width: none; }
+    .rail::-webkit-scrollbar { display: none; }
+    .rail a { flex: none; width: 118px; text-decoration: none; color: var(--cream); scroll-snap-align: start; }
+    .rail img { width: 118px; height: 118px; object-fit: cover; border-radius: 12px; background: #16110c;
+      box-shadow: 0 12px 32px -14px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,157,69,0.22); }
+    .rail a.is-here img { box-shadow: 0 12px 32px -14px rgba(0,0,0,0.9), 0 0 0 2px #e8c877; }
+    .rail b { display: block; font-family: var(--display); font-weight: 400; font-size: 0.9rem; margin-top: 0.45rem; line-height: 1.15;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rail small { display: block; color: var(--cream-dim); font-size: 0.68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .hr__foot { margin-top: 4.5rem; border-top: 1px solid rgba(201,157,69,0.22); padding-top: 1.3rem;
       color: var(--cream-dim); font-size: 0.82rem; line-height: 1.8; }
@@ -177,6 +195,14 @@
     <section id="album" aria-label="The album">
       <ul class="tr" id="tracks"></ul>
       <audio id="deck" preload="metadata"></audio>
+    </section>
+
+    <!-- THE LIBRARY — the whole system in two rails -->
+    <section class="lib" aria-label="The library">
+      <p class="lib__k">The albums</p>
+      <div class="rail" id="railAlbums"></div>
+      <p class="lib__k">The playlists</p>
+      <div class="rail" id="railPl"></div>
     </section>
 
     <footer class="hr__foot">
@@ -256,40 +282,180 @@
      ============================================================ */
   (function () {
     "use strict";
-    var ALBUM = (new URLSearchParams(location.search).get("album") || "here").toLowerCase();
+    var Q0 = new URLSearchParams(location.search);
+    var ALBUM = (Q0.get("album") || "here").toLowerCase();
+    var PL = (Q0.get("playlist") || "").toLowerCase();
     var deck = document.getElementById("deck");
     var rows = [];
     function esc(x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; }
-    function boot(data) {
-      var alb = null;
-      (data.albums || []).forEach(function (a) { if (a.slug === ALBUM) alb = a; });
-      if (!alb) alb = data.albums[0];
-      ALBUM = alb.slug;
-      document.getElementById("albArt").src = alb.art;
-      document.getElementById("albName").textContent = alb.name;
-      document.getElementById("albTag").textContent = alb.tag || ("The album · " + alb.tracks.length + " tracks");
-      document.getElementById("albBy").textContent = alb.by || "";
-      document.getElementById("nowFrom").textContent = "Playing from " + alb.name;
-      document.querySelector(".deckbar__art").src = alb.art;
-      document.getElementById("tracks").innerHTML = alb.tracks.map(function (t, i) {
-        return '<li data-src="' + t.src + '"' +
-          (t.video ? ' data-video="' + t.video + '"' : "") +
-          (t.poster ? ' data-poster="' + t.poster + '"' : "") +
-          (t.lyrics ? ' data-lyrics="' + t.lyrics + '"' : "") +
-          (t.reel ? ' data-reel="' + t.reel + '"' : "") +
-          ' data-title="' + esc(t.title) + '">' +
-          '<span class="n">' + (i + 1) + '</span><span class="t">' + esc(t.title) +
-          (t.sub ? "<small>" + esc(t.sub) + "</small>" : "") + "</span>" +
-          '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="d">–:––</span></li>';
-      }).join("");
+
+    /* THE ROTATION — the local heart: saved songs, this device's playlist */
+    var ROT_KEY = "mcc_rotation";
+    function rotation() { try { return JSON.parse(localStorage.getItem(ROT_KEY)) || []; } catch (e) { return []; } }
+    function inRotation(alb, title) { return rotation().some(function (r) { return r.album === alb && r.title === title; }); }
+    function toggleRotation(alb, title) {
+      var r = rotation().filter(function (x) { return !(x.album === alb && x.title === title); });
+      var added = r.length === rotation().length;
+      if (added) r.push({ album: alb, title: title });
+      try { localStorage.setItem(ROT_KEY, JSON.stringify(r)); } catch (e) {}
+      if (window.MCC_TRACK) window.MCC_TRACK(added ? "rotation_add" : "rotation_drop", { track: title });
+      return added;
+    }
+
+    /* one track, dressed with its album (playlists cross album lines) */
+    function findTrack(data, ref) {
+      var out = null;
+      (data.albums || []).forEach(function (a) {
+        if (a.slug !== ref.album) return;
+        a.tracks.forEach(function (t) {
+          if (t.title === ref.title) {
+            out = Object.assign({}, t, { albSlug: a.slug, albName: a.name, art: a.art });
+          }
+        });
+      });
+      return out;
+    }
+    function allTracks(data) {
+      var q = [];
+      (data.albums || []).forEach(function (a) {
+        a.tracks.forEach(function (t) { q.push(Object.assign({}, t, { albSlug: a.slug, albName: a.name, art: a.art })); });
+      });
+      return q;
+    }
+    function resolvePlaylist(data, pls, slug) {
+      if (slug === "everything") {
+        var q = allTracks(data);
+        return { slug: slug, name: "Everything", tag: "The whole catalog · " + q.length + " tracks",
+          by: "Every record in the system, front to back.", art: "assets/img/here-cover.jpg", queue: q };
+      }
+      if (slug === "my-rotation") {
+        var q2 = rotation().map(function (r) { return findTrack(data, r); }).filter(Boolean);
+        return q2.length ? { slug: slug, name: "My Rotation", tag: "Saved on this device · " + q2.length + (q2.length === 1 ? " track" : " tracks"),
+          by: "The songs you hearted.", art: "assets/img/m-mark.png", queue: q2 } : null;
+      }
+      var pl = null;
+      (pls && pls.playlists || []).forEach(function (p) { if (p.slug === slug) pl = p; });
+      if (!pl) return null;
+      var q3 = (pl.tracks || []).map(function (r) { return findTrack(data, r); }).filter(Boolean);
+      return q3.length ? { slug: pl.slug, name: pl.name, tag: pl.tag || (q3.length + " tracks"), by: pl.by || "", art: pl.art, queue: q3 } : null;
+    }
+
+    function trackRow(t, i) {
+      return '<li data-src="' + t.src + '"' +
+        (t.video ? ' data-video="' + t.video + '"' : "") +
+        (t.poster ? ' data-poster="' + t.poster + '"' : "") +
+        (t.lyrics ? ' data-lyrics="' + t.lyrics + '"' : "") +
+        (t.reel ? ' data-reel="' + t.reel + '"' : "") +
+        (t.art ? ' data-art="' + t.art + '"' : "") +
+        ' data-albslug="' + esc(t.albSlug || ALBUM) + '"' +
+        ' data-title="' + esc(t.title) + '">' +
+        '<span class="n">' + (i + 1) + '</span><span class="t">' + esc(t.title) +
+        '<small>' + esc(t.sub || t.albName || "") + '<span data-plays></span></small></span>' +
+        '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
+        '<button class="hrt" type="button" data-hrt aria-label="Save to My Rotation">♥</button>' +
+        '<span class="d">–:––</span></li>';
+    }
+
+    function boot(data, pls) {
+      var head = null, queue = null;
+      if (PL) {
+        var got = resolvePlaylist(data, pls, PL);
+        if (got) { head = got; queue = got.queue; ALBUM = "pl:" + got.slug; }
+        else PL = "";
+      }
+      if (!queue) {
+        var alb = null;
+        (data.albums || []).forEach(function (a) { if (a.slug === ALBUM) alb = a; });
+        if (!alb) alb = data.albums[0];
+        ALBUM = alb.slug;
+        head = { name: alb.name, tag: alb.tag || ("The album · " + alb.tracks.length + " tracks"), by: alb.by || "", art: alb.art };
+        queue = alb.tracks.map(function (t) { return Object.assign({}, t, { albSlug: alb.slug, albName: "", art: alb.art }); });
+      }
+      document.getElementById("albArt").src = head.art;
+      document.getElementById("albName").textContent = head.name;
+      document.getElementById("albTag").textContent = head.tag;
+      document.getElementById("albBy").textContent = head.by || "";
+      document.getElementById("nowFrom").textContent = "Playing from " + head.name;
+      document.querySelector(".deckbar__art").src = head.art;
+      document.getElementById("tracks").innerHTML = queue.map(trackRow).join("");
       rows = Array.prototype.slice.call(document.querySelectorAll("#tracks li"));
+      paintHearts();
+      buildRails(data, pls);
+      fetchPlays();
       init();
     }
-    fetch("data/albums.json", { cache: "no-cache" })
-      .then(function (r) { return r.json(); }).then(boot)
+    Promise.all([
+      fetch("data/albums.json", { cache: "no-cache" }).then(function (r) { return r.json(); }),
+      fetch("data/playlists.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
+    ]).then(function (both) { boot(both[0], both[1]); })
       .catch(function () {
         document.getElementById("tracks").innerHTML = "<li><span class='t'>The shelf is warming up — refresh in a moment.</span></li>";
       });
+
+    /* hearts: painted from the rotation, toggled in place */
+    function paintHearts() {
+      rows.forEach(function (row) {
+        var b = row.querySelector("[data-hrt]");
+        if (b) b.classList.toggle("on", inRotation(row.getAttribute("data-albslug"), row.getAttribute("data-title")));
+      });
+    }
+    document.getElementById("tracks").addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest("[data-hrt]") : null;
+      if (!b) return;
+      e.stopPropagation(); e.preventDefault();
+      var row = b.closest("li");
+      b.classList.toggle("on", toggleRotation(row.getAttribute("data-albslug"), row.getAttribute("data-title")));
+    }, true);
+
+    /* THE COUNTER — plays read back from the platform's first-party
+       analytics mirror (the same events GA4 counts land in the events
+       table; docs/play-counts.sql exposes totals-only). Silent until
+       the owner pastes the RPC — no counts beats wrong counts. */
+    var SB_URL = "https://fxbkvcrfbbcmrrupdcjt.supabase.co";
+    var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4Ymt2Y3JmYmJjbXJydXBkY2p0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0Mjk5NzAsImV4cCI6MjA5OTAwNTk3MH0.ar1MYPC4gF9V7wn3UpTW0Q7PniGJdbBD1UmOKjNqJWU";
+    function fmtPlays(n) { return (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + "K" : n) + (n === 1 ? " play" : " plays"); }
+    function paintPlays(list) {
+      var byTitle = {};
+      list.forEach(function (r) { if (r.track) byTitle[r.track.toLowerCase()] = r.plays; });
+      rows.forEach(function (row) {
+        var n = byTitle[(row.getAttribute("data-title") || "").toLowerCase()];
+        var s = row.querySelector("[data-plays]");
+        if (s && n != null) s.textContent = (row.querySelector("small").textContent ? " · " : "") + fmtPlays(+n);
+      });
+    }
+    function fetchPlays() {
+      try {
+        var c = JSON.parse(localStorage.getItem("mcc_plays_cache") || "null");
+        if (c && c.rows) paintPlays(c.rows);
+      } catch (e) {}
+      fetch(SB_URL + "/rest/v1/rpc/play_counts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
+        body: "{}",
+      }).then(function (r) { return r.ok ? r.json() : null; }).then(function (list) {
+        if (!list || !list.length) return;
+        paintPlays(list);
+        try { localStorage.setItem("mcc_plays_cache", JSON.stringify({ at: Date.now(), rows: list })); } catch (e) {}
+      }).catch(function () {});
+    }
+
+    /* THE LIBRARY RAILS — every album, every playlist, one swipe */
+    function railCard(href, art, name, tag, here) {
+      return '<a href="' + href + '"' + (here ? ' class="is-here"' : "") + '>' +
+        '<img src="' + art + '" alt="" loading="lazy"><b>' + esc(name) + "</b><small>" + esc(tag) + "</small></a>";
+    }
+    function buildRails(data, pls) {
+      document.getElementById("railAlbums").innerHTML = (data.albums || []).map(function (a) {
+        return railCard("album.html?album=" + a.slug, a.art, a.name,
+          a.tracks.length + (a.tracks.length === 1 ? " track" : " tracks"), !PL && a.slug === ALBUM);
+      }).join("");
+      var items = [{ slug: "everything", name: "Everything", tag: allTracks(data).length + " tracks", art: "assets/img/here-cover.jpg" }]
+        .concat((pls && pls.playlists) || []);
+      if (rotation().length) items.push({ slug: "my-rotation", name: "My Rotation", tag: rotation().length + " saved", art: "assets/img/m-mark.png" });
+      document.getElementById("railPl").innerHTML = items.map(function (p) {
+        return railCard("album.html?playlist=" + p.slug, p.art, p.name, p.tag || "", PL === p.slug);
+      }).join("");
+    }
     function init() {
     var bar = document.getElementById("deckbar");
     var KEY = "mcc_here_radio";
@@ -337,20 +503,22 @@
         title: rows[cur].getAttribute("data-title"),
         artist: "Matthew McCluster",
         album: document.getElementById("albName").textContent,
-        artwork: [{ src: document.getElementById("albArt").src, type: "image/jpeg" }],
+        artwork: [{ src: rows[cur].getAttribute("data-art") || document.getElementById("albArt").src, type: "image/jpeg" }],
       });
     }
     function load(i, at) {
       cur = (i + rows.length) % rows.length;
       deck.src = rows[cur].getAttribute("data-src");
       if (at) deck.currentTime = at;
+      var art = rows[cur].getAttribute("data-art");
+      if (art) document.querySelector(".deckbar__art").src = art;
       media(); paintRows(); paintDeck();
     }
     function play(i, at) {
       if (i !== undefined && i !== cur) load(i, at);
       else if (cur < 0) load(0, at);
       deck.play().catch(function () {});
-      if (window.MCC_TRACK) window.MCC_TRACK("album_play", { track: rows[cur].getAttribute("data-title") });
+      if (window.MCC_TRACK) window.MCC_TRACK("album_play", { track: rows[cur].getAttribute("data-title"), album: ALBUM });
     }
     function next() { play(cur + 1); }
     function prev() { if (deck.currentTime > 4) { deck.currentTime = 0; return; } play(cur - 1); }
