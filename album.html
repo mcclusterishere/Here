@@ -62,6 +62,34 @@
     html, body { background: #0a0807; }
     .hr { max-width: 44rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 12rem; }
 
+    /* THE PULSE — the career wears a color: growing blue, trending gold,
+       cooling amber, viral violet. One variable, everything breathes. */
+    :root { --pulse: #e8c877; }
+    body[data-pulse="growing"] { --pulse: #7fb4e8; }
+    body[data-pulse="trending"] { --pulse: #e8c877; }
+    body[data-pulse="cooling"] { --pulse: #e89a55; }
+    body[data-pulse="viral"] { --pulse: #b78fe8; }
+
+    /* the mode switch: one toggle, the whole room morphs */
+    .mode { display: inline-flex; border: 1px solid rgba(201,157,69,0.4); border-radius: 100px; overflow: hidden; margin-bottom: 1.4rem; }
+    .mode button { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
+      color: var(--cream-dim); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.1rem; }
+    .mode button.on { background: var(--pulse); color: #16110b; }
+
+    /* THE DESK — the command center: what are you trying to accomplish today? */
+    .desk { display: none; margin-bottom: 2.2rem; }
+    body[data-mode="creator"] .desk { display: block; }
+    .desk__hi { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(1.9rem, 8vw, 2.8rem); }
+    .desk__sub { color: var(--cream-dim); font-size: 0.88rem; margin-top: 0.35rem; }
+    .desk__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.7rem; margin-top: 1.2rem; }
+    .desk__tile { border: 1px solid rgba(201,157,69,0.28); border-radius: 14px; padding: 0.85rem 0.95rem; background: rgba(22,17,12,0.6);
+      text-decoration: none; color: var(--cream); display: block; }
+    .desk__tile small { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
+    .desk__tile b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin-top: 0.3rem; line-height: 1.1; color: var(--pulse); }
+    .desk__tile i { display: block; font-style: normal; font-size: 0.72rem; color: var(--cream-dim); margin-top: 0.25rem; }
+    .desk__note { color: var(--cream-dim); font-size: 0.78rem; margin-top: 0.9rem; line-height: 1.6; }
+    .desk__note a { color: var(--pulse); text-decoration: none; }
+
     /* the sleeve */
     .alb { display: flex; gap: 1.2rem; align-items: flex-end; }
     .alb__art { width: clamp(120px, 34vw, 190px); aspect-ratio: 1; object-fit: cover; border-radius: 14px;
@@ -176,12 +204,34 @@
     .now__tp .now__play { background: #e8c877; color: #16110b; border-radius: 50%; width: 66px; height: 66px;
       box-shadow: 0 14px 40px -14px rgba(232,200,119,0.7); }
     .now__tp .now__play svg { width: 30px; height: 30px; }
+    /* THE ECOSYSTEM — the song is the hub: credits, the record, the doors */
+    .now__eco { padding: 0.55rem 1.3rem 0; text-align: center; }
+    .now__cred { color: var(--cream-dim); font-size: 0.74rem; line-height: 1.5; min-height: 1em; }
+    .now__doors { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .now__doors a { text-decoration: none; color: var(--cream); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      border: 1px solid rgba(201,157,69,0.4); border-radius: 100px; padding: 0.4rem 0.85rem; }
+    .now__doors a:active { background: rgba(201,157,69,0.15); }
   </style>
 </head>
 <body class="songpage">
   <div class="grain" aria-hidden="true"></div>
 
   <main class="hr">
+    <!-- one toggle, the whole room morphs: the fan hears, the creator runs it -->
+    <div class="mode" role="tablist" aria-label="Mode">
+      <button type="button" id="modeFan" class="on">Listener</button>
+      <button type="button" id="modeCreator">Creator</button>
+    </div>
+
+    <!-- THE DESK — not "what do you want to listen to";
+         "what are you trying to accomplish today?" -->
+    <section class="desk" id="desk" aria-label="The desk">
+      <h2 class="desk__hi" id="deskHi">Good morning.</h2>
+      <p class="desk__sub">The career, on one screen — live from the platform's own analytics.</p>
+      <div class="desk__grid" id="deskGrid"></div>
+      <p class="desk__note" id="deskNote"></p>
+    </section>
+
     <header class="alb">
       <img class="alb__art" id="albArt" src="assets/img/here-cover.jpg" alt="Album art">
       <div>
@@ -238,6 +288,15 @@
         <button id="nowPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14l-10-7z"/></svg></button>
         <button class="now__play" id="nowPlay" type="button" aria-label="Play or pause"><svg id="nowPlayIc" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
         <button id="nowNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M18 5h-2.5v14H18zM4 5v14l10-7z"/></svg></button>
+      </div>
+      <!-- the song is the hub: who made it, where it's registered, the doors around it -->
+      <div class="now__eco">
+        <p class="now__cred" id="nowCred"></p>
+        <div class="now__doors">
+          <a href="catalogue.html" id="ecoReg">On the record</a>
+          <a href="pay.html" id="ecoOwn">Tip the artist</a>
+          <a href="hire.html" id="ecoHire">Book the studio</a>
+        </div>
       </div>
     </div>
   </div>
@@ -384,13 +443,91 @@
       fetchPlays();
       init();
     }
+    var CRED = {}; /* title → credit line, from the QT6KV registry */
     Promise.all([
       fetch("data/albums.json", { cache: "no-cache" }).then(function (r) { return r.json(); }),
       fetch("data/playlists.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
-    ]).then(function (both) { boot(both[0], both[1]); })
-      .catch(function () {
+      fetch("data/catalogue.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
+    ]).then(function (all) {
+      ((all[2] && all[2].tracks) || []).forEach(function (t) { if (t.credit) CRED[t.title.toLowerCase()] = t.credit; });
+      boot(all[0], all[1]);
+    }).catch(function () {
         document.getElementById("tracks").innerHTML = "<li><span class='t'>The shelf is warming up — refresh in a moment.</span></li>";
       });
+
+    /* ============================================================
+       THE TWO MODES — one toggle, the room morphs. The listener
+       gets the record; the creator gets the desk: not "what do you
+       want to hear" but "what are you trying to accomplish today".
+       ============================================================ */
+    var deskLit = false;
+    function setMode(m) {
+      document.body.dataset.mode = m;
+      document.getElementById("modeFan").classList.toggle("on", m !== "creator");
+      document.getElementById("modeCreator").classList.toggle("on", m === "creator");
+      try { localStorage.setItem("mcc_mode", m); } catch (e) {}
+      if (m === "creator" && !deskLit) { deskLit = true; lightDesk(); }
+    }
+    document.getElementById("modeFan").addEventListener("click", function () { setMode("fan"); });
+    document.getElementById("modeCreator").addEventListener("click", function () {
+      setMode("creator");
+      if (window.MCC_TRACK) window.MCC_TRACK("creator_mode", {});
+    });
+    /* restore on the next tick — the counter's constants below must exist
+       before the desk's first fetch */
+    setTimeout(function () {
+      try { if (localStorage.getItem("mcc_mode") === "creator") setMode("creator"); } catch (e) {}
+    }, 0);
+
+    /* THE DESK — painted from the pulse RPC (docs/music-pulse.sql).
+       The career wears a color: growing blue, trending gold, cooling
+       amber, viral violet — the UI tells the story before the numbers. */
+    function pulseName(p) {
+      var a = p.streams_7d || 0, b = p.streams_prev7d || 0;
+      if (a >= 200 && a > b * 3) return "viral";
+      if (a >= 50 && a > b * 1.5) return "trending";
+      if (a > b) return "growing";
+      if (a < b && b > 0) return "cooling";
+      return "trending";
+    }
+    function deskTile(label, big, sub, href) {
+      return "<a class='desk__tile' href='" + (href || "#") + "'><small>" + label + "</small><b>" + big + "</b>" +
+        (sub ? "<i>" + sub + "</i>" : "") + "</a>";
+    }
+    function lightDesk() {
+      var h = new Date().getHours();
+      document.getElementById("deskHi").textContent =
+        (h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening") + ", McCluster.";
+      var doors =
+        deskTile("The books", "Open", "Deals, payments, the record", "account.html") +
+        deskTile("Bookings", "Open", "The desk takes the call", "hire.html") +
+        deskTile("The registry", "QT6KV", "Every song, numbered", "catalogue.html");
+      var grid = document.getElementById("deskGrid");
+      grid.innerHTML = deskTile("Streams", "…", "warming up") + doors;
+      fetch(SB_URL + "/rest/v1/rpc/music_pulse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
+        body: "{}",
+      }).then(function (r) { return r.ok ? r.json() : null; }).then(function (p) {
+        if (!p) {
+          grid.innerHTML = deskTile("Streams", "—", "the pulse isn't armed yet") + doors;
+          document.getElementById("deskNote").innerHTML =
+            "The numbers light up once <b>docs/music-pulse.sql</b> is pasted in the SQL editor — same table the play counter reads.";
+          return;
+        }
+        var name = pulseName(p);
+        document.body.dataset.pulse = name;
+        var d = (p.streams_7d || 0) - (p.streams_prev7d || 0);
+        grid.innerHTML =
+          deskTile("Streams", (p.streams_total || 0).toLocaleString(), "all time") +
+          deskTile("This week", (p.streams_7d || 0).toLocaleString(),
+            (d >= 0 ? "▲ " + d : "▼ " + -d) + " vs last week · " + name) +
+          deskTile("Saves", (p.saves_total || 0).toLocaleString(), "hearted into rotations") +
+          deskTile("Top record", p.top_track || "—", "most played") +
+          doors;
+        if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { pulse: name });
+      }).catch(function () {});
+    }
 
     /* hearts: painted from the rotation, toggled in place */
     function paintHearts() {
@@ -574,6 +711,8 @@
       var row = rows[cur];
       now.dataset.on = "1";
       el("nowTitle").textContent = row.getAttribute("data-title");
+      el("nowCred").textContent = CRED[(row.getAttribute("data-title") || "").toLowerCase()] ||
+        "Written & performed by Matthew McCluster · QT6KV";
       var reelSrc = row.getAttribute("data-reel") || "";
       loadReel(reelSrc);
       if (!reelSrc) {
