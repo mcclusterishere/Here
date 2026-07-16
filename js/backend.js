@@ -17,8 +17,8 @@
 (function () {
   "use strict";
 
-  var URL_ = "https://fxbkvcrfbbcmrrupdcjt.supabase.co";
-  var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4Ymt2Y3JmYmJjbXJydXBkY2p0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0Mjk5NzAsImV4cCI6MjA5OTAwNTk3MH0.ar1MYPC4gF9V7wn3UpTW0Q7PniGJdbBD1UmOKjNqJWU";
+  var URL_ = "https://zmnhbrjyhxzhkxmhkexs.supabase.co";
+  var KEY = "sb_publishable_kr5NujBZ1n518IUMDoa2dQ_tqQAJef4";
 
   var NS = "mccdb_";
   function jget(k, fb) { try { var v = JSON.parse(localStorage.getItem(NS + k)); return v == null ? fb : v; } catch (e) { return fb; } }

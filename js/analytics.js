@@ -52,7 +52,7 @@ window.MCC_TRACK = (function () {
      Mission Control reads it live. Write-only from here — the anon
      key can insert an event, never read one back. Self-contained
      constants because this file loads before backend.js. */
-  var SB_URL = "https://fxbkvcrfbbcmrrupdcjt.supabase.co";
+  var SB_URL = "https://zmnhbrjyhxzhkxmhkexs.supabase.co";
   /* acquisition, first-party: where every soul CAME from. Referrer +
      UTM tags bank once (first touch), ride every event as props.acq,
      and fire one 'acquired' event — the numbers Google used to keep
@@ -76,7 +76,7 @@ window.MCC_TRACK = (function () {
       setTimeout(function () { if (window.MCC_TRACK) window.MCC_TRACK("acquired", { src: ACQ.src, med: ACQ.med, cmp: ACQ.cmp, plug: ACQ.plug }); }, 500);
     }
   } catch (e4) { ACQ = null; }
-  var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4Ymt2Y3JmYmJjbXJydXBkY2p0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0Mjk5NzAsImV4cCI6MjA5OTAwNTk3MH0.ar1MYPC4gF9V7wn3UpTW0Q7PniGJdbBD1UmOKjNqJWU";
+  var SB_KEY = "sb_publishable_kr5NujBZ1n518IUMDoa2dQ_tqQAJef4";
   function mirror(name, params) {
     try {
       params = params || {};
