@@ -89,6 +89,27 @@
     .desk__tile i { display: block; font-style: normal; font-size: 0.72rem; color: var(--cream-dim); margin-top: 0.25rem; }
     .desk__note { color: var(--cream-dim); font-size: 0.78rem; margin-top: 0.9rem; line-height: 1.6; }
     .desk__note a { color: var(--pulse); text-decoration: none; }
+    .desk__tier { display: inline-block; font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+      font-weight: 800; color: #16110b; background: var(--pulse); border-radius: 100px; padding: 0.3rem 0.8rem; margin-bottom: 0.7rem; }
+    .desk__tile.is-locked b { color: var(--cream-dim); }
+    .desk__tile.is-locked { border-style: dashed; opacity: 0.75; }
+    /* the premium extras: the week drawn, the tops, the doors people came through */
+    .desk__x { margin-top: 1.1rem; border: 1px solid rgba(201,157,69,0.28); border-radius: 14px;
+      padding: 0.85rem 0.95rem 1rem; background: rgba(22,17,12,0.6); }
+    .desk__x small { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream-dim); font-weight: 800; margin-bottom: 0.6rem; }
+    .spark { display: flex; align-items: flex-end; gap: 3px; height: 56px; }
+    .spark i { flex: 1; background: var(--pulse); border-radius: 2px 2px 0 0; min-height: 2px; opacity: 0.9; }
+    .spark__d { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--cream-dim); margin-top: 0.35rem; }
+    .tops { list-style: none; margin: 0; padding: 0; }
+    .tops li { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.3rem 0; font-size: 0.9rem; }
+    .tops .n { color: var(--pulse); font-weight: 800; font-size: 0.72rem; width: 1.1rem; }
+    .tops .t { color: var(--cream); flex: 1; font-family: var(--display); }
+    .tops .c { color: var(--cream-dim); font-size: 0.76rem; font-variant-numeric: tabular-nums; }
+    .srcs { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .srcs span { border: 1px solid rgba(201,157,69,0.4); border-radius: 100px; padding: 0.32rem 0.75rem;
+      font-size: 0.74rem; color: var(--cream); }
+    .srcs b { color: var(--pulse); font-weight: 800; }
 
     /* the sleeve */
     .alb { display: flex; gap: 1.2rem; align-items: flex-end; }
@@ -217,18 +238,21 @@
   <div class="grain" aria-hidden="true"></div>
 
   <main class="hr">
-    <!-- one toggle, the whole room morphs: the fan hears, the creator runs it -->
+    <!-- one toggle, the whole room morphs: the fan hears, the desk runs it -->
     <div class="mode" role="tablist" aria-label="Mode">
       <button type="button" id="modeFan" class="on">Listener</button>
-      <button type="button" id="modeCreator">Creator</button>
+      <button type="button" id="modeCreator">Backend</button>
     </div>
 
-    <!-- THE DESK — not "what do you want to listen to";
-         "what are you trying to accomplish today?" -->
-    <section class="desk" id="desk" aria-label="The desk">
+    <!-- THE BACKEND — two tiers of one desk. Premium is the owner's
+         command center; the free desk stays barren until the premium
+         playbook is proven on the house's own numbers. -->
+    <section class="desk" id="desk" aria-label="The backend">
+      <p class="desk__tier" id="deskTier">THE BACKEND</p>
       <h2 class="desk__hi" id="deskHi">Good morning.</h2>
-      <p class="desk__sub">The career, on one screen — live from the platform's own analytics.</p>
+      <p class="desk__sub" id="deskSub">The career, on one screen — live from the platform's own analytics.</p>
       <div class="desk__grid" id="deskGrid"></div>
+      <div id="deskXtra"></div>
       <p class="desk__note" id="deskNote"></p>
     </section>
 
@@ -330,6 +354,7 @@
   </nav>
 
   <script src="js/env.js?v=__STAMP__"></script>
+  <script src="js/backend.js?v=__STAMP__"></script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script>
   /* ============================================================
@@ -492,20 +517,62 @@
       if (a < b && b > 0) return "cooling";
       return "trending";
     }
-    function deskTile(label, big, sub, href) {
-      return "<a class='desk__tile' href='" + (href || "#") + "'><small>" + label + "</small><b>" + big + "</b>" +
+    function deskTile(label, big, sub, href, locked) {
+      return "<a class='desk__tile" + (locked ? " is-locked" : "") + "' href='" + (href || "#") + "'><small>" + label + "</small><b>" + big + "</b>" +
         (sub ? "<i>" + sub + "</i>" : "") + "</a>";
     }
-    function lightDesk() {
+    var DESK_EMAIL = "matthew@mccluster.org";
+    function hiWord() {
       var h = new Date().getHours();
-      document.getElementById("deskHi").textContent =
-        (h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening") + ", McCluster.";
+      return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+    }
+    function ownerToken() {
+      var em = window.MCC_SUPA && window.MCC_SUPA.email && window.MCC_SUPA.email();
+      if (em !== DESK_EMAIL) return Promise.resolve(null);
+      return window.MCC_SUPA.token();
+    }
+
+    /* THE FREE DESK — everyone else's backend. Deliberately barren:
+       the tiles show the shape of the product while the premium desk
+       proves it live on the house's own numbers. */
+    function lightFreeDesk() {
+      var em = window.MCC_SUPA && window.MCC_SUPA.email && window.MCC_SUPA.email();
+      document.getElementById("deskTier").textContent = "The backend · free";
+      document.getElementById("deskHi").textContent = hiWord() + ".";
+      document.getElementById("deskSub").textContent = em
+        ? "Signed in as " + em + " — this is the free desk."
+        : "The free desk — every fan account gets one.";
+      document.getElementById("deskGrid").innerHTML =
+        deskTile("Streams", "—", "coming to free desks", null, true) +
+        deskTile("This week", "—", "coming to free desks", null, true) +
+        deskTile("Saves", "—", "coming to free desks", null, true) +
+        deskTile("Top record", "—", "coming to free desks", null, true) +
+        deskTile("Get on the list", "→", "the desk opens in waves",
+          "mailto:matthew@mccluster.org?subject=Put%20me%20on%20the%20backend%20list");
+      document.getElementById("deskXtra").innerHTML = "";
+      document.getElementById("deskNote").innerHTML =
+        "The premium backend is running live on McCluster's own career right now — streams, " +
+        "the week's pulse, where fans come from, all of it. The free desk fills in once the " +
+        "playbook is proven. " + (em ? "" : "<a href='account.html'>Sign in</a> to hold your spot.");
+      if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: "free" });
+    }
+
+    /* MY BACKEND — the premium desk. The pulse RPC paints the tiles,
+       and the owner's own sign-in (the only email the events table
+       answers to) pulls the raw plays for the deep read: the 14-day
+       chart, the week's top records, and the doors fans came through. */
+    function lightMyBackend(token) {
+      document.getElementById("deskTier").textContent = "My backend · premium";
+      document.getElementById("deskHi").textContent = hiWord() + ", McCluster.";
+      document.getElementById("deskSub").textContent = "The career, on one screen — live from the platform's own analytics.";
       var doors =
         deskTile("The books", "Open", "Deals, payments, the record", "account.html") +
         deskTile("Bookings", "Open", "The desk takes the call", "hire.html") +
-        deskTile("The registry", "QT6KV", "Every song, numbered", "catalogue.html");
+        deskTile("The registry", "QT6KV", "Every song, numbered", "catalogue.html") +
+        deskTile("File a report", "Open", "the daily record desk", "feed.html");
       var grid = document.getElementById("deskGrid");
       grid.innerHTML = deskTile("Streams", "…", "warming up") + doors;
+
       fetch(SB_URL + "/rest/v1/rpc/music_pulse", {
         method: "POST",
         headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
@@ -514,7 +581,7 @@
         if (!p) {
           grid.innerHTML = deskTile("Streams", "—", "the pulse isn't armed yet") + doors;
           document.getElementById("deskNote").innerHTML =
-            "The numbers light up once <b>docs/music-pulse.sql</b> is pasted in the SQL editor — same table the play counter reads.";
+            "The numbers light up once <b>docs/here-engine.sql</b> is pasted in the SQL editor.";
           return;
         }
         var name = pulseName(p);
@@ -527,8 +594,71 @@
           deskTile("Saves", (p.saves_total || 0).toLocaleString(), "hearted into rotations") +
           deskTile("Top record", p.top_track || "—", "most played") +
           doors;
-        if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { pulse: name });
+        if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: "premium", pulse: name });
       }).catch(function () {});
+
+      /* the deep read — owner-token queries the RLS only answers for him */
+      if (!token) return;
+      var since14 = new Date(Date.now() - 14 * 864e5).toISOString();
+      var since30 = new Date(Date.now() - 30 * 864e5).toISOString();
+      var H = { apikey: SB_KEY, Authorization: "Bearer " + token };
+      Promise.all([
+        fetch(SB_URL + "/rest/v1/events?name=eq.album_play&at=gte." + since14 + "&select=at,props&limit=8000", { headers: H })
+          .then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
+        fetch(SB_URL + "/rest/v1/events?name=eq.acquired&at=gte." + since30 + "&select=props&limit=4000", { headers: H })
+          .then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
+      ]).then(function (all) {
+        var plays = all[0] || [], acq = all[1] || [];
+        var x = document.getElementById("deskXtra");
+        var html = "";
+
+        /* 14 days, drawn */
+        var days = [], byDay = {};
+        for (var i = 13; i >= 0; i--) {
+          var k = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+          days.push(k); byDay[k] = 0;
+        }
+        plays.forEach(function (e) { var k = (e.at || "").slice(0, 10); if (k in byDay) byDay[k]++; });
+        var max = Math.max.apply(null, days.map(function (k) { return byDay[k]; }).concat([1]));
+        html += "<div class='desk__x'><small>The last 14 days · " + plays.length + " plays</small>" +
+          "<div class='spark'>" + days.map(function (k) {
+            return "<i style='height:" + Math.max(3, Math.round(byDay[k] / max * 100)) + "%' title='" + k + " · " + byDay[k] + "'></i>";
+          }).join("") + "</div><div class='spark__d'><span>" + days[0].slice(5) + "</span><span>today</span></div></div>";
+
+        /* the week's top records */
+        var byTrack = {};
+        plays.forEach(function (e) {
+          var t = e.props && e.props.track; if (t) byTrack[t] = (byTrack[t] || 0) + 1;
+        });
+        var tops = Object.keys(byTrack).map(function (t) { return [t, byTrack[t]]; })
+          .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+        if (tops.length) {
+          html += "<div class='desk__x'><small>Top records · 14 days</small><ol class='tops'>" +
+            tops.map(function (t, i2) {
+              return "<li><span class='n'>" + (i2 + 1) + "</span><span class='t'>" + esc(t[0]) + "</span><span class='c'>" + t[1] + " plays</span></li>";
+            }).join("") + "</ol></div>";
+        }
+
+        /* where the fans came from */
+        var bySrc = {};
+        acq.forEach(function (e) {
+          var s = (e.props && e.props.src) || "direct"; bySrc[s] = (bySrc[s] || 0) + 1;
+        });
+        var srcs = Object.keys(bySrc).map(function (s) { return [s, bySrc[s]]; })
+          .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+        if (srcs.length) {
+          html += "<div class='desk__x'><small>Where they came from · 30 days</small><div class='srcs'>" +
+            srcs.map(function (s) { return "<span>" + esc(s[0]) + " <b>" + s[1] + "</b></span>"; }).join("") + "</div></div>";
+        }
+        x.innerHTML = html;
+      }).catch(function () {});
+    }
+
+    function lightDesk() {
+      ownerToken().then(function (t) {
+        if (t) lightMyBackend(t);
+        else lightFreeDesk();
+      }).catch(function () { lightFreeDesk(); });
     }
 
     /* hearts: painted from the rotation, toggled in place */
