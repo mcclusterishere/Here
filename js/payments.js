@@ -138,15 +138,18 @@ window.MCC_STRIPE = {
      be signed in — the function verifies the token against GoTrue. */
   connectOnboard: function () {
     var S = window.MCC_SUPA;
-    if (!S || !S.url || !S.token || !S.token()) return Promise.resolve(null);
-    return fetch(S.url + "/functions/v1/connect-onboard", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", apikey: S.key, Authorization: "Bearer " + S.token() },
-      body: "{}",
-    }).then(function (r) {
-      return r.json().catch(function () { return null; }).then(function (j) {
-        if (r.ok) return j;
-        return { error: (j && (j.error || j.message)) || ("net " + r.status) };
+    if (!S || !S.url || !S.token) return Promise.resolve(null);
+    return S.token().then(function (t) {
+      if (!t) return null;
+      return fetch(S.url + "/functions/v1/connect-onboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: S.key, Authorization: "Bearer " + t },
+        body: "{}",
+      }).then(function (r) {
+        return r.json().catch(function () { return null; }).then(function (j) {
+          if (r.ok) return j;
+          return { error: (j && (j.error || j.message)) || ("net " + r.status) };
+        });
       });
     }).catch(function () { return null; });
   },
@@ -157,15 +160,18 @@ window.MCC_STRIPE = {
      Caller must be signed in — the function checks the token itself. */
   verifyId: function () {
     var S = window.MCC_SUPA;
-    if (!S || !S.url || !S.token || !S.token()) return Promise.resolve(null);
-    return fetch(S.url + "/functions/v1/verify-id", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", apikey: S.key, Authorization: "Bearer " + S.token() },
-      body: "{}",
-    }).then(function (r) {
-      return r.json().catch(function () { return null; }).then(function (j) {
-        if (r.ok) return j;
-        return { error: (j && (j.error || j.message)) || ("net " + r.status) };
+    if (!S || !S.url || !S.token) return Promise.resolve(null);
+    return S.token().then(function (t) {
+      if (!t) return null;
+      return fetch(S.url + "/functions/v1/verify-id", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: S.key, Authorization: "Bearer " + t },
+        body: "{}",
+      }).then(function (r) {
+        return r.json().catch(function () { return null; }).then(function (j) {
+          if (r.ok) return j;
+          return { error: (j && (j.error || j.message)) || ("net " + r.status) };
+        });
       });
     }).catch(function () { return null; });
   },

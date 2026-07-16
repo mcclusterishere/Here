@@ -355,6 +355,7 @@
 
   <script src="js/env.js?v=__STAMP__"></script>
   <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/payments.js?v=__STAMP__"></script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script>
   /* ============================================================
@@ -532,29 +533,143 @@
       return window.MCC_SUPA.token();
     }
 
-    /* THE FREE DESK — everyone else's backend. Deliberately barren:
-       the tiles show the shape of the product while the premium desk
-       proves it live on the house's own numbers. */
-    function lightFreeDesk() {
-      var em = window.MCC_SUPA && window.MCC_SUPA.email && window.MCC_SUPA.email();
+    /* THE CREATOR DESK — Connect SaaS. A signed-in creator claims a
+       desk (one row, their slug), onboards to payouts through Stripe
+       Express, and can buy the premium backend. The plan and the rail
+       are server-only columns: the webhook writes them, nobody gifts
+       themselves premium. Signed out = the pitch. */
+    function slugify(x) {
+      return String(x || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40);
+    }
+    function myDesk(token) {
+      var uid = window.MCC_SUPA && window.MCC_SUPA.uid && window.MCC_SUPA.uid();
+      if (!uid) return Promise.resolve(null);
+      return fetch(SB_URL + "/rest/v1/providers?uid=eq." + uid +
+        "&select=slug,name,craft,rate,plan,stripe_acct,charges_enabled&limit=1", {
+        headers: { apikey: SB_KEY, Authorization: "Bearer " + token },
+      }).then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (rows) { return rows && rows[0] ? rows[0] : null; })
+        .catch(function () { return null; });
+    }
+    function payoutTile(desk) {
+      if (desk.charges_enabled) return deskTile("Payouts", "● Live", "cards land in your bank", "#", false);
+      return deskTile("Payouts", desk.stripe_acct ? "Finish →" : "Set up →",
+        desk.stripe_acct ? "resume Stripe onboarding" : "get paid by card", "#payouts");
+    }
+    function wireDeskDoors(desk) {
+      var grid = document.getElementById("deskGrid");
+      grid.addEventListener("click", function (e) {
+        var a = e.target.closest ? e.target.closest("a[href='#payouts'],a[href='#premium']") : null;
+        if (!a) return;
+        e.preventDefault();
+        var kind = a.getAttribute("href");
+        var big = a.querySelector("b"); big.textContent = "…";
+        if (kind === "#payouts") {
+          window.MCC_STRIPE.connectOnboard().then(function (j) {
+            if (j && j.url) { location.href = j.url; return; }
+            if (j && j.status === "live") { big.textContent = "● Live"; return; }
+            big.textContent = "Set up →";
+            document.getElementById("deskNote").textContent =
+              "The payouts door is being armed — connect-onboard isn't deployed yet.";
+          });
+        } else {
+          window.MCC_SUPA.token().then(function (t) {
+            return fetch(SB_URL + "/functions/v1/backend-sub", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + t },
+              body: "{}",
+            });
+          }).then(function (r) { return r && r.ok ? r.json() : null; }).then(function (j) {
+            if (j && j.url) { location.href = j.url; return; }
+            big.textContent = "Go →";
+            document.getElementById("deskNote").textContent =
+              "The premium rail is being armed — backend-sub isn't deployed yet.";
+          }).catch(function () { big.textContent = "Go →"; });
+        }
+      });
+    }
+    function lightCreatorDesk(desk) {
+      var premium = desk.plan === "premium";
+      document.getElementById("deskTier").textContent = premium ? "Your backend · premium" : "Your backend · free";
+      document.getElementById("deskHi").textContent = hiWord() + ", " + (desk.name.split(" ")[0] || "you") + ".";
+      document.getElementById("deskSub").textContent = desk.craft
+        ? desk.craft + " · @" + desk.slug : "@" + desk.slug;
+      var payLink = "pay.html?to=" + encodeURIComponent(desk.slug);
+      var tiles = payoutTile(desk) +
+        (desk.charges_enabled
+          ? deskTile("Your pay link", "Open", "drop it in any bio — Apple Pay ready", payLink)
+          : "") +
+        (premium
+          ? deskTile("Streams", "0", "your numbers land with your catalog") +
+            deskTile("This week", "0", "the counter is armed") +
+            deskTile("Saves", "0", "hearted into rotations")
+          : deskTile("Go premium", "Go →", "the full desk — charts, sources, the pulse", "#premium") +
+            deskTile("Streams", "—", "premium lights this", null, true) +
+            deskTile("This week", "—", "premium lights this", null, true));
+      document.getElementById("deskGrid").innerHTML = tiles;
+      document.getElementById("deskXtra").innerHTML = "";
+      document.getElementById("deskNote").innerHTML = premium
+        ? "Premium is live on your desk. Your analytics fill in as your catalog and pay link move."
+        : "Premium is what McCluster runs — the 14-day chart, top records, where fans come from. " +
+          "Payments through your pay link carry the platform fee either way.";
+      wireDeskDoors(desk);
+      if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: desk.plan, creator: desk.slug });
+    }
+    function lightClaimDesk() {
+      var em = window.MCC_SUPA.email();
       document.getElementById("deskTier").textContent = "The backend · free";
       document.getElementById("deskHi").textContent = hiWord() + ".";
-      document.getElementById("deskSub").textContent = em
-        ? "Signed in as " + em + " — this is the free desk."
-        : "The free desk — every fan account gets one.";
+      document.getElementById("deskSub").textContent = "Signed in as " + em + " — claim your desk to start.";
+      document.getElementById("deskGrid").innerHTML = "";
+      document.getElementById("deskXtra").innerHTML =
+        "<div class='desk__x'><small>Claim your desk</small>" +
+        "<input id='clName' placeholder='Your artist / business name' style='width:100%;box-sizing:border-box;background:rgba(10,8,7,0.8);color:var(--cream);border:1px solid rgba(244,239,230,0.18);border-radius:10px;padding:0.65rem 0.75rem;font:inherit;margin-bottom:0.5rem'>" +
+        "<input id='clCraft' placeholder='What you do (photographer, producer…)' style='width:100%;box-sizing:border-box;background:rgba(10,8,7,0.8);color:var(--cream);border:1px solid rgba(244,239,230,0.18);border-radius:10px;padding:0.65rem 0.75rem;font:inherit'>" +
+        "<button id='clGo' type='button' style='-webkit-appearance:none;appearance:none;border:0;cursor:pointer;margin-top:0.8rem;padding:0.7rem 1.3rem;border-radius:100px;background:var(--pulse);color:#16110b;font-weight:800;font-size:0.92rem'>Claim it</button></div>";
+      document.getElementById("deskNote").textContent =
+        "One desk per account. Your name becomes your pay-link slug — you can polish it later.";
+      document.getElementById("clGo").addEventListener("click", function () {
+        var name = document.getElementById("clName").value.trim();
+        if (!name) return;
+        var btn = this; btn.disabled = true; btn.textContent = "Claiming…";
+        window.MCC_SUPA.token().then(function (t) {
+          return fetch(SB_URL + "/rest/v1/providers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + t, Prefer: "return=representation" },
+            body: JSON.stringify({ slug: slugify(name), name: name, craft: document.getElementById("clCraft").value.trim() }),
+          });
+        }).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }).then(function (rows) {
+          if (window.MCC_TRACK) window.MCC_TRACK("desk_claimed", { slug: rows[0].slug });
+          lightCreatorDesk(rows[0]);
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "That name's taken — try another";
+        });
+      });
+      if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: "claim" });
+    }
+    function lightFreeDesk() {
+      var em = window.MCC_SUPA && window.MCC_SUPA.email && window.MCC_SUPA.email();
+      if (em) {
+        /* a signed-in creator: their desk, or the claim form */
+        window.MCC_SUPA.token().then(function (t) { return myDesk(t); }).then(function (desk) {
+          if (desk) lightCreatorDesk(desk);
+          else lightClaimDesk();
+        }).catch(function () { lightClaimDesk(); });
+        return;
+      }
+      document.getElementById("deskTier").textContent = "The backend · free";
+      document.getElementById("deskHi").textContent = hiWord() + ".";
+      document.getElementById("deskSub").textContent = "Every creator gets a desk — a pay link, payouts by card, and the backend.";
       document.getElementById("deskGrid").innerHTML =
-        deskTile("Streams", "—", "coming to free desks", null, true) +
-        deskTile("This week", "—", "coming to free desks", null, true) +
-        deskTile("Saves", "—", "coming to free desks", null, true) +
-        deskTile("Top record", "—", "coming to free desks", null, true) +
-        deskTile("Get on the list", "→", "the desk opens in waves",
-          "mailto:matthew@mccluster.org?subject=Put%20me%20on%20the%20backend%20list");
+        deskTile("Your pay link", "—", "Apple Pay in any bio", null, true) +
+        deskTile("Payouts", "—", "cards straight to your bank", null, true) +
+        deskTile("Streams", "—", "premium lights this", null, true) +
+        deskTile("Sign in", "→", "claim your desk in one tap", "account.html");
       document.getElementById("deskXtra").innerHTML = "";
       document.getElementById("deskNote").innerHTML =
-        "The premium backend is running live on McCluster's own career right now — streams, " +
-        "the week's pulse, where fans come from, all of it. The free desk fills in once the " +
-        "playbook is proven. " + (em ? "" : "<a href='account.html'>Sign in</a> to hold your spot.");
-      if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: "free" });
+        "The premium backend is running live on McCluster's own career right now. " +
+        "<a href='account.html'>Sign in</a>, claim your desk, and your pay link is minutes away.";
+      if (window.MCC_TRACK) window.MCC_TRACK("desk_view", { tier: "anon" });
     }
 
     /* MY BACKEND — the premium desk. The pulse RPC paints the tiles,
