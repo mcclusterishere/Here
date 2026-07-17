@@ -5,8 +5,8 @@
  "pricing": {
   "still_credits": 1.5,
   "seedance_fast_per_second": 3.5,
-  "remaining_scenes": 15,
-  "remaining_credits_fast": 250.0
+  "remaining_scenes": 14,
+  "remaining_credits_fast": 231.0
  },
  "shots": [
   {
@@ -204,17 +204,17 @@
    "hold": 4.51,
    "bar": "Profile optimization can turn your hobby into an occupation",
    "scene": "constellation",
-   "concept": "rooftop night: he draws lines between stars that become glowing profile avatars",
-   "have": false,
-   "clip_seconds": 5,
-   "credits_fast": 19.0
+   "concept": "HAVE: redjet — plane mid-air, through the jet window past McCluster (owner call)",
+   "have": true,
+   "clip_seconds": null,
+   "credits_fast": null
   },
   {
    "begin": 79.44,
    "hold": 4.36,
    "bar": "Stop the procrastination You keep saying you gon' make content, make it",
    "scene": "studio360",
-   "concept": "HAVE: redjet — the jet in the air, then inside past McCluster to the front seat (owner call)",
+   "concept": "HAVE: redjet rides through from 74.93 — one continuous shot, no restart",
    "have": true,
    "clip_seconds": null,
    "credits_fast": null
