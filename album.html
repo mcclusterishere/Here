@@ -222,10 +222,9 @@
     canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%;
       pointer-events: none; opacity: 0; }
     canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
-    @keyframes veilburn { from { opacity: 0.85; transform: scale(1); filter: brightness(1); }
-      to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
-    .now__film.is-fresh { animation: scenein 0.9s ease; }
-    @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
+    @keyframes veilburn { from { opacity: 1; } to { opacity: 0; } }
+    .now__film.is-open { animation: filmrise 0.9s ease; }
+    @keyframes filmrise { from { opacity: 0; } to { opacity: 0.8; } }
     /* THE FLIP — rally photographs cutting on the clock */
     .now__flip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
     .now__flip.on { display: block; }
@@ -1016,18 +1015,22 @@
        while the new scene starts; the incoming film settles in */
     function glide(v) {
       try {
+        var vw = v.videoWidth, vh = v.videoHeight;
+        if (!vw || !vh) return; // no clean frame to hold — a straight cut beats a warp
         var veil = v._veil;
         if (!veil) {
           veil = v._veil = document.createElement("canvas");
           veil.className = "scene-veil";
           v.parentNode.insertBefore(veil, v.nextSibling);
         }
-        veil.width = v.videoWidth || 16; veil.height = v.videoHeight || 9;
-        veil.getContext("2d").drawImage(v, 0, 0, veil.width, veil.height);
+        /* freeze the frame exactly as it sat: cover-cropped, no stretch */
+        var cw = v.clientWidth || vw, ch = v.clientHeight || vh;
+        veil.width = cw; veil.height = ch;
+        var s = Math.max(cw / vw, ch / vh);
+        var sw = cw / s, sh = ch / s;
+        veil.getContext("2d").drawImage(v, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, cw, ch);
         veil.classList.remove("is-fading"); void veil.offsetWidth;
         veil.classList.add("is-fading");
-        v.classList.remove("is-fresh"); void v.offsetWidth;
-        v.classList.add("is-fresh");
       } catch (e) {}
     }
 
@@ -1144,6 +1147,10 @@
       var wasOn = sceneIdx > -1; // the first scene arrives clean, no veil
       sceneIdx = k; sceneBegin = sc.begin; sceneSrc = sc.src || "";
       if (wasOn) glide(nowFilm);
+      else { /* the opener rises from black — same welcome the jet gets later */
+        nowFilm.classList.remove("is-open"); void nowFilm.offsetWidth;
+        nowFilm.classList.add("is-open");
+      }
       /* a photo-flip scene: the pictures own the frame, the film rests */
       if (sc.flip && sc.flip.length) { try { nowFilm.pause(); } catch (e) {} return; }
       flipEl().classList.remove("on");

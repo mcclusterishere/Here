@@ -20,10 +20,9 @@
     /* THE DISSOLVE — the outgoing scene freezes, drifts, and burns off */
     .fc canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
     .fc canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
-    @keyframes veilburn { from { opacity: 0.85; transform: scale(1); filter: brightness(1); }
-      to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
-    .fc video.is-fresh { animation: scenein 0.9s ease; }
-    @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
+    @keyframes veilburn { from { opacity: 1; } to { opacity: 0; } }
+    .fc video.is-open { animation: filmrise 0.9s ease; }
+    @keyframes filmrise { from { opacity: 0; } to { opacity: 0.85; } }
     /* THE FLIP — rally photographs cutting on the clock */
     .fc img.scene-flip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
     .fc img.scene-flip.on { display: block; }
@@ -227,7 +226,11 @@
     function setScene(v, scenes, k) {
       k = Math.max(0, Math.min(k, scenes.length - 1));
       if (+v.dataset.k === k) return;
-      if (v.getAttribute("src")) glide(v); // the first scene arrives clean
+      if (v.getAttribute("src")) glide(v);
+      else { /* the opener rises from black */
+        v.classList.remove("is-open"); void v.offsetWidth;
+        v.classList.add("is-open");
+      }
       v.dataset.k = k;
       var sc = scenes[k];
       /* a photo-flip scene: the pictures own the frame, the film rests */
@@ -262,18 +265,22 @@
     /* the outgoing frame freezes on a veil and burns off; the new scene settles in */
     function glide(v) {
       try {
+        var vw = v.videoWidth, vh = v.videoHeight;
+        if (!vw || !vh) return; // no clean frame to hold — a straight cut beats a warp
         var veil = v._veil;
         if (!veil) {
           veil = v._veil = document.createElement("canvas");
           veil.className = "scene-veil";
           v.parentNode.insertBefore(veil, v.nextSibling);
         }
-        veil.width = v.videoWidth || 16; veil.height = v.videoHeight || 9;
-        veil.getContext("2d").drawImage(v, 0, 0, veil.width, veil.height);
+        /* freeze the frame exactly as it sat: cover-cropped, no stretch */
+        var cw = v.clientWidth || vw, ch = v.clientHeight || vh;
+        veil.width = cw; veil.height = ch;
+        var s = Math.max(cw / vw, ch / vh);
+        var sw = cw / s, sh = ch / s;
+        veil.getContext("2d").drawImage(v, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, cw, ch);
         veil.classList.remove("is-fading"); void veil.offsetWidth;
         veil.classList.add("is-fading");
-        v.classList.remove("is-fresh"); void v.offsetWidth;
-        v.classList.add("is-fresh");
       } catch (e) {}
     }
     deck.addEventListener("timeupdate", function () {
