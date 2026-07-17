@@ -1200,11 +1200,14 @@
       if (deck.paused && !nowFilm.paused) nowFilm.pause();
       if (!deck.paused && nowFilm.paused) { var p = nowFilm.play(); if (p && p.catch) p.catch(function () {}); }
     }
-    /* the clip ran its length: dissolve into the next scene — never restart */
+    /* the clip ran its length: HOLD the last frame — the face stays up —
+       until the next anchor pulls the scene in. Only a long dead gap
+       (over ~8s) chains early, because motion beats a frozen minute. */
     nowFilm.addEventListener("ended", function () {
-      if (reelScenes && reelScenes.length && sceneIdx > -1 && sceneIdx < reelScenes.length - 1 && !deck.paused) {
-        setScene(sceneIdx + 1);
-      }
+      if (!(reelScenes && reelScenes.length && sceneIdx > -1 && sceneIdx < reelScenes.length - 1 && !deck.paused)) return;
+      var wait = reelScenes[sceneIdx + 1].begin - deck.currentTime;
+      if (wait > 8) setScene(sceneIdx + 1);
+      /* otherwise: the final frame holds, the anchor does the switching */
     });
     deck.addEventListener("seeked", function () { syncFilm(true); });
     deck.addEventListener("play", function () { syncFilm(true); });

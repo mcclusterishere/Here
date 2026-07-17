@@ -260,7 +260,10 @@
       if (!scenes || !scenes.length) return;
       if (v !== card(cur).querySelector("video")) return;
       var k = +v.dataset.k || 0;
-      if (k < scenes.length - 1) setScene(v, scenes, k + 1);
+      if (k >= scenes.length - 1) return;
+      /* hold the last frame until the anchor; only a long gap chains early */
+      var wait = scenes[k + 1].begin - deck.currentTime;
+      if (wait > 8) setScene(v, scenes, k + 1);
     }, true);
     /* the outgoing frame freezes on a veil and burns off; the new scene settles in */
     function glide(v) {
