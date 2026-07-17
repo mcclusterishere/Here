@@ -1,11 +1,9 @@
 {
- "audio": {
-  "whodidtheshoot": "assets/audio/who-did-the-shoot.mp3",
-  "antisocial": "assets/audio/antisocial.mp3",
-  "vaunt": "assets/audio/vaunt.mp3",
-  "runway": "assets/audio/runway.mp3",
-  "environmental-injustice": "assets/audio/environmental-injustice.mp3",
-  "here": "assets/audio/here.mp3"
+ "videos": {
+  "coldopen": "https://d8j0ntlcm91z4.cloudfront.net/user_3G3F7jiUHPTPLSNf3XP0bAYtQmG/hf_20260717_021353_2e7a9ac3-5318-4772-844e-86d83e7478e7.mp4",
+  "lifeblur": "https://d8j0ntlcm91z4.cloudfront.net/user_3G3F7jiUHPTPLSNf3XP0bAYtQmG/hf_20260717_021359_97e6a428-efea-49c3-b506-58c0297d4374.mp4"
  },
- "images": {}
+ "images": {
+  "peaceful-places": "https://d8j0ntlcm91z4.cloudfront.net/user_3G3F7jiUHPTPLSNf3XP0bAYtQmG/hf_20260717_021118_e07ffaee-cf48-4d3c-9a79-d7e581576bc5.png"
+ }
 }

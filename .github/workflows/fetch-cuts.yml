@@ -1,0 +1,67 @@
+name: Fetch generated cuts
+
+# The build environment can't reach the media CDN directly, so this
+# workflow downloads generated scene clips on a runner, extracts a
+# poster frame for each, and commits everything back to the repo.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "assets-manifest.json"
+      - ".github/workflows/fetch-cuts.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download clips and stills from manifest
+        run: |
+          test -f assets-manifest.json || { echo "no manifest yet"; exit 0; }
+          mkdir -p assets/video assets/img
+          jq -r '.videos // {} | to_entries[] | "\(.key) \(.value)"' assets-manifest.json | while read -r name url; do
+            echo "Fetching video $name"
+            curl -fL --retry 4 --retry-delay 3 -o "assets/video/${name}.mp4" "$url"
+          done
+          jq -r '.images // {} | to_entries[] | "\(.key) \(.value)"' assets-manifest.json | while read -r name url; do
+            echo "Fetching image $name"
+            curl -fL --retry 4 --retry-delay 3 -o "assets/img/${name}.src" "$url"
+          done
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Web-light stills + poster frames
+        run: |
+          # stills: cap at 1080px wide, re-encode as jpg
+          for f in assets/img/*.src; do
+            [ -f "$f" ] || continue
+            n="${f%.src}"
+            ffmpeg -hide_banner -loglevel error -y -i "$f" -vf "scale='min(1080,iw)':-2" -q:v 4 "${n}.jpg" \
+              && rm -f "$f" && echo "still $(basename "$n").jpg"
+          done
+          # posters: first frame of each manifest video
+          mkdir -p assets/frames
+          jq -r '.videos // {} | keys[]' assets-manifest.json | while read -r n; do
+            [ -f "assets/video/${n}.mp4" ] || continue
+            ffmpeg -hide_banner -loglevel error -y -i "assets/video/${n}.mp4" \
+              -vframes 1 -vf "scale=720:-2" -q:v 5 "assets/frames/${n}_0001.jpg"
+            echo "poster ${n}_0001.jpg"
+          done
+          ls -la assets/video assets/frames
+
+      - name: Commit assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A assets
+          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          git commit -m "Add generated scene cuts and posters"
+          git push
