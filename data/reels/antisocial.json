@@ -11,12 +11,7 @@
    "poster": "assets/frames/nightscroll_0001.jpg"
   },
   {
-   "begin": 14.807,
-   "src": "assets/video/coffeecam.mp4",
-   "poster": "assets/frames/coffeecam_0001.jpg"
-  },
-  {
-   "begin": 22.12,
+   "begin": 17.69,
    "src": "assets/video/gmcall.mp4",
    "poster": "assets/frames/gmcall_0001.jpg"
   },
@@ -37,6 +32,11 @@
   },
   {
    "begin": 53.258,
+   "src": "assets/video/coffeecam.mp4",
+   "poster": "assets/frames/coffeecam_0001.jpg"
+  },
+  {
+   "begin": 61.579,
    "src": "assets/video/vauntlive.mp4",
    "poster": "assets/frames/vauntlive_0001.jpg"
   },
