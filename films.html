@@ -171,9 +171,11 @@
         loadReel(t.reel, function (scenes) {
           if (cur !== i || !scenes || !scenes.length) return;
           v.dataset.reel = t.reel;
-          setScene(v, scenes[0]);
+          delete v.dataset.k;
+          setScene(v, scenes, 0);
         });
       } else if (t.video && v.getAttribute("src") !== t.video) {
+        v.loop = true;
         v.src = t.video; v.load();
       }
       playFilm(i);
@@ -210,13 +212,28 @@
         cb(reelCache[src]);
       }).catch(function () { cb(null); });
     }
-    function setScene(v, sc) {
-      if (v.getAttribute("src") === sc.src) return;
+    function setScene(v, scenes, k) {
+      k = Math.max(0, Math.min(k, scenes.length - 1));
+      if (+v.dataset.k === k) return;
       if (v.getAttribute("src")) glide(v); // the first scene arrives clean
+      v.dataset.k = k;
+      var sc = scenes[k];
+      v.loop = false; // the chain never restarts a clip
       if (sc.poster) v.poster = sc.poster;
       v.src = sc.src; v.load();
       v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {});
     }
+    /* a clip ran its length: dissolve into the next scene — never loop.
+       media 'ended' doesn't bubble, so listen in capture. */
+    fs.addEventListener("ended", function (e) {
+      var v = e.target;
+      if (!v || v.tagName !== "VIDEO" || cur < 0) return;
+      var t = TRACKS[cur], scenes = t.reel && reelCache[t.reel];
+      if (!scenes || !scenes.length) return;
+      if (v !== card(cur).querySelector("video")) return;
+      var k = +v.dataset.k || 0;
+      if (k < scenes.length - 1) setScene(v, scenes, k + 1);
+    }, true);
     /* the outgoing frame freezes on a veil and burns off; the new scene settles in */
     function glide(v) {
       try {
@@ -250,12 +267,15 @@
         var p = card(cur).querySelector(".fc__lyr p");
         if (p.textContent !== want) p.textContent = want;
       }
-      /* the scene */
+      /* the scene: forward anchors always win; the ended-chain may run
+         one scene ahead; a real jump back resyncs */
       var scenes = t.reel && reelCache[t.reel];
       if (scenes && scenes.length) {
-        var sc = scenes[0];
-        for (var k = 0; k < scenes.length; k++) if (time >= scenes[k].begin) sc = scenes[k];
-        setScene(card(cur).querySelector("video"), sc);
+        var k2 = 0;
+        for (var k = 0; k < scenes.length; k++) if (time >= scenes[k].begin) k2 = k;
+        var v2 = card(cur).querySelector("video");
+        var at = v2.dataset.k === undefined ? -1 : +v2.dataset.k;
+        if (at === -1 || k2 > at || k2 < at - 1) setScene(v2, scenes, k2);
       }
     });
     deck.addEventListener("ended", function () {

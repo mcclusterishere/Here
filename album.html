@@ -1078,50 +1078,69 @@
       now.dataset.on = "0";
       try { nowFilm.pause(); } catch (e) {}
     }
-    /* THE LOCK: the scrub dial is the master clock — the film rides the
-       song's position, freezes on pause, and jumps when you jump. A track
-       with a REEL (the old lyric-page music video) switches scenes on the
-       song's own timestamps; inside a scene the clip loops scene-relative. */
-    var reelScenes = null, reelCache = {}, sceneBegin = 0, sceneSrc = "";
+    /* THE CHAIN: the scrub dial is still the master clock, but no clip
+       ever loops. Each scene plays its film through ONCE; when the clip
+       runs out it dissolves into the NEXT scene, and a lyric anchor can
+       only pull the chain forward. Scrub back and the chain resyncs. */
+    var reelScenes = null, reelCache = {}, sceneIdx = -1, sceneBegin = 0, sceneSrc = "";
     function loadReel(src) {
-      reelScenes = null; sceneBegin = 0; sceneSrc = "";
+      reelScenes = null; sceneIdx = -1; sceneBegin = 0; sceneSrc = "";
+      nowFilm.loop = true; // single-video tracks keep their ambience loop
       if (!src) return;
-      if (reelCache[src]) { reelScenes = reelCache[src]; return; }
+      if (reelCache[src]) { reelScenes = reelCache[src]; nowFilm.loop = false; return; }
       fetch(src, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
         reelCache[src] = (j && j.scenes) || null;
         reelScenes = reelCache[src];
+        if (reelScenes) nowFilm.loop = false;
         syncFilm(true);
       }).catch(function () {});
     }
-    function sceneFor(t) {
-      var s = reelScenes[0];
-      for (var i = 0; i < reelScenes.length; i++) if (t >= reelScenes[i].begin) s = reelScenes[i];
-      return s;
+    function idxFor(t) {
+      var k = 0;
+      for (var i = 0; i < reelScenes.length; i++) if (t >= reelScenes[i].begin) k = i;
+      return k;
+    }
+    function setScene(k) {
+      k = Math.max(0, Math.min(k, reelScenes.length - 1));
+      if (k === sceneIdx) return;
+      var sc = reelScenes[k];
+      var wasOn = sceneIdx > -1; // the first scene arrives clean, no veil
+      sceneIdx = k; sceneBegin = sc.begin; sceneSrc = sc.src;
+      if (wasOn) glide(nowFilm);
+      nowFilm.loop = false;
+      nowFilm.poster = sc.poster || "";
+      nowFilm.src = sc.src;
+      nowFilm.load();
+      if (!deck.paused) { var p0 = nowFilm.play(); if (p0 && p0.catch) p0.catch(function () {}); }
     }
     function syncFilm(hard) {
       if (!sheetOn()) return;
-      var base = 0;
       if (reelScenes && reelScenes.length) {
-        var sc = sceneFor(deck.currentTime);
-        if (sc.src !== sceneSrc) {
-          var wasOn = !!sceneSrc; // the first scene arrives clean, no veil
-          sceneSrc = sc.src; sceneBegin = sc.begin;
-          if (wasOn) glide(nowFilm);
-          nowFilm.poster = sc.poster || "";
-          nowFilm.src = sc.src;
-          nowFilm.load();
-          if (!deck.paused) { var p0 = nowFilm.play(); if (p0 && p0.catch) p0.catch(function () {}); }
-          return; // position settles on loadedmetadata
+        var k = idxFor(deck.currentTime);
+        /* forward anchors always win; the ended-chain may run one scene
+           ahead; anything further off (a scrub) resyncs */
+        if (sceneIdx === -1 || k > sceneIdx || k < sceneIdx - 1) setScene(k);
+        if (hard && nowFilm.duration) {
+          try { nowFilm.currentTime = Math.max(0, Math.min(deck.currentTime - sceneBegin, nowFilm.duration - 0.05)); } catch (e) {}
         }
-        base = sceneBegin;
+        if (deck.paused && !nowFilm.paused) nowFilm.pause();
+        if (!deck.paused && nowFilm.paused && !nowFilm.ended) { var p1 = nowFilm.play(); if (p1 && p1.catch) p1.catch(function () {}); }
+        return;
       }
+      /* a single-film track: the old scene-relative loop ride */
       if (!nowFilm.duration) return;
-      var want = Math.max(0, deck.currentTime - base) % nowFilm.duration;
+      var want = Math.max(0, deck.currentTime) % nowFilm.duration;
       var drift = Math.abs(nowFilm.currentTime - want);
       if (hard || drift > 0.4) { try { nowFilm.currentTime = want; } catch (e) {} }
       if (deck.paused && !nowFilm.paused) nowFilm.pause();
       if (!deck.paused && nowFilm.paused) { var p = nowFilm.play(); if (p && p.catch) p.catch(function () {}); }
     }
+    /* the clip ran its length: dissolve into the next scene — never restart */
+    nowFilm.addEventListener("ended", function () {
+      if (reelScenes && reelScenes.length && sceneIdx > -1 && sceneIdx < reelScenes.length - 1 && !deck.paused) {
+        setScene(sceneIdx + 1);
+      }
+    });
     deck.addEventListener("seeked", function () { syncFilm(true); });
     deck.addEventListener("play", function () { syncFilm(true); });
     deck.addEventListener("pause", function () { syncFilm(false); });
