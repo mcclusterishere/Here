@@ -49,9 +49,10 @@ jobs:
           done
           # posters: first frame of each manifest video
           mkdir -p assets/frames
+          # -nostdin: ffmpeg must not eat the loop's piped input
           jq -r '.videos // {} | keys[]' assets-manifest.json | while read -r n; do
             [ -f "assets/video/${n}.mp4" ] || continue
-            ffmpeg -hide_banner -loglevel error -y -i "assets/video/${n}.mp4" \
+            ffmpeg -nostdin -hide_banner -loglevel error -y -i "assets/video/${n}.mp4" \
               -vframes 1 -vf "scale=720:-2" -q:v 5 "assets/frames/${n}_0001.jpg"
             echo "poster ${n}_0001.jpg"
           done
