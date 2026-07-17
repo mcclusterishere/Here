@@ -3,7 +3,7 @@
   {
    "slug": "here",
    "name": "HERE",
-   "tag": "The album \u00b7 6 tracks",
+   "tag": "The album · 6 tracks",
    "art": "assets/img/here-cover.jpg",
    "by": "Have no fear.",
    "tracks": [
@@ -69,13 +69,20 @@
   {
    "slug": "equity-uprise",
    "name": "Equity Uprise",
-   "tag": "The civic anthems \u00b7 3 tracks",
+   "tag": "The civic anthems · 4 tracks",
    "art": "assets/img/equity-uprise-logo.webp",
    "by": "The fight, on the record.",
    "tracks": [
     {
      "title": "Environmental Injustice",
-     "sub": "the Brave mix",
+     "sub": "ft. Ocho & Evangelist Angel",
+     "src": "assets/audio/environmental-injustice.mp3",
+     "video": "assets/video/uprise.mp4",
+     "poster": "assets/frames/uprise_0001.jpg"
+    },
+    {
+     "title": "Environmental Injustice (Brave mix)",
+     "sub": "the GA edition",
      "src": "assets/audio/environmental-injustice-brave.mp3",
      "video": "assets/video/uprise.mp4",
      "poster": "assets/frames/uprise_0001.jpg",
@@ -88,14 +95,16 @@
      "src": "assets/audio/please-set-me-free.mp3",
      "video": "assets/video/church.mp4",
      "poster": "assets/frames/church_0001.jpg",
-     "lyrics": "data/lyrics/please-set-me-free.json"
+     "lyrics": "data/lyrics/please-set-me-free.json",
+     "reel": "data/reels/please-set-me-free.json"
     },
     {
      "title": "Money or the Power",
      "src": "assets/audio/money-or-the-power.mp3",
      "video": "assets/video/moneyglitch.mp4",
      "poster": "assets/frames/moneyglitch_0001.jpg",
-     "lyrics": "data/lyrics/money-or-the-power.dk.json"
+     "lyrics": "data/lyrics/money-or-the-power.dk.json",
+     "reel": "data/reels/money-or-the-power.json"
     }
    ]
   },
@@ -112,7 +121,8 @@
      "src": "assets/audio/deep-end.m4a",
      "video": "assets/video/warroom.mp4",
      "poster": "assets/frames/warroom_0001.jpg",
-     "lyrics": "data/lyrics/deep-end.json"
+     "lyrics": "data/lyrics/deep-end.json",
+     "reel": "data/reels/deep-end.json"
     },
     {
      "title": "Heal the 3rd World",
@@ -125,7 +135,7 @@
   },
   {
    "slug": "vaunt-ep",
-   "name": "Vaunt \u2014 EP",
+   "name": "Vaunt — EP",
    "tag": "The campaign jingle",
    "art": "assets/img/vaunt-logo.webp",
    "by": "Recorded for the runway.",
@@ -173,7 +183,8 @@
      "src": "assets/audio/upset.mp3",
      "video": "assets/video/coffeecam.mp4",
      "poster": "assets/frames/coffeecam_0001.jpg",
-     "lyrics": "data/lyrics/upset.json"
+     "lyrics": "data/lyrics/upset.json",
+     "reel": "data/reels/upset.json"
     }
    ]
   }

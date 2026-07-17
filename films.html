@@ -189,8 +189,12 @@
         if (!timed && j && j.lines && j.lines.length && j.lines[0].t != null) {
           timed = j.lines.map(function (l) { return { begin: l.t, content: l.text || "" }; });
         }
-        lyrCache[src] = timed || [];
-      }).catch(function () { lyrCache[src] = []; });
+        if (timed) lyrCache[src] = { t: timed };
+        else if (j && j.plain) {
+          /* the player's second dialect: plain words ride the song's progress */
+          lyrCache[src] = { p: j.plain.split("\n").filter(function (l) { return l.trim(); }) };
+        } else lyrCache[src] = {};
+      }).catch(function () { lyrCache[src] = {}; });
     }
     function loadReel(src, cb) {
       if (reelCache[src]) { cb(reelCache[src]); return; }
@@ -208,13 +212,17 @@
     deck.addEventListener("timeupdate", function () {
       if (cur < 0) return;
       var t = TRACKS[cur], time = deck.currentTime;
-      /* the caption */
-      var lines = t.lyrics && lyrCache[t.lyrics];
-      if (lines && lines.length) {
-        var live = null;
-        for (var i = 0; i < lines.length; i++) if (time >= lines[i].begin) live = lines[i];
+      /* the caption: timed words land on their codes; plain words
+         roll with the record's progress — same law as the player */
+      var L = t.lyrics && lyrCache[t.lyrics];
+      if (L) {
+        var want = "";
+        if (L.t && L.t.length) {
+          for (var i = 0; i < L.t.length; i++) if (time >= L.t[i].begin) want = L.t[i].content;
+        } else if (L.p && L.p.length && deck.duration) {
+          want = L.p[Math.min(L.p.length - 1, Math.floor(time / deck.duration * L.p.length))] || "";
+        }
         var p = card(cur).querySelector(".fc__lyr p");
-        var want = live ? live.content : "";
         if (p.textContent !== want) p.textContent = want;
       }
       /* the scene */
