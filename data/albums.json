@@ -78,7 +78,8 @@
      "sub": "ft. Ocho & Evangelist Angel",
      "src": "assets/audio/environmental-injustice.mp3",
      "video": "assets/video/uprise.mp4",
-     "poster": "assets/frames/uprise_0001.jpg"
+     "poster": "assets/frames/uprise_0001.jpg",
+     "reel": "data/reels/environmental-injustice.json"
     },
     {
      "title": "Environmental Injustice (Brave mix)",

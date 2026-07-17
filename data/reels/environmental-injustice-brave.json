@@ -22,8 +22,14 @@
   },
   {
    "begin": 45.53,
-   "src": "assets/video/church.mp4",
-   "poster": "assets/frames/church_0001.jpg"
+   "flip": [
+    "assets/img/rally/rally-01.jpg",
+    "assets/img/rally/rally-02.jpg",
+    "assets/img/rally/rally-03.jpg",
+    "assets/img/rally/rally-04.jpg",
+    "assets/img/rally/rally-05.jpg"
+   ],
+   "every": 0.55
   },
   {
    "begin": 51.64,
@@ -62,8 +68,14 @@
   },
   {
    "begin": 136.39,
-   "src": "assets/video/church.mp4",
-   "poster": "assets/frames/church_0001.jpg"
+   "flip": [
+    "assets/img/rally/rally-01.jpg",
+    "assets/img/rally/rally-02.jpg",
+    "assets/img/rally/rally-03.jpg",
+    "assets/img/rally/rally-04.jpg",
+    "assets/img/rally/rally-05.jpg"
+   ],
+   "every": 0.55
   },
   {
    "begin": 143.27,
