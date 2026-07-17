@@ -2,8 +2,8 @@
  "scenes": [
   {
    "begin": 0,
-   "src": "assets/video/redjet.mp4",
-   "poster": "assets/frames/redjet_0001.jpg"
+   "src": "assets/video/coldopen.mp4",
+   "poster": "assets/frames/coldopen_0001.jpg"
   },
   {
    "begin": 8.63,
@@ -16,14 +16,31 @@
    "poster": "assets/frames/gmcall_0001.jpg"
   },
   {
+   "begin": 26.56,
+   "flip": [
+    "assets/img/peaceful-places.jpg"
+   ],
+   "every": 4.5
+  },
+  {
    "begin": 30.723,
    "src": "assets/video/dossier.mp4",
    "poster": "assets/frames/dossier_0001.jpg"
   },
   {
+   "begin": 35.29,
+   "src": "assets/video/ownit.mp4",
+   "poster": "assets/frames/ownit_0001.jpg"
+  },
+  {
    "begin": 39.494,
    "src": "assets/video/church.mp4",
    "poster": "assets/frames/church_0001.jpg"
+  },
+  {
+   "begin": 44.1,
+   "src": "assets/video/lifeblur.mp4",
+   "poster": "assets/frames/lifeblur_0001.jpg"
   },
   {
    "begin": 48.419,
@@ -47,8 +64,8 @@
   },
   {
    "begin": 79.444,
-   "src": "assets/video/studio360.mp4",
-   "poster": "assets/frames/studio360_0001.jpg"
+   "src": "assets/video/redjet.mp4",
+   "poster": "assets/frames/redjet_0001.jpg"
   },
   {
    "begin": 88.249,
