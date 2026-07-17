@@ -17,6 +17,13 @@
     .fs::-webkit-scrollbar { display: none; }
     .fc { position: relative; height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; overflow: hidden; background: #0a0807; }
     .fc video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    /* THE DISSOLVE — the outgoing scene freezes, drifts, and burns off */
+    .fc canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
+    .fc canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
+    @keyframes veilburn { from { opacity: 0.85; transform: scale(1); filter: brightness(1); }
+      to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
+    .fc video.is-fresh { animation: scenein 0.9s ease; }
+    @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
     .fc__scrim { position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(5,4,3,0.5) 0%, rgba(5,4,3,0.05) 35%, rgba(5,4,3,0.05) 55%, rgba(5,4,3,0.88) 100%); }
     /* the words ride the film */
@@ -205,9 +212,27 @@
     }
     function setScene(v, sc) {
       if (v.getAttribute("src") === sc.src) return;
+      if (v.getAttribute("src")) glide(v); // the first scene arrives clean
       if (sc.poster) v.poster = sc.poster;
       v.src = sc.src; v.load();
       v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
+    /* the outgoing frame freezes on a veil and burns off; the new scene settles in */
+    function glide(v) {
+      try {
+        var veil = v._veil;
+        if (!veil) {
+          veil = v._veil = document.createElement("canvas");
+          veil.className = "scene-veil";
+          v.parentNode.insertBefore(veil, v.nextSibling);
+        }
+        veil.width = v.videoWidth || 16; veil.height = v.videoHeight || 9;
+        veil.getContext("2d").drawImage(v, 0, 0, veil.width, veil.height);
+        veil.classList.remove("is-fading"); void veil.offsetWidth;
+        veil.classList.add("is-fading");
+        v.classList.remove("is-fresh"); void v.offsetWidth;
+        v.classList.add("is-fresh");
+      } catch (e) {}
     }
     deck.addEventListener("timeupdate", function () {
       if (cur < 0) return;

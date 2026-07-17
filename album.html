@@ -217,6 +217,15 @@
       margin: 0.9rem auto 0; border-radius: 20px; overflow: hidden; background: #14100c;
       box-shadow: 0 24px 70px -20px rgba(0,0,0,0.95), 0 0 0 1px rgba(201,157,69,0.28), 0 0 90px -40px rgba(232,200,119,0.5); }
     .now__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+    /* THE DISSOLVE — the outgoing scene freezes, drifts, and burns off
+       while the new one breathes in underneath */
+    canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; opacity: 0; }
+    canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
+    @keyframes veilburn { from { opacity: 0.85; transform: scale(1); filter: brightness(1); }
+      to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
+    .now__film.is-fresh { animation: scenein 0.9s ease; }
+    @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
     .now__scrim { position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(6,5,4,0.42) 0%, rgba(6,5,4,0.12) 40%, rgba(6,5,4,0.78) 100%); }
     .now__lyr { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -980,6 +989,25 @@
       if (r0 && r0.album === ALBUM && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
     } catch (e) {}
 
+    /* THE DISSOLVE — freeze the outgoing frame on a veil, burn it off
+       while the new scene starts; the incoming film settles in */
+    function glide(v) {
+      try {
+        var veil = v._veil;
+        if (!veil) {
+          veil = v._veil = document.createElement("canvas");
+          veil.className = "scene-veil";
+          v.parentNode.insertBefore(veil, v.nextSibling);
+        }
+        veil.width = v.videoWidth || 16; veil.height = v.videoHeight || 9;
+        veil.getContext("2d").drawImage(v, 0, 0, veil.width, veil.height);
+        veil.classList.remove("is-fading"); void veil.offsetWidth;
+        veil.classList.add("is-fading");
+        v.classList.remove("is-fresh"); void v.offsetWidth;
+        v.classList.add("is-fresh");
+      } catch (e) {}
+    }
+
     /* ---------- THE ROOM: the page inside the record's film ---------- */
     var room = document.querySelector(".room"), roomFilm = el("roomFilm"), roomSrc = "";
     function setRoom(src, poster) {
@@ -1076,7 +1104,9 @@
       if (reelScenes && reelScenes.length) {
         var sc = sceneFor(deck.currentTime);
         if (sc.src !== sceneSrc) {
+          var wasOn = !!sceneSrc; // the first scene arrives clean, no veil
           sceneSrc = sc.src; sceneBegin = sc.begin;
+          if (wasOn) glide(nowFilm);
           nowFilm.poster = sc.poster || "";
           nowFilm.src = sc.src;
           nowFilm.load();

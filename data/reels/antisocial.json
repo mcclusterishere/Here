@@ -11,24 +11,14 @@
    "poster": "assets/frames/nightscroll_0001.jpg"
   },
   {
-   "begin": 12.555,
+   "begin": 14.807,
    "src": "assets/video/coffeecam.mp4",
    "poster": "assets/frames/coffeecam_0001.jpg"
   },
   {
-   "begin": 17.69,
+   "begin": 22.12,
    "src": "assets/video/gmcall.mp4",
    "poster": "assets/frames/gmcall_0001.jpg"
-  },
-  {
-   "begin": 22.12,
-   "src": "assets/video/yachtheli.mp4",
-   "poster": "assets/frames/yachtheli_0001.jpg"
-  },
-  {
-   "begin": 26.556,
-   "src": "assets/video/vaunt.mp4",
-   "poster": "assets/frames/vaunt_0001.jpg"
   },
   {
    "begin": 30.723,
@@ -36,24 +26,9 @@
    "poster": "assets/frames/dossier_0001.jpg"
   },
   {
-   "begin": 35.293,
-   "src": "assets/video/warroom.mp4",
-   "poster": "assets/frames/warroom_0001.jpg"
-  },
-  {
-   "begin": 37.4,
-   "src": "assets/video/moneyglitch.mp4",
-   "poster": "assets/frames/moneyglitch_0001.jpg"
-  },
-  {
    "begin": 39.494,
    "src": "assets/video/church.mp4",
    "poster": "assets/frames/church_0001.jpg"
-  },
-  {
-   "begin": 44.104,
-   "src": "assets/video/editors.mp4",
-   "poster": "assets/frames/editors_0001.jpg"
   },
   {
    "begin": 48.419,
@@ -71,37 +46,17 @@
    "poster": "assets/frames/keynote_0001.jpg"
   },
   {
-   "begin": 74.927,
-   "src": "assets/video/designer.mp4",
-   "poster": "assets/frames/designer_0001.jpg"
-  },
-  {
    "begin": 79.444,
    "src": "assets/video/studio360.mp4",
    "poster": "assets/frames/studio360_0001.jpg"
   },
   {
-   "begin": 83.799,
-   "src": "assets/video/hero.mp4",
-   "poster": "assets/frames/hero_0001.jpg"
-  },
-  {
    "begin": 88.249,
-   "src": "assets/video/keynote.mp4",
-   "poster": "assets/frames/keynote_0001.jpg"
-  },
-  {
-   "begin": 92.053,
    "src": "assets/video/designer.mp4",
    "poster": "assets/frames/designer_0001.jpg"
   },
   {
    "begin": 96.778,
-   "src": "assets/video/studio360.mp4",
-   "poster": "assets/frames/studio360_0001.jpg"
-  },
-  {
-   "begin": 100.898,
    "src": "assets/video/hero.mp4",
    "poster": "assets/frames/hero_0001.jpg"
   },
