@@ -1105,9 +1105,9 @@
       try { nowFilm.pause(); } catch (e) {}
     }
     /* THE CHAIN: the scrub dial is still the master clock, but no clip
-       ever loops. Each scene plays its film through ONCE; when the clip
-       runs out it dissolves into the NEXT scene, and a lyric anchor can
-       only pull the chain forward. Scrub back and the chain resyncs. */
+       ever loops — and no clip gets cut. Each scene plays its film
+       through ONCE, all the way; a lyric anchor takes the frame only
+       after the clip has run its whole length. Scrub and it resyncs. */
     var reelScenes = null, reelCache = {}, sceneIdx = -1, sceneBegin = 0, sceneSrc = "";
     function loadReel(src) {
       reelScenes = null; sceneIdx = -1; sceneBegin = 0; sceneSrc = "";
@@ -1163,13 +1163,18 @@
       nowFilm.load();
       if (!deck.paused) { var p0 = nowFilm.play(); if (p0 && p0.catch) p0.catch(function () {}); }
     }
-    function syncFilm(hard) {
+    function syncFilm(hard, jump) {
       if (!sheetOn()) return;
       if (reelScenes && reelScenes.length) {
         var k = idxFor(deck.currentTime);
-        /* forward anchors always win; the ended-chain may run one scene
-           ahead; anything further off (a scrub) resyncs */
-        if (sceneIdx === -1 || k > sceneIdx || k < sceneIdx - 1) setScene(k);
+        /* LET IT PLAY: a clip that's mid-play is untouchable — the anchor
+           takes the frame only once the clip has run its whole length
+           (photo-flips ride the clock; a real scrub still resyncs) */
+        var scHere = sceneIdx > -1 ? reelScenes[sceneIdx] : null;
+        var busy = scHere && !(scHere.flip && scHere.flip.length) &&
+                   nowFilm.getAttribute("src") && !nowFilm.ended && !nowFilm.error;
+        if (sceneIdx === -1 || k < sceneIdx - 1 || (jump && k !== sceneIdx) ||
+            (k > sceneIdx && !busy)) setScene(k);
         /* a photo-flip scene rides the song clock: quick cuts, scrub-safe */
         var scN = reelScenes[sceneIdx];
         if (scN && scN.flip && scN.flip.length) {
@@ -1205,12 +1210,15 @@
        (over ~8s) chains early, because motion beats a frozen minute. */
     nowFilm.addEventListener("ended", function () {
       if (!(reelScenes && reelScenes.length && sceneIdx > -1 && sceneIdx < reelScenes.length - 1 && !deck.paused)) return;
+      var k = idxFor(deck.currentTime);
+      /* the clip ran long past its bars: catch the chain up to the clock */
+      if (k > sceneIdx) { setScene(k); return; }
       var wait = reelScenes[sceneIdx + 1].begin - deck.currentTime;
       if (wait > 8) setScene(sceneIdx + 1);
       /* otherwise: the final frame holds, the anchor does the switching */
     });
-    deck.addEventListener("seeked", function () { syncFilm(true); });
-    deck.addEventListener("play", function () { syncFilm(true); });
+    deck.addEventListener("seeked", function () { syncFilm(true, true); });
+    deck.addEventListener("play", function () { syncFilm(false); });
     deck.addEventListener("pause", function () { syncFilm(false); });
     deck.addEventListener("timeupdate", function () { syncFilm(false); });
     nowFilm.addEventListener("loadedmetadata", function () {
@@ -1218,7 +1226,8 @@
          the bars it was cut for (never past a gentle 0.65x–1.5x) */
       nowFilm.playbackRate = (reelScenes && nowFilm._hold && nowFilm.duration)
         ? Math.max(0.65, Math.min(1.5, nowFilm.duration / nowFilm._hold)) : 1;
-      syncFilm(true);
+      /* soft sync: a fresh clip opens on its FIRST frame, never mid-way */
+      syncFilm(false);
     });
     function loadLyrics(src) {
       lyrTimed = null; lyrPlain = false; lyrLines = [];

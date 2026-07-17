@@ -261,8 +261,12 @@
       if (v !== card(cur).querySelector("video")) return;
       var k = +v.dataset.k || 0;
       if (k >= scenes.length - 1) return;
+      var time = deck.currentTime, k2 = 0;
+      for (var i = 0; i < scenes.length; i++) if (time >= scenes[i].begin) k2 = i;
+      /* the clip ran long past its bars: catch the chain up to the clock */
+      if (k2 > k) { setScene(v, scenes, k2); return; }
       /* hold the last frame until the anchor; only a long gap chains early */
-      var wait = scenes[k + 1].begin - deck.currentTime;
+      var wait = scenes[k + 1].begin - time;
       if (wait > 8) setScene(v, scenes, k + 1);
     }, true);
     /* the outgoing frame freezes on a veil and burns off; the new scene settles in */
@@ -302,15 +306,19 @@
         var p = card(cur).querySelector(".fc__lyr p");
         if (p.textContent !== want) p.textContent = want;
       }
-      /* the scene: forward anchors always win; the ended-chain may run
-         one scene ahead; a real jump back resyncs */
+      /* LET IT PLAY: a clip that's mid-play is untouchable — the anchor
+         takes the frame only once the clip has run its whole length
+         (photo-flips ride the clock; a jump back resyncs) */
       var scenes = t.reel && reelCache[t.reel];
       if (scenes && scenes.length) {
         var k2 = 0;
         for (var k = 0; k < scenes.length; k++) if (time >= scenes[k].begin) k2 = k;
         var v2 = card(cur).querySelector("video");
         var at = v2.dataset.k === undefined ? -1 : +v2.dataset.k;
-        if (at === -1 || k2 > at || k2 < at - 1) { setScene(v2, scenes, k2); at = +v2.dataset.k; }
+        var scAt = at > -1 ? scenes[at] : null;
+        var busy = scAt && !(scAt.flip && scAt.flip.length) &&
+                   v2.getAttribute("src") && !v2.ended && !v2.error;
+        if (at === -1 || k2 < at - 1 || (k2 > at && !busy)) { setScene(v2, scenes, k2); at = +v2.dataset.k; }
         /* photo-flip scenes ride the clock: quick cuts, scrub-safe */
         var scN = scenes[at];
         if (scN && scN.flip && scN.flip.length) {
