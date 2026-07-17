@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Films — the catalog, one swipe · McCluster</title>
-  <meta name="description" content="The McCluster catalog as a film feed — swipe through every record, each one playing its own music video with the words live on screen.">
+  <title>Lyric Videos — the catalog, one swipe · McCluster</title>
+  <meta name="description" content="The McCluster catalog as lyric videos — swipe through every record, each one playing its own scene-cut film with the words live on screen.">
   <link rel="canonical" href="https://mcclusterishere.github.io/Here/films.html">
   <link rel="icon" type="image/png" href="assets/img/m-mark.png">
   <meta name="theme-color" content="#0a0807">
@@ -24,6 +24,9 @@
       to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
     .fc video.is-fresh { animation: scenein 0.9s ease; }
     @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
+    /* THE FLIP — rally photographs cutting on the clock */
+    .fc img.scene-flip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+    .fc img.scene-flip.on { display: block; }
     .fc__scrim { position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(5,4,3,0.5) 0%, rgba(5,4,3,0.05) 35%, rgba(5,4,3,0.05) 55%, rgba(5,4,3,0.88) 100%); }
     /* the words ride the film */
@@ -54,7 +57,7 @@
   <main class="fs" id="fs" aria-label="The film feed"></main>
 
   <!-- one tap: the reel gets its sound (autoplay law) -->
-  <div class="fa" id="fa"><div><b>The films</b><small>Tap anywhere — the sound rides the swipe</small></div></div>
+  <div class="fa" id="fa"><div><b>Lyric videos</b><small>Tap anywhere — the sound rides the swipe</small></div></div>
 
   <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
   <nav class="appbar" aria-label="Sections">
@@ -212,17 +215,39 @@
         cb(reelCache[src]);
       }).catch(function () { cb(null); });
     }
+    function flipEl(v) {
+      if (!v._flip) {
+        var f = document.createElement("img");
+        f.className = "scene-flip"; f.alt = "";
+        v.parentNode.insertBefore(f, v.parentNode.querySelector(".fc__scrim"));
+        v._flip = f;
+      }
+      return v._flip;
+    }
     function setScene(v, scenes, k) {
       k = Math.max(0, Math.min(k, scenes.length - 1));
       if (+v.dataset.k === k) return;
       if (v.getAttribute("src")) glide(v); // the first scene arrives clean
       v.dataset.k = k;
       var sc = scenes[k];
+      /* a photo-flip scene: the pictures own the frame, the film rests */
+      if (sc.flip && sc.flip.length) { try { v.pause(); } catch (e) {} return; }
+      flipEl(v).classList.remove("on");
       v.loop = false; // the chain never restarts a clip
+      /* fit the clip to its bars: one full play fills the hold */
+      var next = scenes[k + 1];
+      v._hold = next ? Math.max(0.5, next.begin - sc.begin) : 0;
       if (sc.poster) v.poster = sc.poster;
       v.src = sc.src; v.load();
       v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {});
     }
+    /* the elastic law: one full play fills the hold (0.65x–1.5x) */
+    fs.addEventListener("loadedmetadata", function (e) {
+      var v = e.target;
+      if (!v || v.tagName !== "VIDEO") return;
+      v.playbackRate = (v._hold && v.duration)
+        ? Math.max(0.65, Math.min(1.5, v.duration / v._hold)) : 1;
+    }, true);
     /* a clip ran its length: dissolve into the next scene — never loop.
        media 'ended' doesn't bubble, so listen in capture. */
     fs.addEventListener("ended", function (e) {
@@ -275,7 +300,17 @@
         for (var k = 0; k < scenes.length; k++) if (time >= scenes[k].begin) k2 = k;
         var v2 = card(cur).querySelector("video");
         var at = v2.dataset.k === undefined ? -1 : +v2.dataset.k;
-        if (at === -1 || k2 > at || k2 < at - 1) setScene(v2, scenes, k2);
+        if (at === -1 || k2 > at || k2 < at - 1) { setScene(v2, scenes, k2); at = +v2.dataset.k; }
+        /* photo-flip scenes ride the clock: quick cuts, scrub-safe */
+        var scN = scenes[at];
+        if (scN && scN.flip && scN.flip.length) {
+          var every = scN.every || 0.55;
+          var fi = Math.floor(Math.max(0, time - scN.begin) / every) % scN.flip.length;
+          var fl = flipEl(v2);
+          if (fl.getAttribute("src") !== scN.flip[fi]) fl.src = scN.flip[fi];
+          fl.classList.add("on");
+          if (!v2.paused) { try { v2.pause(); } catch (e) {} }
+        } else if (v2._flip) v2._flip.classList.remove("on");
       }
     });
     deck.addEventListener("ended", function () {

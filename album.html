@@ -226,6 +226,9 @@
       to { opacity: 0; transform: scale(1.07); filter: brightness(1.35); } }
     .now__film.is-fresh { animation: scenein 0.9s ease; }
     @keyframes scenein { from { transform: scale(1.05); } to { transform: scale(1); } }
+    /* THE FLIP — rally photographs cutting on the clock */
+    .now__flip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+    .now__flip.on { display: block; }
     .now__scrim { position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(6,5,4,0.42) 0%, rgba(6,5,4,0.12) 40%, rgba(6,5,4,0.78) 100%); }
     .now__lyr { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -1100,14 +1103,29 @@
       for (var i = 0; i < reelScenes.length; i++) if (t >= reelScenes[i].begin) k = i;
       return k;
     }
+    function flipEl() {
+      if (!nowFilm._flip) {
+        var f = document.createElement("img");
+        f.className = "now__flip"; f.alt = "";
+        nowFilm.parentNode.insertBefore(f, nowFilm.parentNode.querySelector(".now__scrim"));
+        nowFilm._flip = f;
+      }
+      return nowFilm._flip;
+    }
     function setScene(k) {
       k = Math.max(0, Math.min(k, reelScenes.length - 1));
       if (k === sceneIdx) return;
       var sc = reelScenes[k];
       var wasOn = sceneIdx > -1; // the first scene arrives clean, no veil
-      sceneIdx = k; sceneBegin = sc.begin; sceneSrc = sc.src;
+      sceneIdx = k; sceneBegin = sc.begin; sceneSrc = sc.src || "";
       if (wasOn) glide(nowFilm);
+      /* a photo-flip scene: the pictures own the frame, the film rests */
+      if (sc.flip && sc.flip.length) { try { nowFilm.pause(); } catch (e) {} return; }
+      flipEl().classList.remove("on");
       nowFilm.loop = false;
+      /* fit the clip to its bars: one full play fills the hold */
+      var next = reelScenes[k + 1];
+      nowFilm._hold = next ? Math.max(0.5, next.begin - sc.begin) : 0;
       nowFilm.poster = sc.poster || "";
       nowFilm.src = sc.src;
       nowFilm.load();
@@ -1120,8 +1138,23 @@
         /* forward anchors always win; the ended-chain may run one scene
            ahead; anything further off (a scrub) resyncs */
         if (sceneIdx === -1 || k > sceneIdx || k < sceneIdx - 1) setScene(k);
+        /* a photo-flip scene rides the song clock: quick cuts, scrub-safe */
+        var scN = reelScenes[sceneIdx];
+        if (scN && scN.flip && scN.flip.length) {
+          var every = scN.every || 0.55;
+          var fi = Math.floor(Math.max(0, deck.currentTime - scN.begin) / every) % scN.flip.length;
+          var fl = flipEl();
+          if (fl.getAttribute("src") !== scN.flip[fi]) fl.src = scN.flip[fi];
+          fl.classList.add("on");
+          if (!nowFilm.paused) { try { nowFilm.pause(); } catch (e) {} }
+          return;
+        }
+        if (nowFilm._flip) nowFilm._flip.classList.remove("on");
         if (hard && nowFilm.duration) {
-          try { nowFilm.currentTime = Math.max(0, Math.min(deck.currentTime - sceneBegin, nowFilm.duration - 0.05)); } catch (e) {}
+          try {
+            nowFilm.currentTime = Math.max(0, Math.min(
+              (deck.currentTime - sceneBegin) * (nowFilm.playbackRate || 1), nowFilm.duration - 0.05));
+          } catch (e) {}
         }
         if (deck.paused && !nowFilm.paused) nowFilm.pause();
         if (!deck.paused && nowFilm.paused && !nowFilm.ended) { var p1 = nowFilm.play(); if (p1 && p1.catch) p1.catch(function () {}); }
@@ -1145,7 +1178,13 @@
     deck.addEventListener("play", function () { syncFilm(true); });
     deck.addEventListener("pause", function () { syncFilm(false); });
     deck.addEventListener("timeupdate", function () { syncFilm(false); });
-    nowFilm.addEventListener("loadedmetadata", function () { syncFilm(true); });
+    nowFilm.addEventListener("loadedmetadata", function () {
+      /* the elastic law: slow or speed the clip so one full play fits
+         the bars it was cut for (never past a gentle 0.65x–1.5x) */
+      nowFilm.playbackRate = (reelScenes && nowFilm._hold && nowFilm.duration)
+        ? Math.max(0.65, Math.min(1.5, nowFilm.duration / nowFilm._hold)) : 1;
+      syncFilm(true);
+    });
     function loadLyrics(src) {
       lyrTimed = null; lyrPlain = false; lyrLines = [];
       if (!src) {
