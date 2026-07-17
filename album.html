@@ -60,7 +60,17 @@
   <link rel="stylesheet" href="css/style.css?v=__STAMP__">
   <style>
     html, body { background: #0a0807; }
-    .hr { max-width: 44rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 12rem; }
+    .hr { max-width: 44rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 12rem;
+      position: relative; z-index: 2; }
+
+    /* THE ROOM — the record's film behind everything */
+    .room { position: fixed; inset: 0; z-index: 0; opacity: 0; transition: opacity 1.2s ease; }
+    .room.is-on { opacity: 1; }
+    .room video { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover;
+      filter: blur(26px) saturate(1.15) brightness(0.6); }
+    .room__scrim { position: absolute; inset: 0;
+      background: radial-gradient(120% 90% at 50% 0%, rgba(10,8,7,0.35) 0%, rgba(10,8,7,0.82) 68%, rgba(10,8,7,0.96) 100%); }
+    @media (prefers-reduced-motion: reduce) { .room { display: none; } }
 
     /* THE PULSE — the career wears a color: growing blue, trending gold,
        cooling amber, viral violet. One variable, everything breathes. */
@@ -121,14 +131,18 @@
     .alb__by b { color: var(--cream); }
     .alb__play { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       display: inline-flex; align-items: center; gap: 0.55rem; margin-top: 0.9rem; padding: 0.8rem 1.5rem; border-radius: 100px;
-      background: #e8c877; color: #16110b; font-weight: 800; font-size: 1rem; box-shadow: 0 12px 34px -14px rgba(232,200,119,0.7); }
+      background: var(--pulse); color: #16110b; font-weight: 800; font-size: 1rem; box-shadow: 0 12px 34px -14px rgba(232,200,119,0.7); }
     .alb__play:active { transform: translateY(1px); }
 
-    /* the record */
+    /* the record — the playing row wears its scene */
     .tr { list-style: none; padding: 0; margin: 2.2rem 0 0; border-top: 1px solid rgba(201,157,69,0.25); }
-    .tr li { display: flex; align-items: center; gap: 0.9rem; padding: 0.95rem 0.2rem;
-      border-bottom: 1px solid rgba(244,239,230,0.09); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .tr li { position: relative; display: flex; align-items: center; gap: 0.9rem; padding: 0.95rem 0.6rem;
+      border-bottom: 1px solid rgba(244,239,230,0.09); cursor: pointer; -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation; border-radius: 12px; overflow: hidden; }
     .tr li:hover { background: rgba(201,157,69,0.04); }
+    .tr li.on::before { content: ""; position: absolute; inset: 0; z-index: -1;
+      background-image: var(--row-art); background-size: cover; background-position: center; opacity: 0.2; }
+    .tr li.on { border-bottom-color: transparent; box-shadow: inset 0 0 0 1px rgba(201,157,69,0.35); }
     .tr .n { font-size: 0.75rem; color: #c99d45; font-weight: 800; width: 1.4rem; text-align: right; flex: none; }
     .tr .t { font-family: var(--display); font-size: 1.15rem; color: var(--cream); flex: 1; line-height: 1.15; }
     .tr .t small { display: block; font-family: var(--body); font-size: 0.76rem; color: var(--cream-dim); margin-top: 0.15rem; }
@@ -136,10 +150,10 @@
     .tr .hrt { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
       flex: none; width: 34px; height: 34px; display: grid; place-items: center; color: rgba(244,239,230,0.35);
       font-size: 1.05rem; line-height: 1; padding: 0; }
-    .tr .hrt.on { color: #e8c877; }
-    .tr li.on .t, .tr li.on .n { color: #e8c877; }
+    .tr .hrt.on { color: var(--pulse); }
+    .tr li.on .t, .tr li.on .n { color: var(--pulse); }
     .tr .eq { flex: none; width: 18px; height: 14px; display: none; align-items: flex-end; gap: 2px; }
-    .tr .eq i { width: 3px; background: #e8c877; animation: eq 0.9s ease-in-out infinite; }
+    .tr .eq i { width: 3px; background: var(--pulse); animation: eq 0.9s ease-in-out infinite; }
     .tr .eq i:nth-child(2) { animation-delay: 0.25s; } .tr .eq i:nth-child(3) { animation-delay: 0.5s; }
     .tr li.on.playing .eq { display: flex; }
     @keyframes eq { 0%,100% { height: 4px; } 50% { height: 14px; } }
@@ -153,16 +167,20 @@
     .deckbar[data-off="1"] { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
     .deckbar__seek { display: block; width: 100%; height: 14px; padding: 6px 0 4px; background: none; border: 0; cursor: pointer; }
     .deckbar__seek i { display: block; height: 3px; background: rgba(244,239,230,0.14); border-radius: 2px; overflow: hidden; }
-    .deckbar__seek b { display: block; height: 100%; width: 0; background: #e8c877; }
+    .deckbar__seek b { display: block; height: 100%; width: 0; background: var(--pulse); }
     .deckbar__row { display: flex; align-items: center; gap: 0.7rem; padding: 0.1rem 0.8rem 0.65rem; }
     .deckbar__art { width: 38px; height: 38px; border-radius: 9px; object-fit: cover; flex: none; }
     .deckbar__meta { flex: 1; min-width: 0; }
     .deckbar__meta b { display: block; color: var(--cream); font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .deckbar__meta small { color: var(--cream-dim); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+    /* the words ride the deck: the live bar, right on the mini player */
+    .deckbar__lyr { display: block; color: var(--pulse); font-size: 0.74rem; font-family: var(--display);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: normal; }
+    .deckbar__lyr:empty { display: none; }
     .deckbar button.tp { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
       color: var(--cream); width: 40px; height: 40px; display: grid; place-items: center; flex: none; }
     .deckbar button.tp svg { width: 20px; height: 20px; fill: currentColor; }
-    .deckbar button.tp--play { background: #e8c877; color: #16110b; border-radius: 50%; }
+    .deckbar button.tp--play { background: var(--pulse); color: #16110b; border-radius: 50%; }
 
     /* THE LIBRARY — every album and playlist in the system, one thumb-swipe away */
     .lib { margin-top: 3rem; }
@@ -173,7 +191,7 @@
     .rail a { flex: none; width: 118px; text-decoration: none; color: var(--cream); scroll-snap-align: start; }
     .rail img { width: 118px; height: 118px; object-fit: cover; border-radius: 12px; background: #16110c;
       box-shadow: 0 12px 32px -14px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,157,69,0.22); }
-    .rail a.is-here img { box-shadow: 0 12px 32px -14px rgba(0,0,0,0.9), 0 0 0 2px #e8c877; }
+    .rail a.is-here img { box-shadow: 0 12px 32px -14px rgba(0,0,0,0.9), 0 0 0 2px var(--pulse); }
     .rail b { display: block; font-family: var(--display); font-weight: 400; font-size: 0.9rem; margin-top: 0.45rem; line-height: 1.15;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .rail small { display: block; color: var(--cream-dim); font-size: 0.68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -207,7 +225,7 @@
     .now__lyr p { font-family: var(--display); font-size: clamp(1.05rem, 4.4vw, 1.45rem); line-height: 1.4;
       color: rgba(244,239,230,0.45); margin: 0 0 0.8em; transition: color 0.3s ease, transform 0.3s ease; transform-origin: left center;
       text-shadow: 0 1px 10px rgba(0,0,0,0.7); }
-    .now__lyr p.is-live { color: #e8c877; transform: scale(1.04); text-shadow: 0 2px 22px rgba(0,0,0,0.85); }
+    .now__lyr p.is-live { color: var(--pulse); transform: scale(1.04); text-shadow: 0 2px 22px rgba(0,0,0,0.85); }
     .now__lyr .now__none { font-family: var(--body); font-size: 0.9rem; color: var(--cream-dim); }
     .now__meta { padding: 1rem 1.3rem 0; text-align: center; }
     .now__title { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(1.7rem, 7.5vw, 2.5rem); }
@@ -215,14 +233,14 @@
     .now__deck { padding: 0.6rem 1.4rem calc(env(safe-area-inset-bottom, 0px) + 1.2rem); }
     .now__seek { display: block; width: 100%; height: 18px; padding: 7px 0; background: none; border: 0; cursor: pointer; }
     .now__seek i { display: block; height: 4px; background: rgba(244,239,230,0.16); border-radius: 3px; overflow: hidden; }
-    .now__seek b { display: block; height: 100%; width: 0; background: #e8c877; }
+    .now__seek b { display: block; height: 100%; width: 0; background: var(--pulse); }
     .now__times { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--cream-dim);
       font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
     .now__tp { display: flex; align-items: center; justify-content: center; gap: 2.2rem; margin-top: 0.5rem; }
     .now__tp button { -webkit-appearance: none; appearance: none; border: 0; background: none; color: var(--cream);
       width: 52px; height: 52px; display: grid; place-items: center; cursor: pointer; touch-action: manipulation; }
     .now__tp button svg { width: 26px; height: 26px; fill: currentColor; }
-    .now__tp .now__play { background: #e8c877; color: #16110b; border-radius: 50%; width: 66px; height: 66px;
+    .now__tp .now__play { background: var(--pulse); color: #16110b; border-radius: 50%; width: 66px; height: 66px;
       box-shadow: 0 14px 40px -14px rgba(232,200,119,0.7); }
     .now__tp .now__play svg { width: 30px; height: 30px; }
     /* THE ECOSYSTEM — the song is the hub: credits, the record, the doors */
@@ -235,6 +253,13 @@
   </style>
 </head>
 <body class="songpage">
+  <!-- THE ROOM — the page lives inside the playing record's film:
+       blurred, dimmed, scene-cutting with the reels. Spotify shows
+       you a list; this room shows you the world of the song. -->
+  <div class="room" aria-hidden="true">
+    <video id="roomFilm" muted loop playsinline preload="none"></video>
+    <div class="room__scrim"></div>
+  </div>
   <div class="grain" aria-hidden="true"></div>
 
   <main class="hr">
@@ -330,7 +355,7 @@
     <button class="deckbar__seek" id="seek" type="button" aria-label="Seek"><i><b id="seekFill"></b></i></button>
     <div class="deckbar__row">
       <img class="deckbar__art" src="assets/img/here-cover.jpg" alt="">
-      <div class="deckbar__meta"><b id="npTitle">—</b><small id="npTime">0:00 · HERE</small></div>
+      <div class="deckbar__meta"><b id="npTitle">—</b><small id="npTime">0:00 · HERE</small><small class="deckbar__lyr" id="npLyr"></small></div>
       <button class="tp" id="tpPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2.5v14H6zM20 5v14l-10-7z"/></svg></button>
       <button class="tp tp--play" id="tpPlay" type="button" aria-label="Play or pause"><svg id="tpPlayIc" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></button>
       <button class="tp" id="tpNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M18 5h-2.5v14H18zM4 5v14l10-7z"/></svg></button>
@@ -433,6 +458,7 @@
         (t.lyrics ? ' data-lyrics="' + t.lyrics + '"' : "") +
         (t.reel ? ' data-reel="' + t.reel + '"' : "") +
         (t.art ? ' data-art="' + t.art + '"' : "") +
+        (t.poster ? ' style="--row-art:url(\'' + t.poster + '\')"' : "") +
         ' data-albslug="' + esc(t.albSlug || ALBUM) + '"' +
         ' data-title="' + esc(t.title) + '">' +
         '<span class="n">' + (i + 1) + '</span><span class="t">' + esc(t.title) +
@@ -896,6 +922,11 @@
       if (at) deck.currentTime = at;
       var art = rows[cur].getAttribute("data-art");
       if (art) document.querySelector(".deckbar__art").src = art;
+      /* the room takes the record: film, scenes, and words load with
+         the track — the whole page becomes the song's world */
+      loadReel(rows[cur].getAttribute("data-reel") || "");
+      setRoom(rows[cur].getAttribute("data-video") || "", rows[cur].getAttribute("data-poster") || "");
+      loadLyrics(rows[cur].getAttribute("data-lyrics") || "");
       media(); paintRows(); paintDeck();
     }
     function play(i, at) {
@@ -927,11 +958,11 @@
     });
 
     deck.addEventListener("play", function () { paintRows(); paintDeck(); announce(true); save();
-      el("playAll").textContent = "❚❚ Pause"; });
+      el("playAll").textContent = "❚❚ Pause"; roomPlay(true); });
     deck.addEventListener("pause", function () { paintRows(); paintDeck(); announce(false); save();
-      el("playAll").textContent = "▶ Play"; });
+      el("playAll").textContent = "▶ Play"; roomPlay(false); });
     var tick = 0;
-    deck.addEventListener("timeupdate", function () { paintDeck(); if (++tick % 8 === 0) save(); });
+    deck.addEventListener("timeupdate", function () { paintDeck(); roomTick(); if (++tick % 8 === 0) save(); });
     deck.addEventListener("ended", function () { next(); }); // the record keeps spinning, wraps at the end
     window.addEventListener("pagehide", save);
 
@@ -948,6 +979,45 @@
       var r0 = JSON.parse(localStorage.getItem(KEY));
       if (r0 && r0.album === ALBUM && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
     } catch (e) {}
+
+    /* ---------- THE ROOM: the page inside the record's film ---------- */
+    var room = document.querySelector(".room"), roomFilm = el("roomFilm"), roomSrc = "";
+    function setRoom(src, poster) {
+      if (!roomFilm) return;
+      if (!src) { room.classList.remove("is-on"); try { roomFilm.pause(); } catch (e) {} return; }
+      if (roomSrc !== src) {
+        roomSrc = src;
+        if (poster) roomFilm.poster = poster;
+        roomFilm.src = src;
+        roomFilm.load();
+      }
+      room.classList.add("is-on");
+      if (!deck.paused) { var p = roomFilm.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    function roomPlay(on) {
+      if (!roomFilm || !roomSrc) return;
+      if (on) { var p = roomFilm.play(); if (p && p.catch) p.catch(function () {}); }
+      else { try { roomFilm.pause(); } catch (e) {} }
+    }
+    /* the room rides the song clock: reels scene-cut the walls, and
+       the live bar lands on the deck — sheet open or not */
+    function roomTick() {
+      if (cur < 0) return;
+      if (reelScenes && reelScenes.length) {
+        var sc = reelScenes[0];
+        for (var i = 0; i < reelScenes.length; i++) if (deck.currentTime >= reelScenes[i].begin) sc = reelScenes[i];
+        setRoom(sc.src, sc.poster);
+      }
+      var line = "", t = deck.currentTime;
+      if (lyrTimed && lyrTimed.length) {
+        for (var k = 0; k < lyrTimed.length; k++) if (t >= lyrTimed[k].begin) line = lyrTimed[k].content;
+      } else if (lyrPlain && deck.duration && lyrLines.length) {
+        var idx = Math.min(lyrLines.length - 1, Math.floor(t / deck.duration * lyrLines.length));
+        line = lyrLines[idx] ? lyrLines[idx].textContent : "";
+      }
+      var n = el("npLyr");
+      if (n && n.textContent !== line) n.textContent = line;
+    }
 
     /* ---------- THE NOW SHEET: the record, opened up ---------- */
     var now = el("now"), nowFilm = el("nowFilm"), nowLyr = el("nowLyr");
