@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Cutting Room — your lyric video, cut by the machine · McCluster</title>
+  <meta name="description" content="Bring your record, your timecoded lyrics, and your clips — the cutter spaces the scenes, applies the elastic law, and your lyric video plays like the house's.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/cut.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <meta name="theme-color" content="#0a0807">
+  <link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <style>
+    html, body { background: #0a0807; }
+    .cu { max-width: 40rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 10rem; }
+    .cu__k { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .cu h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(2.6rem, 11vw, 4.2rem); margin-top: 0.35rem; }
+    .cu__sub { color: var(--cream-dim); line-height: 1.7; margin-top: 0.8rem; font-size: 0.95rem; }
+    .cu__sub b { color: var(--cream); }
+    .st { border: 1px solid rgba(201,157,69,0.32); border-radius: 16px; background: rgba(22,17,12,0.6);
+      padding: 1rem 1.1rem 1.2rem; margin-top: 1.2rem; }
+    .st small.k { display: block; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: #c99d45; font-weight: 800; margin-bottom: 0.5rem; }
+    .st input[type="text"] { width: 100%; box-sizing: border-box; background: rgba(10,8,7,0.8); color: var(--cream);
+      border: 1px solid rgba(244,239,230,0.18); border-radius: 10px; padding: 0.65rem 0.75rem; font: inherit; font-size: 0.92rem; }
+    .st input[type="file"] { width: 100%; color: var(--cream-dim); font-size: 0.85rem; }
+    .st .hint { color: var(--cream-dim); font-size: 0.78rem; line-height: 1.55; margin-top: 0.45rem; }
+    .st .ok { color: #9fdca8; font-size: 0.8rem; margin-top: 0.35rem; }
+    .cu button.go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      margin-top: 1.2rem; padding: 0.85rem 1.6rem; border-radius: 100px; background: #e8c877; color: #16110b;
+      font-weight: 800; font-size: 1rem; }
+    .cu button.go:disabled { opacity: 0.45; }
+    /* the preview — the record playing its cut, right here */
+    .pv { display: none; margin-top: 1.4rem; }
+    .pv.on { display: block; }
+    .pv__art { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 18px; overflow: hidden; background: #14100c;
+      box-shadow: 0 22px 60px -20px rgba(0,0,0,0.95), 0 0 0 1px rgba(201,157,69,0.28); }
+    .pv__art video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .pv__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,5,4,0.3) 0%, rgba(6,5,4,0.05) 45%, rgba(6,5,4,0.8) 100%); }
+    .pv__cap { position: absolute; left: 0.9rem; right: 0.9rem; bottom: 0.8rem; font-family: var(--display);
+      font-size: clamp(1rem, 4vw, 1.35rem); color: #e8c877; line-height: 1.35; text-shadow: 0 2px 20px rgba(0,0,0,0.9); min-height: 1.35em; }
+    .pv__bar { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; }
+    .pv__bar button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; width: 52px; height: 52px;
+      border-radius: 50%; background: #e8c877; color: #16110b; font-size: 1.2rem; }
+    .pv__bar .cut-note { color: var(--cream-dim); font-size: 0.8rem; line-height: 1.5; }
+    .done { display: none; margin-top: 1rem; color: var(--cream-dim); font-size: 0.9rem; line-height: 1.7; }
+    .done.on { display: block; }
+    .done a { color: #e8c877; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="cu">
+    <p class="cu__k">The cutting room</p>
+    <h1>Your cut</h1>
+    <p class="cu__sub">Bring your record, your <b>timecoded lyrics</b> (the Lyric Potato .json export),
+      and a bag of clips. The cutter spaces the scenes so every clip plays through, the elastic law
+      fits them to your bars, and your lyric video plays with the same chain and dissolve the house records get.</p>
+
+    <section class="st" id="gate" hidden>
+      <small class="k">First things first</small>
+      <p class="hint">The cutting room needs a signed-in creator — <a href="account.html" style="color:#e8c877">sign in</a> and come right back.</p>
+    </section>
+
+    <section class="st" id="stFiles">
+      <small class="k">The record</small>
+      <input type="text" id="cuTitle" placeholder="Track title">
+      <div style="height:0.6rem"></div>
+      <input type="text" id="cuArtist" placeholder="Artist name">
+      <div style="height:0.9rem"></div>
+      <small class="k">The audio</small>
+      <input type="file" id="cuAudio" accept="audio/*">
+      <p class="ok" id="okAudio" hidden></p>
+      <small class="k" style="margin-top:0.9rem">The timecoded lyrics (.json)</small>
+      <input type="file" id="cuLyr" accept=".json,application/json">
+      <p class="ok" id="okLyr" hidden></p>
+      <small class="k" style="margin-top:0.9rem">The clips (pick several)</small>
+      <input type="file" id="cuClips" accept="video/*" multiple>
+      <p class="ok" id="okClips" hidden></p>
+      <p class="hint">Clips are measured in your browser; nothing uploads until you publish.</p>
+    </section>
+
+    <button class="go" id="cuCut" type="button" disabled>Cut it</button>
+
+    <section class="pv" id="pv">
+      <div class="pv__art">
+        <video id="pvFilm" muted playsinline preload="metadata"></video>
+        <div class="pv__scrim"></div>
+        <p class="pv__cap" id="pvCap"></p>
+      </div>
+      <div class="pv__bar">
+        <button id="pvPlay" type="button" aria-label="Play or pause">▶</button>
+        <p class="cut-note" id="pvNote"></p>
+      </div>
+      <button class="go" id="cuPub" type="button">Publish the cut</button>
+      <p class="done" id="done"></p>
+    </section>
+  </main>
+
+  <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/cutter.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var el = function (id) { return document.getElementById(id); };
+    var S = window.MCC_SUPA;
+
+    /* the gate: creators only */
+    function gate() {
+      var u = window.MCC_AUTH && window.MCC_AUTH.user && window.MCC_AUTH.user();
+      el("gate").hidden = !!u;
+      return !!u;
+    }
+    gate(); setTimeout(gate, 800);
+
+    var audioFile = null, audioDur = 0, lyrJson = null, clipRows = [];
+    function ready() {
+      el("cuCut").disabled = !(audioFile && audioDur && clipRows.length && el("cuTitle").value.trim());
+    }
+    ["cuTitle", "cuArtist"].forEach(function (id) { el(id).addEventListener("input", ready); });
+
+    el("cuAudio").addEventListener("change", function () {
+      audioFile = this.files[0] || null; audioDur = 0;
+      if (!audioFile) return ready();
+      var a = new Audio();
+      a.preload = "metadata";
+      a.src = URL.createObjectURL(audioFile);
+      a.addEventListener("loadedmetadata", function () {
+        audioDur = a.duration || 0;
+        el("okAudio").hidden = false;
+        el("okAudio").textContent = "✓ " + audioFile.name + " · " + Math.round(audioDur) + "s";
+        ready();
+      });
+    });
+
+    el("cuLyr").addEventListener("change", function () {
+      lyrJson = null;
+      var f = this.files[0];
+      if (!f) return;
+      f.text().then(function (t) {
+        try {
+          var j = JSON.parse(t);
+          var lines = (j.timed && j.timed.line) || null;
+          if (!lines && j.lines && j.lines.length && j.lines[0].t != null) {
+            lines = j.lines.map(function (l) { return { begin: l.t, content: l.text || "" }; });
+            j = { timed: { line: lines } };
+          }
+          if (!lines || !lines.length) throw new Error("no timed lines");
+          lyrJson = j;
+          el("okLyr").hidden = false;
+          el("okLyr").textContent = "✓ " + lines.length + " timecoded lines";
+        } catch (e) {
+          el("okLyr").hidden = false;
+          el("okLyr").textContent = "✕ That file isn't a timed lyrics export.";
+        }
+        ready();
+      });
+    });
+
+    el("cuClips").addEventListener("change", function () {
+      clipRows = [];
+      var files = Array.prototype.slice.call(this.files || []);
+      if (!files.length) return ready();
+      var left = files.length, failed = [];
+      function settle() {
+        if (--left) return;
+        el("okClips").hidden = false;
+        el("okClips").textContent =
+          (clipRows.length ? "✓ " + clipRows.length + " clips measured (" +
+            clipRows.map(function (c) { return Math.round(c.duration) + "s"; }).join(", ") + ")" : "") +
+          (failed.length ? "  ✕ couldn't measure: " + failed.join(", ") : "");
+        ready();
+      }
+      files.forEach(function (f) {
+        var v = document.createElement("video");
+        v.preload = "metadata"; v.muted = true;
+        var url = URL.createObjectURL(f);
+        v.src = url;
+        v.addEventListener("loadedmetadata", function () {
+          if (v.duration > 0.5) clipRows.push({ file: f, src: url, duration: v.duration });
+          else failed.push(f.name);
+          settle();
+        });
+        v.addEventListener("error", function () { failed.push(f.name); settle(); });
+      });
+    });
+
+    /* ---- THE CUT: the math runs, the preview plays ---- */
+    var scenes = null;
+    el("cuCut").addEventListener("click", function () {
+      var lines = lyrJson ? lyrJson.timed.line : [];
+      scenes = window.MCC_CUTTER.autoCut(lines, clipRows, audioDur);
+      var v = window.MCC_CUTTER.validate(scenes, audioDur);
+      if (!v.ok || !scenes.length) { el("pvNote").textContent = "The cut came back wrong: " + v.notes.join("; "); return; }
+      el("pv").classList.add("on");
+      el("pvNote").textContent = scenes.length + " scenes · every clip plays through · elastic-fitted at playback. This is the machine's cut — publish it or re-pick clips and cut again.";
+      startPreview();
+      if (window.MCC_TRACK) window.MCC_TRACK("cut_made", { scenes: scenes.length });
+    });
+
+    /* the preview deck: the same chain + elastic laws, in miniature */
+    var deck = new Audio(), pvFilm = el("pvFilm"), pvIdx = -1;
+    function pvScene(k) {
+      k = Math.max(0, Math.min(k, scenes.length - 1));
+      if (k === pvIdx) return;
+      pvIdx = k;
+      var sc = scenes[k], next = scenes[k + 1];
+      pvFilm._hold = next ? next.begin - sc.begin : 0;
+      pvFilm.src = sc.src; pvFilm.load();
+      if (!deck.paused) { var p = pvFilm.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    pvFilm.addEventListener("loadedmetadata", function () {
+      pvFilm.playbackRate = (pvFilm._hold && pvFilm.duration)
+        ? Math.max(0.65, Math.min(1.5, pvFilm.duration / pvFilm._hold)) : 1;
+    });
+    pvFilm.addEventListener("ended", function () {
+      if (pvIdx < scenes.length - 1 && !deck.paused) pvScene(pvIdx + 1);
+    });
+    deck.addEventListener("timeupdate", function () {
+      if (!scenes) return;
+      var t = deck.currentTime, k = 0;
+      for (var i = 0; i < scenes.length; i++) if (t >= scenes[i].begin) k = i;
+      if (pvIdx === -1 || k > pvIdx || k < pvIdx - 1) pvScene(k);
+      if (lyrJson) {
+        var line = "";
+        var L = lyrJson.timed.line;
+        for (var j = 0; j < L.length; j++) if (t >= L[j].begin) line = L[j].content;
+        if (el("pvCap").textContent !== line) el("pvCap").textContent = line;
+      }
+    });
+    function startPreview() {
+      deck.src = URL.createObjectURL(audioFile);
+      pvIdx = -1; pvScene(0);
+    }
+    el("pvPlay").addEventListener("click", function () {
+      if (deck.paused) { deck.play(); pvFilm.play().catch(function () {}); this.textContent = "❚❚"; }
+      else { deck.pause(); pvFilm.pause(); this.textContent = "▶"; }
+    });
+
+    /* ---- PUBLISH: the files go to your folder, the cut goes on the record ---- */
+    function put(path, file, token) {
+      return fetch(S.url + "/storage/v1/object/cuts/" + path, {
+        method: "POST",
+        headers: { apikey: S.key, Authorization: "Bearer " + token, "x-upsert": "true",
+          "Content-Type": file.type || "application/octet-stream" },
+        body: file,
+      }).then(function (r) {
+        if (!r.ok) throw new Error("upload " + r.status);
+        return S.url + "/storage/v1/object/public/cuts/" + path;
+      });
+    }
+    el("cuPub").addEventListener("click", function () {
+      if (!gate()) return;
+      var btn = this; btn.disabled = true; btn.textContent = "Publishing…";
+      var uid = S.uid(), stamp = Date.now();
+      var clean = function (n) { return n.toLowerCase().replace(/[^a-z0-9.]+/g, "-").slice(-60); };
+      S.token().then(function (token) {
+        var jobs = [put(uid + "/" + stamp + "-" + clean(audioFile.name), audioFile, token)];
+        clipRows.forEach(function (c, i) { jobs.push(put(uid + "/" + stamp + "-c" + i + "-" + clean(c.file.name), c.file, token)); });
+        return Promise.all(jobs).then(function (urls) {
+          var audioUrl = urls[0];
+          var map = {};
+          clipRows.forEach(function (c, i) { map[c.src] = urls[i + 1]; });
+          var pubScenes = scenes.map(function (sc) { return { begin: sc.begin, src: map[sc.src] || sc.src, poster: "" }; });
+          return fetch(S.url + "/rest/v1/creator_tracks", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", apikey: S.key, Authorization: "Bearer " + token, Prefer: "return=representation" },
+            body: JSON.stringify({
+              title: el("cuTitle").value.trim(),
+              artist: el("cuArtist").value.trim(),
+              audio_url: audioUrl,
+              lyrics: lyrJson,
+              reel: { scenes: pubScenes },
+            }),
+          });
+        });
+      }).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }).then(function (rows) {
+        var link = "album.html?track=" + rows[0].id;
+        el("done").classList.add("on");
+        el("done").innerHTML = "On the record. Your lyric video plays at <a href='" + link + "'>" + location.origin +
+          location.pathname.replace("cut.html", link) + "</a> — the chain, the dissolve, and the elastic law ride it automatically.";
+        btn.textContent = "Published ✓";
+        if (window.MCC_TRACK) window.MCC_TRACK("cut_published", {});
+      }).catch(function (e) {
+        btn.disabled = false; btn.textContent = "Publish the cut";
+        el("done").classList.add("on");
+        el("done").textContent = "The publish hiccuped (" + (e && e.message || e) + ") — if the vault isn't armed yet, the desk pastes docs/creator-cuts.sql.";
+      });
+    });
+
+    if (window.MCC_TRACK) window.MCC_TRACK("cut_view", {});
+  })();
+  </script>
+</body>
+</html>

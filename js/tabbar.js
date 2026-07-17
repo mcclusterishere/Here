@@ -64,6 +64,8 @@
           sub: "The founder — creative director, recognized by the State of Georgia and the City of Bridgeport." }],
         ["press.html", "news", "Press", { ic: "📰", title: "The press kit",
           sub: "Fast facts, ready-to-run bios, and the proclamations to download — everything a reporter needs." }],
+        ["cut.html", "film", "Your cut", { ic: "✂️", title: "The cutting room",
+          sub: "Bring your record, your timecoded lyrics, and your clips — the machine cuts your lyric video with the same laws the house rides." }],
       ],
     },
   };

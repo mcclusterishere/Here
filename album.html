@@ -408,6 +408,8 @@
     var Q0 = new URLSearchParams(location.search);
     var ALBUM = (Q0.get("album") || "here").toLowerCase();
     var PL = (Q0.get("playlist") || "").toLowerCase();
+    var TRACK = Q0.get("track") || ""; /* a creator cut, straight from the database */
+    var INLINE = {}; /* the cut's lyrics + reel ride the row, not files */
     var deck = document.getElementById("deck");
     var rows = [];
     function esc(x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; }
@@ -480,9 +482,18 @@
         '<span class="d">–:––</span></li>';
     }
 
-    function boot(data, pls) {
+    function boot(data, pls, ct) {
       var head = null, queue = null;
-      if (PL) {
+      if (ct) {
+        INLINE = { lyrics: ct.lyrics || null, reel: ct.reel || null };
+        ALBUM = "ct:" + ct.id;
+        head = { name: ct.title, tag: "A creator cut · the cutting room", by: ct.artist || "",
+          art: ct.poster_url || "assets/img/m-mark.png" };
+        queue = [{ title: ct.title, sub: ct.artist || "", src: ct.audio_url,
+          poster: ct.poster_url || "", lyrics: ct.lyrics ? "@inline" : "", reel: ct.reel ? "@inline" : "",
+          albSlug: ALBUM, albName: ct.artist || "", art: ct.poster_url || "" }];
+      }
+      if (!queue && PL) {
         var got = resolvePlaylist(data, pls, PL);
         if (got) { head = got; queue = got.queue; ALBUM = "pl:" + got.slug; }
         else PL = "";
@@ -514,9 +525,17 @@
       fetch("data/albums.json", { cache: "no-cache" }).then(function (r) { return r.json(); }),
       fetch("data/playlists.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
       fetch("data/catalogue.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).catch(function () { return null; }),
+      Promise.resolve().then(function () {
+        if (!TRACK) return null;
+        return fetch(SB_URL + "/rest/v1/creator_tracks?id=eq." + encodeURIComponent(TRACK) + "&select=*&limit=1", {
+          headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY },
+        }).then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (rows) { return rows && rows[0] ? rows[0] : null; })
+          .catch(function () { return null; });
+      }),
     ]).then(function (all) {
       ((all[2] && all[2].tracks) || []).forEach(function (t) { if (t.credit) CRED[t.title.toLowerCase()] = t.credit; });
-      boot(all[0], all[1]);
+      boot(all[0], all[1], all[3]);
     }).catch(function () {
         document.getElementById("tracks").innerHTML = "<li><span class='t'>The shelf is warming up — refresh in a moment.</span></li>";
       });
@@ -634,6 +653,7 @@
         ? desk.craft + " · @" + desk.slug : "@" + desk.slug;
       var payLink = "pay.html?to=" + encodeURIComponent(desk.slug);
       var tiles = payoutTile(desk) +
+        deskTile("Cut a lyric video", "Open", "your record + your timecodes → the machine", "cut.html") +
         (desk.charges_enabled
           ? deskTile("Your pay link", "Open", "drop it in any bio — Apple Pay ready", payLink)
           : "") +
@@ -1089,6 +1109,11 @@
     function loadReel(src) {
       reelScenes = null; sceneIdx = -1; sceneBegin = 0; sceneSrc = "";
       nowFilm.loop = true; // single-video tracks keep their ambience loop
+      if (src === "@inline") {
+        reelScenes = (INLINE.reel && INLINE.reel.scenes) || null;
+        if (reelScenes) nowFilm.loop = false;
+        return;
+      }
       if (!src) return;
       if (reelCache[src]) { reelScenes = reelCache[src]; nowFilm.loop = false; return; }
       fetch(src, { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
@@ -1187,6 +1212,7 @@
     });
     function loadLyrics(src) {
       lyrTimed = null; lyrPlain = false; lyrLines = [];
+      if (src === "@inline") { paintLyrics(INLINE.lyrics || null); return; }
       if (!src) {
         nowLyr.innerHTML = "<p class='now__none'>The words land here soon — for now, let the record talk.</p>";
         return;
