@@ -2,8 +2,8 @@
  "scenes": [
   {
    "begin": 0,
-   "src": "assets/video/coldopen.mp4",
-   "poster": "assets/frames/coldopen_0001.jpg"
+   "src": "assets/video/redjet.mp4",
+   "poster": "assets/frames/redjet_0001.jpg"
   },
   {
    "begin": 8.63,
@@ -94,8 +94,8 @@
   },
   {
    "begin": 157.32,
-   "src": "assets/video/hero.mp4",
-   "poster": "assets/frames/hero_0001.jpg"
+   "src": "assets/video/coldopen.mp4",
+   "poster": "assets/frames/coldopen_0001.jpg"
   }
  ]
 }
