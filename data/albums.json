@@ -79,7 +79,8 @@
      "src": "assets/audio/environmental-injustice.mp3",
      "video": "assets/video/uprise.mp4",
      "poster": "assets/frames/uprise_0001.jpg",
-     "reel": "data/reels/environmental-injustice.json"
+     "reel": "data/reels/environmental-injustice.json",
+     "lyrics": "data/lyrics/environmental-injustice.json"
     },
     {
      "title": "Environmental Injustice (Brave mix)",
