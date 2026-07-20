@@ -21,17 +21,16 @@
   /* slots: [href, icon, label, peek {ic, title, sub, dyn}] — every room in
      the house lives in one of the three wings */
   var WINGS = {
+    /* the trim law: a wing carries exactly TWO rooms, so an open wing is
+       the same three-cell bar you started with — the anchor plus two
+       doors, never a crowd. Everything else lives in the footer. */
     music: {
       home: "album.html",
       slots: [
         ["album.html", "note", "The album", { ic: "♫", title: "HERE — the album",
           sub: "Six tracks in the site's own player — the deck, lock-screen controls, and a memory. It picks up where you left off." }],
-        ["catalogue.html", "disc", "The catalog", { ic: "📀", title: "The catalog — the shelf",
-          sub: "Every album on one shelf — HERE, PRIM3, Equity Uprise, Vaunt, Whip Equipped, the singles. Tap one and it plays; the QT6KV registry rides below." }],
-        ["films.html", "news", "Lyric Videos", { ic: "🎬", title: "Lyric videos — one swipe",
+        ["films.html", "film", "Lyric Videos", { ic: "🎬", title: "Lyric videos — one swipe",
           sub: "The whole catalog as lyric videos — swipe, and every record plays its own scene-cut film with the words live on the picture." }],
-        ["index.html", "film", "The film", { ic: "🎬", title: "The film",
-          sub: "The cinematic front page — the studio orbit, the Vaunt commercial, the 360 jet. Scroll it slow." }],
       ],
     },
     home: {
@@ -39,12 +38,6 @@
       slots: [
         ["hire.html", "case", "Hire", { ic: "🤝", title: "Hire the agency",
           sub: "Brand films, photography, web builds, campaign strategy — one team, start to finish." }],
-        ["ecosystem.html", "grid", "Ecosystem", { ic: "🗺", title: "The ecosystem",
-          sub: "The brand map — Whip Equipped, Vaunt, PRIM3, Zakir, every wing of the operation on one board." }],
-        ["equity-uprise.html", "flag", "Uprise", { ic: "✊", title: "Equity Uprise",
-          sub: "The civic engine — funding the arts and workforce development in Connecticut and Georgia. The fellowship, the anthems, the record." }],
-        ["docket-516.html", "folder", "Evidence", { ic: "📁", title: "The evidence room",
-          sub: "Docket 516 — the full public-record archive: 325 filings, transcripts, and rulings, explained." }],
         ["feed.html", "news", "Feed", { ic: "📰", title: "Feed — the daily record",
           sub: "The claims everyone's arguing about, put on the record with sources. Filed daily from the desk — every entry is a citable link." }],
       ],
@@ -58,12 +51,6 @@
             var u = window.MCC_AUTH && window.MCC_AUTH.user && window.MCC_AUTH.user();
             return u ? "Signed in as " + (u.email || "your instant account") + " — your bookings and receipts are on the record." : null;
           } }],
-        ["pay.html?to=mccluster", "card", "Pay", { ic: "💳", title: "Pay an invoice",
-          sub: "Apple Pay, Google Pay, or card — straight to the agency, receipt to your email." }],
-        ["matthew-mccluster.html", "desk", "About", { ic: "👤", title: "Matthew McCluster",
-          sub: "The founder — creative director, recognized by the State of Georgia and the City of Bridgeport." }],
-        ["press.html", "news", "Press", { ic: "📰", title: "The press kit",
-          sub: "Fast facts, ready-to-run bios, and the proclamations to download — everything a reporter needs." }],
         ["cut.html", "film", "Your cut", { ic: "✂️", title: "The cutting room",
           sub: "Bring your record, your timecoded lyrics, and your clips — the machine cuts your lyric video with the same laws the house rides." }],
       ],
