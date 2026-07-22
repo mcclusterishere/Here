@@ -1,0 +1,29 @@
+{
+ "cats": ["Video", "Photo", "Media management"],
+ "items": [
+  { "cat": "Video", "title": "Vaunt — the runway performance", "sub": "Commercial production · performed live with Zakir", "video": "assets/video/vaunt.mp4" },
+  { "cat": "Video", "title": "Vaunt Live — the launch", "sub": "Event coverage · the campaign on its feet", "video": "assets/video/vauntlive.mp4" },
+  { "cat": "Video", "title": "The keynote shoot", "sub": "Corporate & stage production", "video": "assets/video/keynote.mp4" },
+  { "cat": "Video", "title": "Studio 360", "sub": "The edit bay, all the way around", "video": "assets/video/studio360.mp4" },
+  { "cat": "Video", "title": "The hero film", "sub": "Cinematic direction · the studio orbit", "video": "assets/video/hero.mp4" },
+  { "cat": "Video", "title": "Designer at work", "sub": "Process films for brands", "video": "assets/video/designer.mp4" },
+  { "cat": "Video", "title": "Whip Equipped — the fleet", "sub": "Automotive brand film", "video": "assets/video/whip.mp4" },
+  { "cat": "Video", "title": "Dealer Plates — the video", "sub": "Music video production", "video": "assets/video/dealer-plates-b-video.mp4" },
+  { "cat": "Video", "title": "The red jet", "sub": "Aviation & luxury coverage", "video": "assets/video/redjet.mp4" },
+  { "cat": "Video", "title": "The penthouse set", "sub": "Nightlife & event films", "video": "assets/video/daniel.mp4" },
+  { "cat": "Photo", "title": "October 5th — the rally", "sub": "Environmental Injustice rally · Bridgeport Creates", "img": "assets/img/rally/rally-01.jpg" },
+  { "cat": "Photo", "title": "Zion Baptist — the room", "sub": "Community & event photography", "img": "assets/img/rally/rally-02.jpg" },
+  { "cat": "Photo", "title": "The march", "sub": "Documentary photography, on the street", "img": "assets/img/rally/rally-03.jpg" },
+  { "cat": "Photo", "title": "The speakers", "sub": "Stage & press photography", "img": "assets/img/rally/rally-04.jpg" },
+  { "cat": "Photo", "title": "The crowd", "sub": "The people, on the record", "img": "assets/img/rally/rally-05.jpg" },
+  { "cat": "Photo", "title": "HERE — the album cover", "sub": "Art direction & cover design", "img": "assets/img/here-cover.jpg" },
+  { "cat": "Photo", "title": "Heal the 3 — the cover", "sub": "Art direction & cover design", "img": "assets/img/heal-the-3-cover.jpg" },
+  { "cat": "Photo", "title": "The uprise still", "sub": "Editorial stills from the civic engine", "img": "assets/img/uprise-still.jpg" },
+  { "cat": "Media management", "title": "Equity Uprise — the civic engine", "sub": "Full campaign: rallies, record, outreach — recognized by two governments", "video": "assets/video/equity.mp4", "href": "equity-uprise.html" },
+  { "cat": "Media management", "title": "Docket 516 — the public archive", "sub": "325 filings archived, explained, and published", "video": "assets/video/docket.mp4", "href": "docket-516.html" },
+  { "cat": "Media management", "title": "The war room", "sub": "Campaign strategy & rollout, run from one desk", "video": "assets/video/warroom.mp4" },
+  { "cat": "Media management", "title": "The survey", "sub": "Platform ops · data-driven outreach", "video": "assets/video/uisurvey.mp4" },
+  { "cat": "Media management", "title": "The record & citations", "sub": "Press, proclamations, and the receipts", "video": "assets/video/citations.mp4", "href": "press.html" },
+  { "cat": "Media management", "title": "The Feed — the daily record", "sub": "Claims put on the record with sources, filed daily", "video": "assets/video/editors.mp4", "href": "feed.html" }
+ ]
+}

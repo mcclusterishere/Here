@@ -62,8 +62,9 @@
     "album.html": "music", "films.html": "music", "catalogue.html": "music",
     "": "home", "index.html": "home", "hire.html": "home", "feed.html": "home",
     "ecosystem.html": "home", "equity-uprise.html": "home", "docket-516.html": "home",
+    "portfolio.html": "home",
     "account.html": "profile", "cut.html": "profile", "pay.html": "profile",
-    "press.html": "profile", "matthew-mccluster.html": "profile"
+    "press.html": "profile", "matthew-mccluster.html": "profile", "crm.html": "profile"
   };
   var hereTab = dock.querySelector('[data-appnav="' + (PAGE_WING[location.pathname.split("/").pop()] || "") + '"]');
   if (hereTab) hereTab.classList.add("is-here");

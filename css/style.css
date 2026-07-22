@@ -4496,3 +4496,35 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .tldr ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
 .tldr li { color: var(--cream-dim); line-height: 1.6; font-size: 0.92rem; margin-top: 0.25rem; }
 .tldr li b { color: var(--cream); }
+
+/* ============ THE LEAD SHEET — twenty seconds to the desk ============ */
+.leadsheet { position: fixed; inset: 0; z-index: 260; display: grid; place-items: end center;
+  background: rgba(5, 4, 3, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  padding: 0 0.6rem calc(0.8rem + env(safe-area-inset-bottom, 0px)); }
+.leadsheet__card { width: min(26rem, 100%); border-radius: 24px; padding: 1.25rem 1.2rem 1.1rem;
+  background: linear-gradient(180deg, rgba(32, 26, 21, 0.96), rgba(14, 11, 9, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 24px 60px -16px rgba(0, 0, 0, 0.9);
+  display: flex; flex-direction: column; gap: 0.55rem;
+  font-family: "Manrope", system-ui, sans-serif; animation: dockIn 0.28s cubic-bezier(0.2, 0.9, 0.2, 1); }
+.leadsheet__card > b { font-size: 1.35rem; font-weight: 800; color: var(--cream); }
+.leadsheet__card > small { font-size: 0.84rem; font-weight: 600; color: var(--cream-dim); line-height: 1.5; margin-bottom: 0.2rem; }
+.leadsheet__card input, .leadsheet__card select, .leadsheet__card textarea {
+  width: 100%; border: 0; border-radius: 14px; padding: 0.8rem 0.95rem; resize: none;
+  background: rgba(255, 255, 255, 0.09); color: var(--cream);
+  font-family: inherit; font-size: 16px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+.leadsheet__card select { -webkit-appearance: none; appearance: none; }
+.leadsheet__go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+  text-decoration: none; text-align: center; margin-top: 0.2rem; padding: 0.9rem 1rem; border-radius: 100px;
+  background: var(--metal); color: #16110b; font-family: inherit; font-weight: 800; font-size: 0.98rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6); }
+.leadsheet__go:disabled { opacity: 0.6; }
+.leadsheet__no { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+  background: none; color: var(--cream-dim); font-family: inherit; font-weight: 700; font-size: 0.82rem; padding: 0.4rem; }
+.leadsheet__err { font-size: 0.8rem; color: var(--ruby-hot); }
+html[data-theme="light"] .leadsheet__card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(243, 238, 229, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 24px 60px -16px rgba(26, 20, 13, 0.4); }
+html[data-theme="light"] .leadsheet__card input,
+html[data-theme="light"] .leadsheet__card select,
+html[data-theme="light"] .leadsheet__card textarea {
+  background: rgba(26, 20, 13, 0.06); color: var(--cream); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7); }

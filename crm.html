@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Front Desk — leads, replies, the pipeline</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <script src="js/theme.js?v=__STAMP__"></script>
+  <style>
+    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
+    :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
+    .fd { max-width: 44rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 10rem; font-family: var(--ui); }
+    .fd__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .fd h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.4rem, 10vw, 4rem); margin: 0.3rem 0 0.5rem; }
+    .fd__sub { font-weight: 600; color: var(--cream-dim); font-size: 0.92rem; }
+    .fd input { width: 100%; margin-top: 0.8rem; padding: 0.85rem 1rem; border: 0; border-radius: 14px;
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo)); color: var(--cream);
+      font-family: var(--ui); font-size: 1rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
+    .fd .go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      margin-top: 0.7rem; padding: 0.85rem 1.4rem; border-radius: 100px; background: var(--metal); color: #16110b;
+      font-family: var(--ui); font-weight: 800; font-size: 0.95rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .fd__note { margin-top: 0.7rem; font-size: 0.82rem; color: var(--cream-dim); }
+    /* the week, at a glance */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin: 1.4rem 0; }
+    .stat { border-radius: 18px; padding: 0.85rem 1rem;
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
+    .stat b { display: block; font-size: 1.5rem; font-weight: 800; color: var(--cream); }
+    .stat small { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 800; color: var(--cream-dim); }
+    /* the pipeline */
+    .lead { border-radius: 20px; padding: 1rem 1.05rem; margin-bottom: 0.7rem;
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
+    .lead__top { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+    .lead__top b { font-weight: 800; font-size: 1rem; color: var(--cream); }
+    .lead__want { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #c99d45; }
+    .lead__when { margin-left: auto; font-size: 0.72rem; color: var(--cream-dim); }
+    .lead__note { margin-top: 0.45rem; font-size: 0.9rem; line-height: 1.55; color: var(--cream); }
+    .lead__meta { margin-top: 0.45rem; font-size: 0.74rem; color: var(--cream-dim); }
+    .lead__meta .src { display: inline-block; border-radius: 100px; padding: 0.16rem 0.6rem; font-weight: 800;
+      background: rgba(127,180,232,0.16); color: #7fb4e8; }
+    .lead__meta .src--ads { background: rgba(215,232,111,0.16); color: #d7e86f; }
+    .lead__acts { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.7rem; }
+    .lead__acts a, .lead__acts button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; text-decoration: none; font-family: var(--ui); font-weight: 800; font-size: 0.74rem;
+      border-radius: 100px; padding: 0.42rem 0.85rem; color: var(--cream);
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
+    .lead__acts .reply { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .lead__acts button.on { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .lead.is-closed { opacity: 0.55; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="fd">
+    <p class="fd__k">Owner only · the pipeline</p>
+    <h1>The Front<br>Desk</h1>
+
+    <div id="gate">
+      <p class="fd__sub">Sign in and the leads are on the desk — newest first, sources marked, one tap to reply.</p>
+      <input id="email" type="email" placeholder="matthew@mccluster.org" autocomplete="email">
+      <button class="go" id="signin" type="button">Send the sign-in link &#8594;</button>
+      <p class="fd__note" id="gateNote"></p>
+    </div>
+
+    <div id="desk" hidden>
+      <div class="stats">
+        <div class="stat"><b id="stAll">–</b><small>Leads · 7 days</small></div>
+        <div class="stat"><b id="stAds">–</b><small>From ads</small></div>
+        <div class="stat"><b id="stBook">–</b><small>Booked</small></div>
+      </div>
+      <div id="leads"><p class="fd__sub">Loading the pipeline…</p></div>
+    </div>
+  </main>
+
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var SB_URL = "https://zmnhbrjyhxzhkxmhkexs.supabase.co";
+    var SB_KEY = "sb_publishable_kr5NujBZ1n518IUMDoa2dQ_tqQAJef4";
+    var OWNER = "matthew@mccluster.org";
+    var el = function (id) { return document.getElementById(id); };
+    var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    var STATUSES = ["new", "replied", "booked", "closed"];
+
+    function ago(iso) {
+      var m = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+      if (m < 60) return m + "m";
+      if (m < 1440) return Math.round(m / 60) + "h";
+      return Math.round(m / 1440) + "d";
+    }
+
+    function authed() {
+      var u = window.MCC_AUTH && MCC_AUTH.user && MCC_AUTH.user();
+      return u && (u.email || "").toLowerCase() === OWNER ? u : null;
+    }
+
+    el("signin").addEventListener("click", function () {
+      var em = el("email").value.trim() || OWNER;
+      MCC_AUTH.signIn(em).then(function () {
+        el("gateNote").textContent = "The link is in your email — open it on this device and the desk unlocks.";
+      }).catch(function () {
+        el("gateNote").textContent = "The link didn't send — try again in a minute.";
+      });
+    });
+
+    function hdrs() {
+      return window.MCC_SUPA.token().then(function (t) {
+        return { "Content-Type": "application/json", apikey: SB_KEY, Authorization: "Bearer " + t };
+      });
+    }
+
+    function setStatus(id, status, card) {
+      hdrs().then(function (h) {
+        return fetch(SB_URL + "/rest/v1/leads?id=eq." + id, {
+          method: "PATCH", headers: h, body: JSON.stringify({ status: status }),
+        });
+      }).then(function (r) {
+        if (!r.ok) return;
+        card.querySelectorAll("[data-st]").forEach(function (b) {
+          b.classList.toggle("on", b.getAttribute("data-st") === status);
+        });
+        card.classList.toggle("is-closed", status === "closed");
+      });
+    }
+
+    function paint(rows) {
+      var wk = Date.now() - 7 * 864e5;
+      var week = rows.filter(function (r) { return new Date(r.at).getTime() > wk; });
+      el("stAll").textContent = week.length;
+      el("stAds").textContent = week.filter(function (r) { return r.gclid || r.source === "google-ads"; }).length;
+      el("stBook").textContent = rows.filter(function (r) { return r.status === "booked"; }).length;
+      if (!rows.length) { el("leads").innerHTML = '<p class="fd__sub">The desk is clear — no leads yet. They land here the second the site catches one.</p>'; return; }
+      el("leads").innerHTML = rows.map(function (r) {
+        var ads = r.gclid || r.source === "google-ads";
+        var reply = "mailto:" + encodeURIComponent(r.email) +
+          "?subject=" + encodeURIComponent("Re: your inquiry — McCluster") +
+          "&body=" + encodeURIComponent("Hey " + r.name + ",\n\nGot your note" + (r.want ? " about " + r.want.toLowerCase() : "") + " — I'm on it. ");
+        return '<div class="lead' + (r.status === "closed" ? " is-closed" : "") + '" data-id="' + r.id + '">' +
+          '<div class="lead__top"><b>' + esc(r.name) + "</b>" +
+          (r.want ? '<span class="lead__want">' + esc(r.want) + "</span>" : "") +
+          '<span class="lead__when">' + ago(r.at) + " ago</span></div>" +
+          (r.note ? '<p class="lead__note">' + esc(r.note) + "</p>" : "") +
+          '<p class="lead__meta"><span class="src' + (ads ? " src--ads" : "") + '">' + esc(ads ? "google ads" : r.source || "direct") + "</span>" +
+          (r.campaign ? " · " + esc(r.campaign) : "") + " · " + esc(r.email) + " · from " + esc(r.page || "?") + "</p>" +
+          '<div class="lead__acts">' +
+          '<a class="reply" href="' + reply + '" data-reply>Reply &#8594;</a>' +
+          STATUSES.map(function (st) {
+            return '<button type="button" data-st="' + st + '"' + (r.status === st ? ' class="on"' : "") + ">" + st + "</button>";
+          }).join("") +
+          "</div></div>";
+      }).join("");
+    }
+
+    function load() {
+      hdrs().then(function (h) {
+        return fetch(SB_URL + "/rest/v1/leads?select=*&order=at.desc&limit=200", { headers: h });
+      }).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(paint)
+        .catch(function () { el("leads").innerHTML = '<p class="fd__sub">Couldn\'t reach the pile — run docs/crm.sql if you haven\'t, then refresh.</p>'; });
+    }
+
+    el("leads").addEventListener("click", function (e) {
+      var card = e.target.closest && e.target.closest(".lead");
+      if (!card) return;
+      var st = e.target.closest("[data-st]");
+      if (st) { setStatus(card.getAttribute("data-id"), st.getAttribute("data-st"), card); return; }
+      if (e.target.closest("[data-reply]")) setStatus(card.getAttribute("data-id"), "replied", card);
+    });
+
+    function boot() {
+      if (authed()) { el("gate").hidden = true; el("desk").hidden = false; load(); }
+    }
+    boot();
+    setTimeout(boot, 800); // the magic-link landing settles a beat after load
+  })();
+  </script>
+</body>
+</html>

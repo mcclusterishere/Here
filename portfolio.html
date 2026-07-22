@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Full Portfolio — Matthew McCluster · everything, on the record</title>
+  <meta name="description" content="Every job Matthew McCluster has shot, cut, and run — video, photography, and media management. Watch the work, then lock in a date.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/portfolio.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="preload" href="assets/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <script src="js/theme.js?v=__STAMP__"></script>
+  <style>
+    @font-face { font-family: "Manrope"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
+    :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
+    .pf { max-width: 62rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 13rem; }
+    .pf__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .pf h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.6rem, 11vw, 4.6rem); margin: 0.3rem 0 0.4rem; }
+    .pf__sub { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.95rem; max-width: 46ch; }
+    .chips { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; margin: 1.6rem 0 1.2rem; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips button { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--ui); font-weight: 700; font-size: 0.82rem; color: var(--cream);
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.55rem 1.1rem; }
+    .chips button.on { color: #16110b; font-weight: 800; background: var(--metal);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 10px 24px -10px rgba(200,164,90,0.55); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 0.9rem; }
+    .work { position: relative; overflow: hidden; border-radius: 20px; background: #0d0a08; color: #fff;
+      aspect-ratio: 4 / 5; cursor: pointer; isolation: isolate; display: block; text-decoration: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 22px 50px -20px rgba(0,0,0,0.9); }
+    .work video, .work img.work__im { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+    .work__scrim { position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, rgba(9,7,5,0.12) 0%, rgba(9,7,5,0.06) 45%, rgba(9,7,5,0.85) 100%); }
+    .work::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(115deg, transparent 34%, rgba(255,255,255,0.12) 45%, transparent 58%); }
+    .work__meta { position: absolute; left: 0.95rem; right: 0.95rem; bottom: 0.9rem; }
+    .work__meta b { display: block; font-family: var(--ui); font-weight: 800; font-size: 1rem; line-height: 1.2;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
+    .work__meta small { display: block; font-family: var(--ui); font-weight: 700; font-size: 0.64rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.62); margin-top: 0.3rem; }
+    .work__cat { position: absolute; top: 0.8rem; left: 0.8rem; font-family: var(--ui); font-weight: 800;
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #16110b;
+      background: var(--metal); border-radius: 100px; padding: 0.28rem 0.7rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); }
+    /* THE CLOSER — the booking bar rides above the dock, always in reach */
+    .bookbar { position: fixed; left: 50%; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.2rem));
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+      display: flex; gap: 0.5rem; padding: 0.55rem; border-radius: 22px;
+      background: linear-gradient(180deg, rgba(32,26,21,0.88), rgba(14,11,9,0.92));
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 50px -14px rgba(0,0,0,0.85); }
+    .bookbar a, .bookbar button { flex: 1; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; text-decoration: none; text-align: center;
+      font-family: var(--ui); font-weight: 800; font-size: 0.9rem; border-radius: 16px; padding: 0.85rem 0.5rem; }
+    .bookbar .bb__lock { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .bookbar .bb__call { background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      color: var(--cream); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15); }
+    html[data-theme="light"] .bookbar { background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(243,238,229,0.94));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 18px 50px -14px rgba(26,20,13,0.35); }
+    html[data-theme="light"] .bookbar .bb__call { color: var(--cream);
+      background: linear-gradient(180deg, rgba(26,20,13,0.08), rgba(26,20,13,0.04)); }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="pf">
+    <p class="pf__k">Everything · on the record</p>
+    <h1>The Full<br>Portfolio</h1>
+    <p class="pf__sub">Every job I've shot, cut, and run — watch it move, then lock in a date. The deposit applies to your project.</p>
+
+    <div class="chips" id="pfChips">
+      <button type="button" class="on" data-cat="All">All</button>
+    </div>
+    <div class="grid" id="pfGrid"></div>
+  </main>
+
+  <!-- THE CLOSER -->
+  <div class="bookbar">
+    <button class="bb__lock" type="button" data-lead-sheet="">Lock in a date &#8594;</button>
+    <a class="bb__call" href="mailto:matthew@mccluster.org?subject=Book%20a%20call%20%E2%80%94%20McCluster">Book a call</a>
+  </div>
+
+  <!-- THE BAR -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/crm.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var grid = document.getElementById("pfGrid"), chips = document.getElementById("pfChips");
+    var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    fetch("data/portfolio.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+      chips.innerHTML += (j.cats || []).map(function (c) {
+        return '<button type="button" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
+      }).join("");
+      grid.innerHTML = (j.items || []).map(function (w) {
+        var tag = w.href ? "a" : "div";
+        return "<" + tag + ' class="work" data-cat="' + esc(w.cat) + '"' + (w.href ? ' href="' + w.href + '"' : "") + ">" +
+          (w.video
+            ? '<video muted loop playsinline preload="none" data-src="' + w.video + '"' +
+              (w.poster ? ' poster="' + w.poster + '"' : "") + "></video>"
+            : '<img class="work__im" src="' + w.img + '" alt="" loading="lazy">') +
+          '<span class="work__scrim"></span>' +
+          '<span class="work__cat">' + esc(w.cat) + "</span>" +
+          '<span class="work__meta"><b>' + esc(w.title) + "</b><small>" + esc(w.sub || "") + "</small></span>" +
+          "</" + tag + ">";
+      }).join("");
+      /* films play only while on screen — the page stays light */
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            var v = e.target.querySelector("video");
+            if (!v) return;
+            if (e.isIntersecting) {
+              if (!v.getAttribute("src")) { v.src = v.getAttribute("data-src"); v.load(); }
+              var p = v.play(); if (p && p.catch) p.catch(function () {});
+            } else v.pause();
+          });
+        }, { threshold: 0.35 });
+        grid.querySelectorAll(".work").forEach(function (c) { io.observe(c); });
+      }
+      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_view", { items: (j.items || []).length });
+    });
+    chips.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-cat]");
+      if (!b) return;
+      chips.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      var cat = b.getAttribute("data-cat");
+      grid.querySelectorAll(".work").forEach(function (w) {
+        w.style.display = (cat === "All" || w.getAttribute("data-cat") === cat) ? "" : "none";
+      });
+      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_filter", { cat: cat });
+    });
+  })();
+  </script>
+</body>
+</html>
