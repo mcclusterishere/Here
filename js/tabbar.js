@@ -62,7 +62,7 @@
     "album.html": "music", "films.html": "music", "catalogue.html": "music",
     "": "home", "index.html": "home", "hire.html": "home", "feed.html": "home",
     "ecosystem.html": "home", "equity-uprise.html": "home", "docket-516.html": "home",
-    "portfolio.html": "home",
+    "portfolio.html": "home", "shots.html": "home",
     "account.html": "profile", "cut.html": "profile", "pay.html": "profile",
     "press.html": "profile", "matthew-mccluster.html": "profile", "crm.html": "profile"
   };
@@ -246,6 +246,9 @@
   var walked = false;
   try { walked = !!localStorage.getItem(WALK_KEY); } catch (e) {}
   if (walked && !/[?&]walk=1/.test(location.search)) return;
+  /* tap-card landings came for one thing — never put a lesson between
+     a person and their photo (replayable anywhere with ?walk=1) */
+  if (location.pathname.split("/").pop() === "shots.html" && !/[?&]walk=1/.test(location.search)) return;
 
   practice = true;
   var step = 0;

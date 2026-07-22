@@ -35,8 +35,8 @@
       body: JSON.stringify({
         name: lead.name, email: lead.email, want: lead.want || "", note: lead.note || "",
         page: location.pathname.split("/").pop() || "index.html",
-        source: a.source || "direct", medium: a.medium || null,
-        campaign: a.campaign || null, gclid: a.gclid || null,
+        source: lead.source || a.source || "direct", medium: a.medium || null,
+        campaign: lead.campaign || a.campaign || null, gclid: a.gclid || null,
       }),
     }).then(function (r) { if (!r.ok) throw new Error("lead " + r.status); });
   }
@@ -89,7 +89,7 @@
     if (first) first.focus();
   }
 
-  window.MCC_CRM = { open: open, attrib: attrib };
+  window.MCC_CRM = { open: open, attrib: attrib, send: send };
   document.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest("[data-lead-sheet]");
     if (b) { e.preventDefault(); open(b.getAttribute("data-lead-sheet") || ""); }
