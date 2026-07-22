@@ -1,0 +1,48 @@
+name: Apply database migrations
+
+# The Railway feeling for a static site: any .sql committed to
+# supabase/migrations/ is applied to the Supabase database on push —
+# in filename order, tracked in a _migrations table, never twice.
+# The paste era is over.
+#
+# Dormant until the SUPABASE_DB_URL secret exists:
+#   GitHub repo → Settings → Secrets and variables → Actions →
+#   New repository secret → name SUPABASE_DB_URL, value = the
+#   Postgres connection string from Supabase → Project Settings →
+#   Database → Connection string (URI, the "session pooler" one).
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "supabase/migrations/**"
+      - ".github/workflows/migrate-db.yml"
+  workflow_dispatch: {}
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply pending migrations
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "SUPABASE_DB_URL secret not set — dormant. Add it once and this runs itself forever."
+            exit 0
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -c \
+            "create table if not exists public._migrations (name text primary key, at timestamptz not null default now());"
+          for f in $(ls supabase/migrations/*.sql | sort); do
+            n=$(basename "$f")
+            done=$(psql "$DB_URL" -tAc "select 1 from public._migrations where name = '$n'")
+            if [ "$done" = "1" ]; then echo "skip  $n (already applied)"; continue; fi
+            echo "apply $n"
+            psql "$DB_URL" -v ON_ERROR_STOP=1 -f "$f"
+            psql "$DB_URL" -v ON_ERROR_STOP=1 -c "insert into public._migrations (name) values ('$n');"
+          done
+          echo "database is current."
