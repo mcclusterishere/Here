@@ -6,6 +6,11 @@
    "poster": "assets/frames/dovedrop_0001.jpg"
   },
   {
+   "begin": 10.8,
+   "src": "assets/video/doveflight.mp4",
+   "poster": "assets/frames/doveflight_0001.jpg"
+  },
+  {
    "begin": 21.69,
    "src": "assets/video/church.mp4",
    "poster": "assets/frames/church_0001.jpg"
@@ -83,8 +88,8 @@
   },
   {
    "begin": 116.41,
-   "src": "assets/video/dossier.mp4",
-   "poster": "assets/frames/dossier_0001.jpg"
+   "src": "assets/video/docket.mp4",
+   "poster": "assets/frames/docket_0001.jpg"
   },
   {
    "begin": 121.4,

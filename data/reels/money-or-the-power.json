@@ -6,6 +6,11 @@
    "poster": "assets/frames/moneyglitch_0001.jpg"
   },
   {
+   "begin": 9.0,
+   "src": "assets/video/warroom.mp4",
+   "poster": "assets/frames/warroom_0001.jpg"
+  },
+  {
    "begin": 18.04,
    "src": "assets/video/landgrab.mp4",
    "poster": "assets/frames/landgrab_0001.jpg"
@@ -113,8 +118,8 @@
   },
   {
    "begin": 152.07,
-   "src": "assets/video/dossier.mp4",
-   "poster": "assets/frames/dossier_0001.jpg"
+   "src": "assets/video/warroom.mp4",
+   "poster": "assets/frames/warroom_0001.jpg"
   },
   {
    "begin": 157.04,

@@ -67,6 +67,11 @@
    "poster": "assets/frames/keynote_0001.jpg"
   },
   {
+   "begin": 126.0,
+   "src": "assets/video/angel.mp4",
+   "poster": "assets/frames/angel_0001.jpg"
+  },
+  {
    "begin": 136.39,
    "flip": [
     "assets/img/rally/rally-01.jpg",

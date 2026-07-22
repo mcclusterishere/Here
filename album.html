@@ -247,7 +247,8 @@
        while the new one breathes in underneath */
     canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%;
       pointer-events: none; opacity: 0; }
-    canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
+    canvas.scene-veil.is-holding { opacity: 1; } /* the old frame stands guard while the next clip loads */
+    canvas.scene-veil.is-fading { animation: veilburn 0.45s ease forwards; }
     @keyframes veilburn { from { opacity: 1; } to { opacity: 0; } }
     .now__film.is-open { animation: filmrise 0.9s ease; }
     @keyframes filmrise { from { opacity: 0; } to { opacity: 0.8; } }
@@ -1044,8 +1045,10 @@
       if (r0 && r0.album === ALBUM && r0.i > -1 && r0.i < rows.length) load(r0.i, r0.t || 0);
     } catch (e) {}
 
-    /* THE DISSOLVE — freeze the outgoing frame on a veil, burn it off
-       while the new scene starts; the incoming film settles in */
+    /* THE DISSOLVE, no black allowed — freeze the outgoing frame on a
+       veil and HOLD it at full strength while the next clip loads; only
+       when the new frame is actually on screen does the veil burn off.
+       The eye never sees the load. */
     function glide(v) {
       try {
         var vw = v.videoWidth, vh = v.videoHeight;
@@ -1063,8 +1066,14 @@
         var sw = cw / s, sh = ch / s;
         veil.getContext("2d").drawImage(v, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, cw, ch);
         veil.classList.remove("is-fading"); void veil.offsetWidth;
-        veil.classList.add("is-fading");
+        veil.classList.add("is-holding");
       } catch (e) {}
+    }
+    function burnVeil() {
+      var veil = nowFilm._veil;
+      if (!veil || !veil.classList.contains("is-holding")) return;
+      veil.classList.remove("is-holding"); void veil.offsetWidth;
+      veil.classList.add("is-fading");
     }
 
     /* ---------- THE ROOM: the page inside the record's film ---------- */
@@ -1185,7 +1194,7 @@
         nowFilm.classList.add("is-open");
       }
       /* a photo-flip scene: the pictures own the frame, the film rests */
-      if (sc.flip && sc.flip.length) { try { nowFilm.pause(); } catch (e) {} return; }
+      if (sc.flip && sc.flip.length) { try { nowFilm.pause(); } catch (e) {} setTimeout(burnVeil, 380); return; }
       flipEl().classList.remove("on");
       nowFilm.loop = false;
       /* fit the clip to its bars: one full play fills the hold */
@@ -1194,6 +1203,9 @@
       nowFilm.poster = sc.poster || "";
       nowFilm.src = sc.src;
       nowFilm.load();
+      /* the veil holds until the new frame is truly on screen */
+      nowFilm.addEventListener("loadeddata", burnVeil, { once: true });
+      setTimeout(burnVeil, 2600); // never hold a dead frame forever
       if (!deck.paused) { var p0 = nowFilm.play(); if (p0 && p0.catch) p0.catch(function () {}); }
     }
     function syncFilm(hard, jump) {
@@ -1246,6 +1258,9 @@
       var k = idxFor(deck.currentTime);
       /* the clip ran long past its bars: catch the chain up to the clock */
       if (k > sceneIdx) { setScene(k); return; }
+      /* already a scene ahead of the clock: the frame holds — chaining
+         further would ping-pong the resync and chop the picture */
+      if (k < sceneIdx) return;
       var wait = reelScenes[sceneIdx + 1].begin - deck.currentTime;
       if (wait > 8) setScene(sceneIdx + 1);
       /* otherwise: the final frame holds, the anchor does the switching */

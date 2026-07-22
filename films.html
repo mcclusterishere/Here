@@ -19,7 +19,8 @@
     .fc video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
     /* THE DISSOLVE — the outgoing scene freezes, drifts, and burns off */
     .fc canvas.scene-veil { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
-    .fc canvas.scene-veil.is-fading { animation: veilburn 0.75s ease forwards; }
+    .fc canvas.scene-veil.is-holding { opacity: 1; } /* the old frame stands guard while the next clip loads */
+    .fc canvas.scene-veil.is-fading { animation: veilburn 0.45s ease forwards; }
     @keyframes veilburn { from { opacity: 1; } to { opacity: 0; } }
     .fc video.is-open { animation: filmrise 0.9s ease; }
     @keyframes filmrise { from { opacity: 0; } to { opacity: 0.85; } }
@@ -234,7 +235,7 @@
       v.dataset.k = k;
       var sc = scenes[k];
       /* a photo-flip scene: the pictures own the frame, the film rests */
-      if (sc.flip && sc.flip.length) { try { v.pause(); } catch (e) {} return; }
+      if (sc.flip && sc.flip.length) { try { v.pause(); } catch (e) {} setTimeout(function () { burnVeil(v); }, 380); return; }
       flipEl(v).classList.remove("on");
       v.loop = false; // the chain never restarts a clip
       /* fit the clip to its bars: one full play fills the hold */
@@ -242,6 +243,9 @@
       v._hold = next ? Math.max(0.5, next.begin - sc.begin) : 0;
       if (sc.poster) v.poster = sc.poster;
       v.src = sc.src; v.load();
+      /* the veil holds until the new frame is truly on screen — no black */
+      v.addEventListener("loadeddata", function () { burnVeil(v); }, { once: true });
+      setTimeout(function () { burnVeil(v); }, 2600);
       v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {});
     }
     /* the elastic law: one full play fills the hold (0.65x–1.5x) */
@@ -265,6 +269,9 @@
       for (var i = 0; i < scenes.length; i++) if (time >= scenes[i].begin) k2 = i;
       /* the clip ran long past its bars: catch the chain up to the clock */
       if (k2 > k) { setScene(v, scenes, k2); return; }
+      /* already a scene ahead of the clock: hold — chaining further would
+         ping-pong the resync and chop the picture */
+      if (k2 < k) return;
       /* hold the last frame until the anchor; only a long gap chains early */
       var wait = scenes[k + 1].begin - time;
       if (wait > 8) setScene(v, scenes, k + 1);
@@ -287,8 +294,14 @@
         var sw = cw / s, sh = ch / s;
         veil.getContext("2d").drawImage(v, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, cw, ch);
         veil.classList.remove("is-fading"); void veil.offsetWidth;
-        veil.classList.add("is-fading");
+        veil.classList.add("is-holding");
       } catch (e) {}
+    }
+    function burnVeil(v) {
+      var veil = v && v._veil;
+      if (!veil || !veil.classList.contains("is-holding")) return;
+      veil.classList.remove("is-holding"); void veil.offsetWidth;
+      veil.classList.add("is-fading");
     }
     deck.addEventListener("timeupdate", function () {
       if (cur < 0) return;

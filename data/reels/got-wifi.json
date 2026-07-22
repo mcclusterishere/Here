@@ -6,6 +6,11 @@
    "poster": "assets/frames/prim3_0001.jpg"
   },
   {
+   "begin": 10.2,
+   "src": "assets/video/bussalick.mp4",
+   "poster": "assets/frames/bussalick_0001.jpg"
+  },
+  {
    "begin": 20.334,
    "src": "assets/video/designer.mp4",
    "poster": "assets/frames/designer_0001.jpg"

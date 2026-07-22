@@ -57,13 +57,13 @@
   },
   {
    "begin": 76.85,
-   "src": "assets/video/uprise.mp4",
-   "poster": "assets/frames/uprise_0001.jpg"
+   "src": "assets/video/street.mp4",
+   "poster": "assets/frames/street_0001.jpg"
   },
   {
    "begin": 79.84,
-   "src": "assets/video/doveflight.mp4",
-   "poster": "assets/frames/doveflight_0001.jpg"
+   "src": "assets/video/landgrab.mp4",
+   "poster": "assets/frames/landgrab_0001.jpg"
   },
   {
    "begin": 82.45,
@@ -72,8 +72,8 @@
   },
   {
    "begin": 88.56,
-   "src": "assets/video/dossier.mp4",
-   "poster": "assets/frames/dossier_0001.jpg"
+   "src": "assets/video/gmcall.mp4",
+   "poster": "assets/frames/gmcall_0001.jpg"
   },
   {
    "begin": 94.3,
@@ -122,8 +122,8 @@
   },
   {
    "begin": 149.67,
-   "src": "assets/video/dossier.mp4",
-   "poster": "assets/frames/dossier_0001.jpg"
+   "src": "assets/video/moneyglitch.mp4",
+   "poster": "assets/frames/moneyglitch_0001.jpg"
   },
   {
    "begin": 152.26,

@@ -6,9 +6,19 @@
    "poster": "assets/frames/whip_0001.jpg"
   },
   {
+   "begin": 10.0,
+   "src": "assets/video/plates.mp4",
+   "poster": "assets/frames/plates_0001.jpg"
+  },
+  {
+   "begin": 19.5,
+   "src": "assets/video/flipplate.mp4",
+   "poster": "assets/frames/flipplate_0001.jpg"
+  },
+  {
    "begin": 28.9,
-   "src": "assets/video/dossier.mp4",
-   "poster": "assets/frames/dossier_0001.jpg"
+   "src": "assets/video/moneyglitch.mp4",
+   "poster": "assets/frames/moneyglitch_0001.jpg"
   },
   {
    "begin": 36.622,
