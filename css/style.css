@@ -3769,60 +3769,63 @@ html.vr-locked .float-pause:hover { background: var(--vaunt); }
 /* visitors said the old bar was damn near invisible — it's bigger now,
    runs a deep-red gradient, and carries a soft red glow so the doors
    into the apps read from across the room */
-:root { --appbar-h: 4.5rem; }
-body.has-appbar { padding-bottom: calc(var(--appbar-h) + env(safe-area-inset-bottom)); }
+/* THE DOCK — a floating capsule, not a slab: dark glass hovering off the
+   bottom edge, icon coins inside, and the page you're standing in sits in
+   a filled gold coin. Depth comes from fill, blur, and shadow — no borders. */
+:root { --appbar-h: 4.6rem; }
+body.has-appbar { padding-bottom: calc(var(--appbar-h) + 1.4rem + env(safe-area-inset-bottom)); }
 .appbar {
-  position: fixed; left: 50%; transform: translateX(-50%); bottom: 0;
-  z-index: 200; width: 100%; max-width: 34rem;
-  height: calc(var(--appbar-h) + env(safe-area-inset-bottom));
-  padding-bottom: env(safe-area-inset-bottom);
-  display: flex; align-items: stretch;
-  /* bright modern gray glass — the red stays as the edge, the glow,
-     and the live tab, not the whole paint job */
-  background: linear-gradient(180deg, rgba(88, 84, 82, 0.6), rgba(38, 34, 32, 0.88));
-  backdrop-filter: blur(18px) saturate(1.2);
-  border-top: 1px solid rgba(229, 56, 59, 0.6);
-  box-shadow:
-    inset 0 1px 0 rgba(244, 239, 230, 0.18),
-    0 -3px 16px rgba(229, 56, 59, 0.3),
-    0 -14px 46px rgba(193, 18, 31, 0.22),
-    0 -8px 30px rgba(0, 0, 0, 0.45);
-}
-/* wider than a phone: the strip becomes a floating dock */
-@media (min-width: 640px) {
-  .appbar {
-    bottom: 0.7rem; height: var(--appbar-h); padding-bottom: 0;
-    border-radius: 18px; border: 1px solid rgba(229, 56, 59, 0.5);
-    box-shadow:
-      inset 0 1px 0 rgba(244, 239, 230, 0.18),
-      0 0 24px rgba(229, 56, 59, 0.32),
-      0 0 60px rgba(193, 18, 31, 0.2),
-      0 14px 44px rgba(0, 0, 0, 0.55);
-  }
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(0.85rem + env(safe-area-inset-bottom));
+  z-index: 200; width: auto;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0.45rem;
+  border-radius: 100px;
+  background: rgba(20, 16, 14, 0.78);
+  backdrop-filter: blur(22px) saturate(1.25);
+  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(244, 239, 230, 0.08);
 }
 .appbar__tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  position: relative; display: grid; place-items: center;
+  width: 54px; height: 54px; border-radius: 50%; flex: none;
   text-decoration: none; color: var(--cream);
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  transition: color 0.2s, transform 0.2s;
+  transition: color 0.2s, transform 0.2s, background 0.25s;
 }
-.appbar__tab svg { width: 1.65rem; height: 1.65rem; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+/* the names live on for screen readers and the wing slots; the coins speak */
+.appbar__tab > span {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.appbar__tab svg { width: 1.5rem; height: 1.5rem; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.appbar__m { width: 1.7rem; height: 1.7rem; object-fit: contain; }
 .appbar__tab:active { transform: scale(0.92); }
-.appbar__tab:hover, .appbar__tab.is-active { color: var(--ruby-hot); }
-.appbar__tab.is-active svg { filter: drop-shadow(0 0 6px rgba(229, 56, 59, 0.7)); }
-/* Spaces answers in its own color — bright sky blue rides with the red */
-.appbar__tab[data-appnav="spaces"]:hover, .appbar__tab[data-appnav="spaces"].is-active { color: #45b6ff; }
-.appbar__tab[data-appnav="spaces"].is-active svg { filter: drop-shadow(0 0 6px rgba(69, 182, 255, 0.75)); }
+.appbar__tab:hover { color: #e8c877; }
+/* the coin: where you are (and, mid-morph, the wing you opened) */
+.appbar__tab.is-here, .appbar__tab.is-active {
+  background: #e8c877; color: #16110b;
+  box-shadow: 0 10px 26px -8px rgba(232, 200, 119, 0.65);
+}
+/* wing slots carry their names — new rooms deserve labels */
+.appbar__tab--slot {
+  width: auto; min-width: 72px; height: 54px; border-radius: 100px;
+  padding: 0 0.95rem; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+  background: rgba(244, 239, 230, 0.08);
+}
+.appbar__tab--slot > span {
+  position: static; width: auto; height: auto; clip: auto; clip-path: none;
+  font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.appbar__tab--slot svg { width: 1.2rem; height: 1.2rem; }
+/* Spaces answers in its own color — bright sky blue rides with the gold */
+.appbar__tab[data-appnav="spaces"]:hover { color: #45b6ff; }
 
 /* clear the bar: lift bottom-anchored immersive content + page chrome above it */
 .antiabout { bottom: calc(clamp(2rem, 7vh, 4rem) + var(--appbar-h)); }
 .finale { padding-bottom: calc(6rem + var(--appbar-h)); }
 .site-foot { padding-bottom: calc(2.5rem + var(--appbar-h)); }
 .float-pause { bottom: auto; }
-@media (min-width: 900px) {
-  /* on wide screens keep it app-like but out of the way */
-  .appbar { max-width: 30rem; border-radius: 18px 18px 0 0; }
-}
 
 /* identity marker card: the flip (inversion) */
 .psycard__ichead .psy__ic { transition: transform 0.3s ease; }
@@ -4084,9 +4087,9 @@ button.hire__pill { font: inherit; cursor: pointer; }
 .dk-peek { position: fixed; left: 50%; transform: translateX(-50%); z-index: 205;
   bottom: calc(var(--appbar-h, 4.4rem) + env(safe-area-inset-bottom) + 0.9rem);
   width: min(100% - 1.6rem, 26rem); }
-.dk-peek__card { border: 1px solid rgba(232, 200, 119, 0.45); border-radius: 18px;
-  background: rgba(16, 12, 10, 0.97); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: 1rem 1.05rem 1.05rem; box-shadow: 0 14px 50px rgba(0, 0, 0, 0.6);
+.dk-peek__card { border: 0; border-radius: 22px;
+  background: rgba(20, 16, 13, 0.88); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  padding: 1.05rem 1.1rem 1.1rem; box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(244, 239, 230, 0.08);
   animation: dockIn 0.26s cubic-bezier(0.2, 0.9, 0.2, 1); }
 .dk-peek__top { display: flex; gap: 0.7rem; align-items: flex-start; }
 .dk-peek__ic { font-size: 1.6rem; line-height: 1.2; }

@@ -57,6 +57,16 @@
     },
   };
   var ORDER = ["music", "home", "profile"];
+  /* the coin: the wing this page lives in wears the filled gold circle */
+  var PAGE_WING = {
+    "album.html": "music", "films.html": "music", "catalogue.html": "music",
+    "": "home", "index.html": "home", "hire.html": "home", "feed.html": "home",
+    "ecosystem.html": "home", "equity-uprise.html": "home", "docket-516.html": "home",
+    "account.html": "profile", "cut.html": "profile", "pay.html": "profile",
+    "press.html": "profile", "matthew-mccluster.html": "profile"
+  };
+  var hereTab = dock.querySelector('[data-appnav="' + (PAGE_WING[location.pathname.split("/").pop()] || "") + '"]');
+  if (hereTab) hereTab.classList.add("is-here");
   var HOME_BAR = dock.innerHTML;
   var wingOn = null, taps = 0, tapKey = null, timer = null, practice = false;
 

@@ -94,10 +94,11 @@
     body[data-pulse="cooling"] { --pulse: #e89a55; }
     body[data-pulse="viral"] { --pulse: #b78fe8; }
 
-    /* the mode switch: one toggle, the whole room morphs */
-    .mode { display: inline-flex; border: 1px solid rgba(201,157,69,0.4); border-radius: 100px; overflow: hidden; margin-bottom: 1.4rem; }
+    /* the mode switch: quiet dark pills, the live one filled — no strokes */
+    .mode { display: inline-flex; gap: 3px; background: rgba(244,239,230,0.07); border-radius: 100px; padding: 3px; margin-bottom: 1.4rem; }
     .mode button { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
-      color: var(--cream-dim); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.1rem; }
+      color: var(--cream-dim); font-family: var(--ui); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.55rem 1.1rem; border-radius: 100px; }
     .mode button.on { background: var(--pulse); color: #16110b; }
 
     /* THE DESK — the command center: what are you trying to accomplish today? */
@@ -106,7 +107,7 @@
     .desk__hi { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(1.9rem, 8vw, 2.8rem); }
     .desk__sub { color: var(--cream-dim); font-size: 0.88rem; margin-top: 0.35rem; }
     .desk__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.7rem; margin-top: 1.2rem; }
-    .desk__tile { border: 1px solid rgba(201,157,69,0.28); border-radius: 14px; padding: 0.85rem 0.95rem; background: rgba(22,17,12,0.6);
+    .desk__tile { border: 0; border-radius: 18px; padding: 0.9rem 1rem; background: rgba(244,239,230,0.06);
       text-decoration: none; color: var(--cream); display: block; }
     .desk__tile small { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
     .desk__tile b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin-top: 0.3rem; line-height: 1.1; color: var(--pulse); }
@@ -118,8 +119,8 @@
     .desk__tile.is-locked b { color: var(--cream-dim); }
     .desk__tile.is-locked { border-style: dashed; opacity: 0.75; }
     /* the premium extras: the week drawn, the tops, the doors people came through */
-    .desk__x { margin-top: 1.1rem; border: 1px solid rgba(201,157,69,0.28); border-radius: 14px;
-      padding: 0.85rem 0.95rem 1rem; background: rgba(22,17,12,0.6); }
+    .desk__x { margin-top: 1.1rem; border: 0; border-radius: 18px;
+      padding: 0.9rem 1rem 1.05rem; background: rgba(244,239,230,0.06); }
     .desk__x small { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--cream-dim); font-weight: 800; margin-bottom: 0.6rem; }
     .spark { display: flex; align-items: flex-end; gap: 3px; height: 56px; }
@@ -184,8 +185,8 @@
 
     /* the deck — the mini player riding above the bar */
     .deckbar { position: fixed; left: 50%; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.2rem));
-      bottom: calc(84px + env(safe-area-inset-bottom, 0px)); z-index: 60;
-      border: 1px solid rgba(201,157,69,0.4); border-radius: 20px; background: rgba(16,12,9,0.96);
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+      border: 0; border-radius: 22px; background: rgba(18,14,11,0.9);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 18px 50px -14px rgba(0,0,0,0.85); overflow: hidden; transition: opacity 0.25s, transform 0.25s; }
     .deckbar[data-off="1"] { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
@@ -272,8 +273,8 @@
     .now__seek i { display: block; height: 4px; background: rgba(244,239,230,0.16); border-radius: 3px; }
     .now__seek b { position: relative; display: block; height: 100%; width: 0; background: var(--pulse); border-radius: 3px; }
     .now__seek b::after { content: ""; position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
-      width: 12px; height: 12px; border-radius: 50%; background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+      width: 13px; height: 13px; border-radius: 50%; background: var(--pulse);
+      box-shadow: 0 0 0 3px rgba(10,8,7,0.55), 0 2px 8px rgba(0,0,0,0.6); }
     .now__times { display: flex; justify-content: space-between; font-family: var(--ui); font-size: 0.72rem; color: var(--cream-dim);
       font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
     /* the transport: soft circular chips either side of the filled play */
@@ -1296,7 +1297,8 @@
     function paintSheet() {
       if (!sheetOn()) return;
       el("nowT0").textContent = fmt(deck.currentTime);
-      el("nowT1").textContent = deck.duration ? fmt(deck.duration) : "–:––";
+      /* the premium read: what's LEFT, counting down */
+      el("nowT1").textContent = deck.duration ? "-" + fmt(Math.max(0, deck.duration - deck.currentTime)) : "–:––";
       el("nowSeekFill").style.width = deck.duration ? (deck.currentTime / deck.duration * 100) + "%" : "0";
       el("nowPlayIc").innerHTML = deck.paused ? '<path d="M8 5l11 7-11 7z"/>' : '<path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/>';
       /* the words ride the music: timed lines light up; plain lyrics
