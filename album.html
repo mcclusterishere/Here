@@ -72,8 +72,12 @@
     /* the wash: a warm pulse-tinted gradient behind the shelf, so the page
        has depth even before a record fills the room */
     body.songpage { background:
-      radial-gradient(140% 58% at 50% -10%, color-mix(in srgb, var(--pulse) 15%, transparent), transparent 62%),
-      #0a0807; background-attachment: fixed; }
+      radial-gradient(140% 58% at 50% -10%, color-mix(in srgb, var(--pulse) 18%, transparent), transparent 62%),
+      radial-gradient(130% 46% at 50% 116%, color-mix(in srgb, var(--pulse) 9%, transparent), transparent 58%),
+      linear-gradient(180deg, #0d0a08 0%, #0a0807 42%, #070605 100%);
+      background-attachment: fixed; }
+    /* THE GLASS — surfaces pour light: a gradient fill and a catchlight
+       riding the top edge, so everything reads dimensional, not painted */
     .hr { max-width: 44rem; margin: 0 auto; padding: clamp(4.2rem, 8vh, 5.5rem) clamp(1.1rem, 4vw, 2rem) 12rem;
       position: relative; z-index: 2; }
 
@@ -95,7 +99,9 @@
     body[data-pulse="viral"] { --pulse: #b78fe8; }
 
     /* the mode switch: quiet dark pills, the live one filled — no strokes */
-    .mode { display: inline-flex; gap: 3px; background: rgba(244,239,230,0.07); border-radius: 100px; padding: 3px; margin-bottom: 1.4rem; }
+    .mode { display: inline-flex; gap: 3px; border-radius: 100px; padding: 3px; margin-bottom: 1.4rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
     .mode button { -webkit-appearance: none; appearance: none; border: 0; background: none; cursor: pointer; touch-action: manipulation;
       color: var(--cream-dim); font-family: var(--ui); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
       padding: 0.55rem 1.1rem; border-radius: 100px; }
@@ -107,7 +113,9 @@
     .desk__hi { font-family: var(--sig); text-transform: uppercase; line-height: 0.9; font-size: clamp(1.9rem, 8vw, 2.8rem); }
     .desk__sub { color: var(--cream-dim); font-size: 0.88rem; margin-top: 0.35rem; }
     .desk__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.7rem; margin-top: 1.2rem; }
-    .desk__tile { border: 0; border-radius: 18px; padding: 0.9rem 1rem; background: rgba(244,239,230,0.06);
+    .desk__tile { border: 0; border-radius: 18px; padding: 0.9rem 1rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.11);
       text-decoration: none; color: var(--cream); display: block; }
     .desk__tile small { display: block; font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
     .desk__tile b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin-top: 0.3rem; line-height: 1.1; color: var(--pulse); }
@@ -146,8 +154,9 @@
     .alb__by b { color: var(--cream); }
     .alb__play { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       display: inline-flex; align-items: center; gap: 0.55rem; margin-top: 0.9rem; padding: 0.8rem 1.5rem; border-radius: 100px;
-      background: var(--pulse); color: #16110b; font-family: var(--ui); font-weight: 800; font-size: 0.98rem;
-      box-shadow: 0 12px 34px -14px color-mix(in srgb, var(--pulse) 70%, transparent); }
+      background: linear-gradient(180deg, color-mix(in srgb, var(--pulse) 80%, #fff), var(--pulse));
+      color: #16110b; font-family: var(--ui); font-weight: 800; font-size: 0.98rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 14px 36px -14px color-mix(in srgb, var(--pulse) 75%, transparent); }
     .alb__play:active { transform: translateY(1px); }
 
     /* the record — soft app rows with the art up front; the playing row
@@ -164,13 +173,15 @@
       background: linear-gradient(105deg,
         color-mix(in srgb, var(--pulse) 46%, #14100b) 0%,
         color-mix(in srgb, var(--pulse) 16%, #14100b) 78%); }
-    .tr li.on { box-shadow: 0 12px 34px -14px color-mix(in srgb, var(--pulse) 60%, transparent); }
+    .tr li.on { box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 14px 38px -14px color-mix(in srgb, var(--pulse) 65%, transparent); }
     .tr .n { font-family: var(--ui); font-size: 0.72rem; color: var(--cream-dim); font-weight: 800; width: 1.15rem; text-align: right; flex: none; }
     .tr .t { font-family: var(--ui); font-weight: 800; font-size: 0.98rem; color: var(--cream); flex: 1; line-height: 1.2; min-width: 0; }
     .tr .t small { display: block; font-family: var(--ui); font-weight: 600; font-size: 0.74rem; color: var(--cream-dim); margin-top: 0.14rem; }
     .tr .d { flex: none; font-family: var(--ui); font-size: 0.74rem; color: var(--cream-dim); font-variant-numeric: tabular-nums; }
     .tr .hrt { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      flex: none; width: 34px; height: 34px; border-radius: 50%; background: rgba(244,239,230,0.07);
+      flex: none; width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
       display: grid; place-items: center; color: rgba(244,239,230,0.4);
       font-size: 0.95rem; line-height: 1; padding: 0; }
     .tr .hrt.on { color: var(--pulse); background: color-mix(in srgb, var(--pulse) 18%, transparent); }
@@ -186,9 +197,11 @@
     /* the deck — the mini player riding above the bar */
     .deckbar { position: fixed; left: 50%; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.2rem));
       bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 60;
-      border: 0; border-radius: 22px; background: rgba(18,14,11,0.9);
+      border: 0; border-radius: 22px;
+      background: linear-gradient(180deg, rgba(32,26,21,0.88), rgba(14,11,9,0.92));
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 18px 50px -14px rgba(0,0,0,0.85); overflow: hidden; transition: opacity 0.25s, transform 0.25s; }
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 50px -14px rgba(0,0,0,0.85);
+      overflow: hidden; transition: opacity 0.25s, transform 0.25s; }
     .deckbar[data-off="1"] { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(12px); }
     .deckbar__seek { display: block; width: 100%; height: 14px; padding: 6px 0 4px; background: none; border: 0; cursor: pointer; }
     .deckbar__seek i { display: block; height: 3px; background: rgba(244,239,230,0.14); border-radius: 2px; overflow: hidden; }
@@ -211,7 +224,9 @@
     .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
     .top__ava { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #1a140f; }
     .top__acts { display: flex; gap: 0.55rem; }
-    .top__circle { width: 42px; height: 42px; border-radius: 50%; background: rgba(244,239,230,0.08);
+    .top__circle { width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.045));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 8px 20px -10px rgba(0,0,0,0.85);
       display: grid; place-items: center; color: var(--cream); text-decoration: none; }
     .top__circle svg { width: 19px; height: 19px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
     .greet { font-family: var(--ui); font-weight: 800; font-size: clamp(1.75rem, 7.4vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.05; }
@@ -222,22 +237,36 @@
     .chips::-webkit-scrollbar { display: none; }
     .chips button { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       font-family: var(--ui); font-weight: 700; font-size: 0.82rem; color: var(--cream);
-      background: rgba(244,239,230,0.08); border-radius: 100px; padding: 0.55rem 1.1rem; }
-    .chips button.on { background: var(--pulse); color: #16110b; font-weight: 800; }
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13);
+      border-radius: 100px; padding: 0.55rem 1.1rem; }
+    .chips button.on { color: #16110b; font-weight: 800;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--pulse) 82%, #fff), var(--pulse));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 10px 24px -10px color-mix(in srgb, var(--pulse) 70%, transparent); }
 
     /* THE CURATED CARDS — big color blocks, a filled play chip pours the taste */
     .feat { display: flex; gap: 0.9rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.6rem;
       scroll-snap-type: x proximity; scrollbar-width: none; }
     .feat::-webkit-scrollbar { display: none; }
     .feat__card { flex: none; width: min(76vw, 18.5rem); scroll-snap-align: start; cursor: pointer;
-      border-radius: 24px; background: var(--tint); color: #16110b; padding: 1.15rem 1.15rem 1rem;
-      box-shadow: 0 18px 44px -18px rgba(0,0,0,0.8); }
+      position: relative; overflow: hidden;
+      border-radius: 24px; color: #16110b; padding: 1.15rem 1.15rem 1rem;
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--tint) 82%, #fff) 0%,
+        var(--tint) 46%,
+        color-mix(in srgb, var(--tint) 74%, #16110b) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 20px 48px -18px rgba(0,0,0,0.85); }
+    .feat__card::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(130% 60% at 18% -6%, rgba(255,255,255,0.42), transparent 55%); }
+    .feat__card > * { position: relative; }
     .feat__card > b { display: block; font-family: var(--ui); font-weight: 800; font-size: 1.3rem; line-height: 1.1; }
     .feat__card > small { display: block; font-family: var(--ui); font-weight: 600; font-size: 0.8rem; opacity: 0.72;
       margin-top: 0.25rem; min-height: 2.2em; }
     .feat__acts { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.8rem; }
     .feat__play { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      width: 48px; height: 48px; border-radius: 50%; background: #16110b; color: var(--tint);
+      width: 48px; height: 48px; border-radius: 50%; color: var(--tint);
+      background: linear-gradient(180deg, #241d17, #120e0b);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 22px -10px rgba(0,0,0,0.7);
       display: grid; place-items: center; }
     .feat__play svg { width: 20px; height: 20px; fill: currentColor; }
     .feat__n { font-family: var(--ui); font-weight: 700; font-size: 0.76rem; opacity: 0.72; }
@@ -259,7 +288,9 @@
     .pll__t small { display: block; font-weight: 600; font-size: 0.74rem; color: var(--cream-dim); margin-top: 0.1rem;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .pll__play { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      width: 44px; height: 44px; border-radius: 50%; background: rgba(244,239,230,0.08); color: var(--cream);
+      width: 44px; height: 44px; border-radius: 50%; color: var(--cream);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 8px 20px -10px rgba(0,0,0,0.8);
       display: grid; place-items: center; }
     .pll__play svg { width: 17px; height: 17px; fill: currentColor; }
     .pll__play.on { background: var(--pulse); color: #16110b; }
@@ -282,8 +313,11 @@
     .now__from { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream-dim); font-weight: 800; }
     /* the art window: the record's film with the words inside its frame */
     .now__art { position: relative; width: min(88vw, 24rem); flex: 1; min-height: 0; max-height: 52vh;
-      margin: 0.9rem auto 0; border-radius: 20px; overflow: hidden; background: #14100c;
-      box-shadow: 0 24px 70px -20px rgba(0,0,0,0.95), 0 0 0 1px rgba(201,157,69,0.28), 0 0 90px -40px rgba(232,200,119,0.5); }
+      margin: 0.9rem auto 0; border-radius: 24px; overflow: hidden; background: #14100c;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 26px 74px -20px rgba(0,0,0,0.95),
+        0 0 100px -40px color-mix(in srgb, var(--pulse) 55%, transparent); }
+    .now__art::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 30%; z-index: 6; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), transparent); }
     .now__film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
     /* THE DISSOLVE — the outgoing scene freezes, drifts, and burns off
        while the new one breathes in underneath */
@@ -322,18 +356,23 @@
       font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
     /* the transport: soft circular chips either side of the filled play */
     .now__tp { display: flex; align-items: center; justify-content: center; gap: 1.6rem; margin-top: 0.55rem; }
-    .now__tp button { -webkit-appearance: none; appearance: none; border: 0; background: rgba(244,239,230,0.08); color: var(--cream);
+    .now__tp button { -webkit-appearance: none; appearance: none; border: 0; color: var(--cream);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 10px 24px -12px rgba(0,0,0,0.85);
       width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; touch-action: manipulation; }
     .now__tp button svg { width: 22px; height: 22px; fill: currentColor; }
-    .now__tp .now__play { background: var(--pulse); color: #16110b; width: 68px; height: 68px;
-      box-shadow: 0 16px 44px -14px color-mix(in srgb, var(--pulse) 75%, transparent); }
+    .now__tp .now__play { color: #16110b; width: 68px; height: 68px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--pulse) 78%, #fff), var(--pulse));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 18px 48px -14px color-mix(in srgb, var(--pulse) 80%, transparent); }
     .now__tp .now__play svg { width: 30px; height: 30px; }
     /* THE ECOSYSTEM — the song is the hub: credits, the record, the doors */
     .now__eco { padding: 0.55rem 1.3rem 0; text-align: center; }
     .now__cred { color: var(--cream-dim); font-size: 0.74rem; line-height: 1.5; min-height: 1em; }
     .now__doors { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
     .now__doors a { text-decoration: none; color: var(--cream); font-family: var(--ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
-      background: rgba(244,239,230,0.08); border-radius: 100px; padding: 0.45rem 0.9rem; }
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13);
+      border-radius: 100px; padding: 0.45rem 0.9rem; }
     .now__doors a:active { background: rgba(201,157,69,0.15); }
   </style>
 </head>
