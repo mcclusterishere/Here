@@ -30,6 +30,8 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.55rem 1.1rem; }
     .chips button.on { color: #16110b; font-weight: 800; background: var(--metal);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 10px 24px -10px rgba(200,164,90,0.55); }
+    .pf__lede { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.88rem;
+      max-width: 50ch; margin: 0 0 1.2rem; min-height: 1.4em; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 0.9rem; }
     .work { position: relative; overflow: hidden; border-radius: 20px; background: #0d0a08; color: #fff;
       aspect-ratio: 4 / 5; cursor: pointer; isolation: isolate; display: block; text-decoration: none;
@@ -77,12 +79,13 @@
     <div class="chips" id="pfChips">
       <button type="button" class="on" data-cat="All">All</button>
     </div>
+    <p class="pf__lede" id="pfLede"></p>
     <div class="grid" id="pfGrid"></div>
   </main>
 
   <!-- THE CLOSER -->
   <div class="bookbar">
-    <button class="bb__lock" type="button" data-lead-sheet="">Lock in a date &#8594;</button>
+    <button class="bb__lock" id="pfLock" type="button" data-lead-sheet="">Lock in a date &#8594;</button>
     <a class="bb__call" href="mailto:matthew@mccluster.org?subject=Book%20a%20call%20%E2%80%94%20McCluster">Book a call</a>
   </div>
 
@@ -110,6 +113,27 @@
     "use strict";
     var grid = document.getElementById("pfGrid"), chips = document.getElementById("pfChips");
     var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    /* THE THREE LANES — each category sells itself and books itself */
+    var LANES = {
+      "All": { lede: "", want: "", lock: "Lock in a date →" },
+      "Videography": { lede: "Brand films, commercials, music videos, event coverage — shot, cut, and delivered ready to post.",
+        want: "Video / brand film", lock: "Book a shoot →" },
+      "Photography": { lede: "Events, portraits, the Shot Wall — I shoot the night, you find yourself in it.",
+        want: "Photography", lock: "Book a shoot →" },
+      "Media management": { lede: "Your socials, your rollout, your strategy — run like a label. Consulting included.",
+        want: "Media management / consulting", lock: "Book a strategy call →" },
+    };
+    function setLane(cat) {
+      chips.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-cat") === cat); });
+      grid.querySelectorAll(".work").forEach(function (w) {
+        w.style.display = (cat === "All" || w.getAttribute("data-cat") === cat) ? "" : "none";
+      });
+      var L = LANES[cat] || LANES.All;
+      document.getElementById("pfLede").textContent = L.lede;
+      var lock = document.getElementById("pfLock");
+      lock.setAttribute("data-lead-sheet", L.want);
+      lock.innerHTML = L.lock;
+    }
     fetch("data/portfolio.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
       chips.innerHTML += (j.cats || []).map(function (c) {
         return '<button type="button" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
@@ -141,16 +165,15 @@
         grid.querySelectorAll(".work").forEach(function (c) { io.observe(c); });
       }
       if (window.MCC_TRACK) window.MCC_TRACK("portfolio_view", { items: (j.items || []).length });
+      /* a lane link (tap card, shots hub) opens with its lane already on */
+      var deep = new URLSearchParams(location.search).get("cat");
+      if (deep && LANES[deep]) setLane(deep);
     });
     chips.addEventListener("click", function (e) {
       var b = e.target.closest && e.target.closest("[data-cat]");
       if (!b) return;
-      chips.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
-      var cat = b.getAttribute("data-cat");
-      grid.querySelectorAll(".work").forEach(function (w) {
-        w.style.display = (cat === "All" || w.getAttribute("data-cat") === cat) ? "" : "none";
-      });
-      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_filter", { cat: cat });
+      setLane(b.getAttribute("data-cat"));
+      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_filter", { cat: b.getAttribute("data-cat") });
     });
   })();
   </script>

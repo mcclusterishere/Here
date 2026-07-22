@@ -54,6 +54,15 @@
     .lead__acts .reply { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .lead__acts button.on { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .lead.is-closed { opacity: 0.55; }
+    /* the three lanes, on the desk */
+    .lanechips { display: flex; gap: 0.45rem; overflow-x: auto; scrollbar-width: none; margin: 0 0 1rem; }
+    .lanechips::-webkit-scrollbar { display: none; }
+    .lanechips button { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; font-family: var(--ui); font-weight: 700; font-size: 0.78rem; color: var(--cream);
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.5rem 1rem; }
+    .lanechips button.on { color: #16110b; font-weight: 800; background: var(--metal);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
   </style>
 </head>
 <body class="songpage">
@@ -74,6 +83,13 @@
         <div class="stat"><b id="stAll">–</b><small>Leads · 7 days</small></div>
         <div class="stat"><b id="stAds">–</b><small>From ads</small></div>
         <div class="stat"><b id="stBook">–</b><small>Booked</small></div>
+      </div>
+      <div class="lanechips" id="laneChips">
+        <button type="button" class="on" data-lane="All">All</button>
+        <button type="button" data-lane="Videography">Videography</button>
+        <button type="button" data-lane="Photography">Photography</button>
+        <button type="button" data-lane="Media">Media &amp; consulting</button>
+        <button type="button" data-lane="Other">Other</button>
       </div>
       <div id="leads"><p class="fd__sub">Loading the pipeline…</p></div>
     </div>
@@ -148,13 +164,30 @@
       });
     }
 
+    /* which lane a lead belongs to, read from what they asked for */
+    function laneOf(r) {
+      var w = ((r.want || "") + " " + (r.page || "")).toLowerCase();
+      if (/video|film|reel/.test(w)) return "Videography";
+      if (/photo|shot/.test(w)) return "Photography";
+      if (/media|consult|web|manage/.test(w)) return "Media";
+      return "Other";
+    }
+    var ROWS = [], LANE = "All";
+
     function paint(rows) {
+      ROWS = rows;
+      rows = LANE === "All" ? rows : rows.filter(function (r) { return laneOf(r) === LANE; });
       var wk = Date.now() - 7 * 864e5;
       var week = rows.filter(function (r) { return new Date(r.at).getTime() > wk; });
       el("stAll").textContent = week.length;
       el("stAds").textContent = week.filter(function (r) { return r.gclid || r.source === "google-ads"; }).length;
       el("stBook").textContent = rows.filter(function (r) { return r.status === "booked"; }).length;
-      if (!rows.length) { el("leads").innerHTML = '<p class="fd__sub">The desk is clear — no leads yet. They land here the second the site catches one.</p>'; return; }
+      if (!rows.length) {
+        el("leads").innerHTML = '<p class="fd__sub">' + (LANE === "All"
+          ? "The desk is clear — no leads yet. They land here the second the site catches one."
+          : "Nothing in this lane yet — it fills the second someone asks.") + "</p>";
+        return;
+      }
       el("leads").innerHTML = rows.map(function (r) {
         var ads = r.gclid || r.source === "google-ads";
         var reply = "mailto:" + encodeURIComponent(r.email) +
@@ -183,6 +216,14 @@
         .then(paint)
         .catch(function () { el("leads").innerHTML = '<p class="fd__sub">Couldn\'t reach the pile — run docs/crm.sql if you haven\'t, then refresh.</p>'; });
     }
+
+    el("laneChips").addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-lane]");
+      if (!b) return;
+      LANE = b.getAttribute("data-lane");
+      el("laneChips").querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      paint(ROWS);
+    });
 
     el("leads").addEventListener("click", function (e) {
       var card = e.target.closest && e.target.closest(".lead");

@@ -76,6 +76,27 @@
       background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); }
     .vw__deck input::placeholder { color: rgba(255,255,255,0.4); }
     .vw__deck .err { color: #e8a68a; font-size: 0.78rem; font-weight: 700; margin: 0.5rem 0 0; }
+    /* THE THREE LANES — the card's front door */
+    .lanes { display: grid; gap: 0.8rem; margin-bottom: 2rem; }
+    .lane { position: relative; overflow: hidden; border-radius: 22px; aspect-ratio: 16 / 7.5; isolation: isolate;
+      display: block; text-decoration: none; color: #fff; background: #0d0a08;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 22px 50px -20px rgba(0,0,0,0.9); }
+    .lane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+    .lane .sc { position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(100deg, rgba(9,7,5,0.88) 26%, rgba(9,7,5,0.35) 62%, rgba(9,7,5,0.1) 100%); }
+    .lane::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.1) 47%, transparent 58%); }
+    .lane__tx { position: absolute; left: 1.05rem; top: 50%; transform: translateY(-50%); right: 4.4rem; }
+    .lane__tx small { display: block; font-family: var(--ui); font-weight: 800; font-size: 0.58rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: #d9b264; }
+    .lane__tx b { display: block; font-family: var(--ui); font-weight: 800; font-size: 1.25rem; line-height: 1.1; margin-top: 0.2rem; }
+    .lane__tx span { display: block; font-family: var(--ui); font-weight: 600; font-size: 0.74rem; color: rgba(255,255,255,0.66); margin-top: 0.3rem; }
+    .lane__arr { position: absolute; right: 0.95rem; top: 50%; transform: translateY(-50%);
+      width: 2.5rem; height: 2.5rem; border-radius: 100px; display: grid; place-items: center;
+      font-weight: 800; color: #16110b; background: var(--metal);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 10px 24px -10px rgba(200,164,90,0.55); }
+    .sw__h2 { font-family: var(--ui); font-weight: 800; font-size: 0.7rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--cream-dim); margin: 0 0 0.9rem; }
     /* event picker */
     .pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 0.9rem; }
     .pick a { position: relative; overflow: hidden; border-radius: 20px; aspect-ratio: 16 / 10; isolation: isolate;
@@ -97,7 +118,7 @@
       <span id="swDealPack">The whole pack · $5</span>
     </div>
     <div class="swgrid" id="swGrid"></div>
-    <div class="pick" id="swPick"></div>
+    <div id="swPick"></div>
   </main>
 
   <!-- THE VIEWER -->
@@ -144,14 +165,32 @@
       if (e.target && e.target.tagName === "IMG") e.preventDefault();
     });
 
-    /* ---------- no event picked: show the nights ---------- */
+    /* ---------- no event picked: the card's front door ---------- */
+    var LANES = [
+      { k: "Lane one", t: "Videography", s: "Brand films · music videos · event coverage",
+        img: "assets/frames/vaunt_0001.jpg", href: "portfolio.html?cat=Videography" },
+      { k: "Lane two", t: "Photography", s: "Events · portraits · the Shot Wall",
+        img: "assets/img/rally/rally-02.jpg", href: "portfolio.html?cat=Photography" },
+      { k: "Lane three", t: "Media management & consulting", s: "Your socials · your rollout · run like a label",
+        img: "assets/frames/keynote_0001.jpg", href: "portfolio.html?cat=Media%20management" },
+    ];
     function paintPick() {
+      $("swK").textContent = "You tapped the card";
+      $("swTitle").innerHTML = "Pick your<br>lane";
+      $("swSub").textContent = "Three things I do. Watch the work, then lock in — or find your photo from the night below.";
+      track("card_hub_view", {});
       fetch("data/shots/index.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
-        $("swSub").textContent = "Pick your night — your photos are waiting on the wall.";
-        $("swPick").innerHTML = (j.events || []).map(function (ev) {
-          return '<a href="shots.html?e=' + esc(ev.slug) + '"><img src="' + esc(ev.cover) + '" alt="" loading="lazy">' +
-            '<span class="sc"></span><b>' + esc(ev.title) + (ev.date ? " · " + esc(ev.date) : "") + "</b></a>";
-        }).join("");
+        $("swPick").innerHTML =
+          '<div class="lanes">' + LANES.map(function (l) {
+            return '<a class="lane" href="' + l.href + '"><img src="' + esc(l.img) + '" alt="" loading="lazy"><span class="sc"></span>' +
+              '<span class="lane__tx"><small>' + esc(l.k) + "</small><b>" + esc(l.t) + "</b><span>" + esc(l.s) + "</span></span>" +
+              '<span class="lane__arr">&#8594;</span></a>';
+          }).join("") + "</div>" +
+          '<p class="sw__h2">The nights &middot; find your photo</p>' +
+          '<div class="pick">' + (j.events || []).map(function (ev) {
+            return '<a href="shots.html?e=' + esc(ev.slug) + '"><img src="' + esc(ev.cover) + '" alt="" loading="lazy">' +
+              '<span class="sc"></span><b>' + esc(ev.title) + (ev.date ? " · " + esc(ev.date) : "") + "</b></a>";
+          }).join("") + "</div>";
       });
     }
 

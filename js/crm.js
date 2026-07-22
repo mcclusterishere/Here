@@ -42,7 +42,7 @@
   }
 
   /* ---------- THE SHEET ---------- */
-  var WANTS = ["Video / brand film", "Photography", "Web design", "Media management", "Music / scoring", "Something else"];
+  var WANTS = ["Video / brand film", "Photography", "Web design", "Media management / consulting", "Music / scoring", "Something else"];
   var el = null;
   function close() { if (el && el.parentNode) el.parentNode.removeChild(el); el = null; }
   function open(want) {
