@@ -2553,6 +2553,44 @@ html.vr-locked {
   100% { box-shadow: 0 0 0 16px rgba(255, 198, 26, 0); }
 }
 
+/* THE TAKEOFF: on approach to the 360 cabin, runway rails light both edges —
+   scroll slow, arrows falling like landing lights, a small board call below */
+.work__runway {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  opacity: 0; transition: opacity 0.55s ease;
+}
+.work__runway.is-shown { opacity: 1; }
+.work__runway-rail {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+}
+.work__runway-rail--l { left: clamp(0.7rem, 3.4vw, 2.4rem); }
+.work__runway-rail--r { right: clamp(0.7rem, 3.4vw, 2.4rem); }
+.work__runway-rail b {
+  writing-mode: vertical-rl; text-orientation: mixed;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.52em; text-transform: uppercase;
+  color: rgba(232, 200, 119, 0.95); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+}
+.work__runway-rail svg {
+  width: 20px; height: 32px; fill: none;
+  stroke: rgba(232, 200, 119, 0.95); stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85));
+  animation: runwayFall 1.2s ease-in-out infinite;
+}
+.work__runway-rail--r svg { animation-delay: 0.6s; }
+@keyframes runwayFall {
+  0%, 100% { transform: translateY(-4px); opacity: 0.55; }
+  50% { transform: translateY(7px); opacity: 1; }
+}
+.work__runway-note {
+  position: absolute; left: 50%; bottom: clamp(4.6rem, 13vh, 7.5rem);
+  transform: translateX(-50%); white-space: nowrap;
+  font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--cream-dim); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+}
+@media (prefers-reduced-motion: reduce) { .work__runway-rail svg { animation: none; } }
+
 /* after touchdown: the last card opens on a full-frame ask in Vaunt orange —
    eye level, a phone with a two-way swipe inside, the motto in tiny type */
 .work__slowhint {

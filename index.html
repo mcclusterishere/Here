@@ -293,7 +293,7 @@
             <svg class="workvr__pointer" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h14"/><path d="M13 6l6 6-6 6"/></svg>
             <button class="workvr__btn workvr__btn--top" id="workVRTop" type="button">
               <svg class="workvr__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6"/><path d="M6 12l6-6 6 6"/></svg>
-              <span>Back to top</span>
+              <span>Back to the card</span>
             </button>
             <button class="workvr__btn" id="workVRGyro" type="button">
               <svg class="workvr__icon" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>
@@ -322,24 +322,27 @@
           </svg>
           <p class="work__slowhint-tiny">scroll slow &middot; homie</p>
         </div>
-        <header class="command__head">
-          <p class="kicker">Case study 01 · VR commercial production</p>
-          <h2 class="section-title">Brand<br>Collabs</h2>
-          <p class="work__answer">Vaunt Private Flights — a commercial you stand inside. Shot on the runway,
-            finished in 360: drag around the cabin and you're in the spot.</p>
-        </header>
-        <div class="command__panels">
-          <article class="command__panel" data-scene="0">
-            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Case 01 · Vaunt — The Performance</span></p>
-            <h3 class="command__title">Commercial<br>Production</h3>
-            <p class="command__pitch">The spot itself: performed live on the runway with Zakir on guitar — the original jingle that became the campaign.</p>
-          </article>
-          <article class="command__panel" data-scene="1">
-            <p class="command__meta"><img class="command__logo command__logo--white" loading="lazy" decoding="async" src="assets/img/vaunt-logo.jpeg" alt="Vaunt logo"><span class="command__tag">Case 01 · Vaunt — The 360 Launch</span></p>
-            <h3 class="command__title">Fly<br>Vaunt</h3>
-          </article>
+        <!-- THE TAKEOFF: runway rails on both edges warn the cabin is coming -->
+        <div class="work__runway" id="workRunway" aria-hidden="true">
+          <div class="work__runway-rail work__runway-rail--l">
+            <b>Scroll slow</b>
+            <svg viewBox="0 0 24 36"><path d="M5 6l7 8 7-8"/><path d="M5 18l7 8 7-8"/></svg>
+          </div>
+          <div class="work__runway-rail work__runway-rail--r">
+            <b>Scroll slow</b>
+            <svg viewBox="0 0 24 36"><path d="M5 6l7 8 7-8"/><path d="M5 18l7 8 7-8"/></svg>
+          </div>
+          <p class="work__runway-note">VR ahead &middot; board it slow</p>
         </div>
-        <div class="command__count" id="cmdCount">01 / 03</div>
+        <header class="command__head">
+          <h2 class="section-title">VR<br>Commercial</h2>
+        </header>
+        <!-- the panels stay as the scene engine's checkpoints — the words are gone,
+             the picture does the talking -->
+        <div class="command__panels">
+          <article class="command__panel" data-scene="0"></article>
+          <article class="command__panel" data-scene="1"></article>
+        </div>
       </div>
     </section>
 

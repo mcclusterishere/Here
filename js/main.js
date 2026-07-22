@@ -530,7 +530,7 @@
     });
     PAR.set(parCmdPanels, actS);
     cmdPanels.forEach(function (el, i) { el.classList.toggle("is-active", i === active); });
-    cmdCount.textContent = "0" + cmdProjects[active] + " / 0" + cmdProjectCount;
+    if (cmdCount) cmdCount.textContent = "0" + cmdProjects[active] + " / 0" + cmdProjectCount;
     if (active !== lastCmdActive) {
       lastCmdActive = active;
       if (window.MCC_TRACK) window.MCC_TRACK("work_scene", { scene: active, project: cmdProjects[active], page: "home" });
@@ -626,6 +626,7 @@
 
   var workSlow = document.getElementById("workSlowHint");
   var workFly = document.getElementById("workFlyPill");
+  var workRunway = document.getElementById("workRunway");
   var workST = ScrollTrigger.create({
     trigger: "#work",
     start: "top top",
@@ -642,6 +643,10 @@
       var pastBand = st.progress > 0.503 && st.progress < 0.64 && !workVR.live;
       if (workSlow) workSlow.classList.toggle("is-shown", pastBand);
       if (workFly) workFly.classList.toggle("is-shown", pastBand);
+      // THE TAKEOFF: on approach to the cabin, the runway rails light up —
+      // scroll slow, the VR band is coming. They cut out once the band takes over.
+      if (workRunway) workRunway.classList.toggle("is-shown",
+        st.progress > 0.14 && st.progress < workVR.band[0] - 0.005 && !workVR.live);
       if (!st.isActive) {
         Object.keys(parCmdCanvases).forEach(function (k) { PAR.set(parCmdCanvases[k], 0); });
         PAR.set(parCmdPanels, 0);
@@ -675,10 +680,19 @@
     releaseAndGoTop();
     if (window.MCC_TRACK) window.MCC_TRACK("brand_home", { page: "home" });
   });
+  // Back to the card: not all the way home — the button sets you down on the
+  // collab card that boarded you, right at the top of the section
   var workTop = document.getElementById("workVRTop");
   if (workTop) workTop.addEventListener("click", function () {
-    releaseAndGoTop();
-    if (window.MCC_TRACK) window.MCC_TRACK("vr_back_to_top", { page: "home" });
+    workVR.landing = true;
+    workVR.live = false;
+    if (workVR.el) workVR.el.classList.remove("is-live");
+    if (workVR.viewer) workVR.viewer.pause();
+    lockPageScroll(false);
+    var y = workST.start + (workST.end - workST.start) * 0.02;
+    lenis.scrollTo(y, { duration: 1.0, onComplete: function () { workVR.landing = false; } });
+    setTimeout(function () { workVR.landing = false; }, 1600); // if the glide is cut short
+    if (window.MCC_TRACK) window.MCC_TRACK("vr_back_to_card", { page: "home" });
   });
 
   // Land: the only way out while scroll is locked. Touches down right at the
