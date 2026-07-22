@@ -207,20 +207,62 @@
     .deckbar button.tp svg { width: 20px; height: 20px; fill: currentColor; }
     .deckbar button.tp--play { background: var(--pulse); color: #16110b; border-radius: 50%; }
 
-    /* THE LIBRARY — every album and playlist in the system, one thumb-swipe away */
-    .lib { margin-top: 3rem; }
-    .lib__k { font-family: var(--ui); font-weight: 800; font-size: 1.05rem; color: var(--cream);
-      text-transform: none; letter-spacing: 0; margin: 1.7rem 0 0.8rem; }
-    .rail { display: flex; gap: 0.9rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem;
+    /* THE TOP ROW + THE GREETING — the app opens like an app */
+    .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .top__ava { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #1a140f; }
+    .top__acts { display: flex; gap: 0.55rem; }
+    .top__circle { width: 42px; height: 42px; border-radius: 50%; background: rgba(244,239,230,0.08);
+      display: grid; place-items: center; color: var(--cream); text-decoration: none; }
+    .top__circle svg { width: 19px; height: 19px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .greet { font-family: var(--ui); font-weight: 800; font-size: clamp(1.75rem, 7.4vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.05; }
+    .greet__sub { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.9rem; margin: 0.35rem 0 1.3rem; }
+
+    /* THE CHIPS — filled when live, quiet when not */
+    .chips { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; margin: 2rem 0 0.4rem; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips button { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--ui); font-weight: 700; font-size: 0.82rem; color: var(--cream);
+      background: rgba(244,239,230,0.08); border-radius: 100px; padding: 0.55rem 1.1rem; }
+    .chips button.on { background: var(--pulse); color: #16110b; font-weight: 800; }
+
+    /* THE CURATED CARDS — big color blocks, a filled play chip pours the taste */
+    .feat { display: flex; gap: 0.9rem; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.6rem;
       scroll-snap-type: x proximity; scrollbar-width: none; }
-    .rail::-webkit-scrollbar { display: none; }
-    .rail a { flex: none; width: 124px; text-decoration: none; color: var(--cream); scroll-snap-align: start; }
-    .rail img { width: 124px; height: 124px; object-fit: cover; border-radius: 18px; background: #16110c;
-      box-shadow: 0 14px 36px -14px rgba(0,0,0,0.9); }
-    .rail a.is-here img { box-shadow: 0 14px 36px -14px rgba(0,0,0,0.9), 0 0 0 2px var(--pulse); }
-    .rail b { display: block; font-family: var(--ui); font-weight: 700; font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.2;
+    .feat::-webkit-scrollbar { display: none; }
+    .feat__card { flex: none; width: min(76vw, 18.5rem); scroll-snap-align: start; cursor: pointer;
+      border-radius: 24px; background: var(--tint); color: #16110b; padding: 1.15rem 1.15rem 1rem;
+      box-shadow: 0 18px 44px -18px rgba(0,0,0,0.8); }
+    .feat__card > b { display: block; font-family: var(--ui); font-weight: 800; font-size: 1.3rem; line-height: 1.1; }
+    .feat__card > small { display: block; font-family: var(--ui); font-weight: 600; font-size: 0.8rem; opacity: 0.72;
+      margin-top: 0.25rem; min-height: 2.2em; }
+    .feat__acts { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.8rem; }
+    .feat__play { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 48px; height: 48px; border-radius: 50%; background: #16110b; color: var(--tint);
+      display: grid; place-items: center; }
+    .feat__play svg { width: 20px; height: 20px; fill: currentColor; }
+    .feat__n { font-family: var(--ui); font-weight: 700; font-size: 0.76rem; opacity: 0.72; }
+    .feat__art { width: 42px; height: 42px; border-radius: 13px; object-fit: cover; margin-left: auto;
+      box-shadow: 0 8px 18px -6px rgba(0,0,0,0.55); }
+
+    /* THE PLAYLIST ROWS — thumb, name, a circular chip for the taste */
+    .lib { margin-top: 2.6rem; }
+    .lib__k { font-family: var(--ui); font-weight: 800; font-size: 1.05rem; color: var(--cream);
+      text-transform: none; letter-spacing: 0; margin: 1.4rem 0 0.7rem; }
+    .pll { display: flex; align-items: center; gap: 0.85rem; padding: 0.55rem 0.5rem; border-radius: 16px; cursor: pointer; }
+    .pll:hover { background: rgba(244,239,230,0.05); }
+    .pll.is-here { background: rgba(244,239,230,0.06); }
+    .pll__art { flex: none; width: 52px; height: 52px; border-radius: 14px; object-fit: cover; background: #1a140f;
+      box-shadow: 0 6px 18px -8px rgba(0,0,0,0.9); }
+    .pll__t { flex: 1; min-width: 0; font-family: var(--ui); }
+    .pll__t b { display: block; font-weight: 800; font-size: 0.95rem; color: var(--cream);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .rail small { display: block; font-family: var(--ui); color: var(--cream-dim); font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pll__t small { display: block; font-weight: 600; font-size: 0.74rem; color: var(--cream-dim); margin-top: 0.1rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pll__play { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(244,239,230,0.08); color: var(--cream);
+      display: grid; place-items: center; }
+    .pll__play svg { width: 17px; height: 17px; fill: currentColor; }
+    .pll__play.on { background: var(--pulse); color: #16110b; }
 
     .hr__foot { margin-top: 4.5rem; border-top: 1px solid rgba(201,157,69,0.22); padding-top: 1.3rem;
       color: var(--cream-dim); font-size: 0.82rem; line-height: 1.8; }
@@ -306,6 +348,21 @@
   <div class="grain" aria-hidden="true"></div>
 
   <main class="hr">
+    <!-- THE TOP ROW — the face, the search, the saves: the app opens like an app -->
+    <header class="top">
+      <img class="top__ava" src="assets/img/m-mark.png" alt="McCluster">
+      <div class="top__acts">
+        <a class="top__circle" href="catalogue.html" aria-label="The catalog">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        </a>
+        <a class="top__circle" href="album.html?playlist=my-rotation" aria-label="My Rotation">
+          <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.6-9-9c-1.2-2.7 0.6-6 3.8-6 2 0 3.4 1.2 5.2 3.2C13.8 6.2 15.2 5 17.2 5c3.2 0 5 3.3 3.8 6-2 4.4-9 9-9 9z"/></svg>
+        </a>
+      </div>
+    </header>
+    <div class="greet">Have no fear.</div>
+    <p class="greet__sub">McCluster is here — the whole catalog, one room.</p>
+
     <!-- one toggle, the whole room morphs: the fan hears, the desk runs it -->
     <div class="mode" role="tablist" aria-label="Mode">
       <button type="button" id="modeFan" class="on">Listener</button>
@@ -324,6 +381,17 @@
       <p class="desk__note" id="deskNote"></p>
     </section>
 
+    <!-- THE SHELF FRONT — the chips filter, the curated cards preview on tap -->
+    <div class="chips" id="chips" role="tablist" aria-label="Filter">
+      <button type="button" class="on" data-chip="all">All</button>
+      <button type="button" data-chip="albums">Albums</button>
+      <button type="button" data-chip="playlists">Playlists</button>
+    </div>
+    <section id="featWrap" aria-label="Curated">
+      <p class="lib__k">Curated by the house</p>
+      <div class="feat" id="featRail"></div>
+    </section>
+
     <header class="alb">
       <img class="alb__art" id="albArt" src="assets/img/here-cover.jpg" alt="Album art">
       <div>
@@ -339,12 +407,10 @@
       <audio id="deck" preload="metadata"></audio>
     </section>
 
-    <!-- THE LIBRARY — the whole system in two rails -->
-    <section class="lib" aria-label="The library">
-      <p class="lib__k">The albums</p>
-      <div class="rail" id="railAlbums"></div>
+    <!-- THE PLAYLISTS — app rows: tap the chip for a taste, tap the row to enter -->
+    <section class="lib" id="plWrap" aria-label="The playlists">
       <p class="lib__k">The playlists</p>
-      <div class="rail" id="railPl"></div>
+      <div id="plList"></div>
     </section>
 
     <footer class="hr__foot">
@@ -914,22 +980,73 @@
       }).catch(function () {});
     }
 
-    /* THE LIBRARY RAILS — every album, every playlist, one swipe */
-    function railCard(href, art, name, tag, here) {
-      return '<a href="' + href + '"' + (here ? ' class="is-here"' : "") + '>' +
-        '<img src="' + art + '" alt="" loading="lazy"><b>' + esc(name) + "</b><small>" + esc(tag) + "</small></a>";
+    /* THE SHELF FRONT — the curated cards + playlist rows, with THE TASTE:
+       the play chip on any card pours its first record straight into your
+       ear, no navigation. Tap the card itself to walk in. */
+    var PLAY_IC = '<svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg>';
+    var PAUSE_IC = '<svg viewBox="0 0 24 24"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>';
+    var TINTS = ["#e8c877", "#cbb2f0", "#d7e86f", "#8fc7e8", "#f0b2c9", "#a8e8c0", "#e8a88f"];
+    var pv = new Audio(); pv.preload = "none"; var pvKey = "";
+    function pvStop() {
+      try { pv.pause(); } catch (e) {}
+      pvKey = "";
+      document.querySelectorAll("[data-pv].on").forEach(function (b) { b.classList.remove("on"); b.innerHTML = PLAY_IC; });
+    }
+    pv.addEventListener("ended", pvStop);
+    deck.addEventListener("play", pvStop); // the deck takes the floor back
+    function pvGo(btn) {
+      var key = btn.getAttribute("data-pv");
+      if (pvKey === key) { pvStop(); return; }
+      pvStop();
+      try { deck.pause(); } catch (e) {}
+      pv.src = btn.getAttribute("data-src");
+      var p = pv.play(); if (p && p.catch) p.catch(function () {});
+      pvKey = key; btn.classList.add("on"); btn.innerHTML = PAUSE_IC;
+      if (window.MCC_TRACK) window.MCC_TRACK("shelf_preview", { key: key });
     }
     function buildRails(data, pls) {
-      document.getElementById("railAlbums").innerHTML = (data.albums || []).map(function (a) {
-        return railCard("album.html?album=" + a.slug, a.art, a.name,
-          a.tracks.length + (a.tracks.length === 1 ? " track" : " tracks"), !PL && a.slug === ALBUM);
+      var feat = document.getElementById("featRail");
+      if (feat) feat.innerHTML = (data.albums || []).map(function (a, i) {
+        var first = a.tracks[0] || {};
+        return '<div class="feat__card" style="--tint:' + TINTS[i % TINTS.length] + '" data-open="album.html?album=' + a.slug + '">' +
+          "<b>" + esc(a.name) + "</b><small>" + esc(a.by || a.tag || "") + "</small>" +
+          '<div class="feat__acts">' +
+          '<button class="feat__play" type="button" data-pv="alb:' + a.slug + '" data-src="' + first.src + '" aria-label="Preview ' + esc(a.name) + '">' + PLAY_IC + "</button>" +
+          '<span class="feat__n">' + a.tracks.length + (a.tracks.length === 1 ? " track" : " tracks") + "</span>" +
+          '<img class="feat__art" src="' + a.art + '" alt="" loading="lazy">' +
+          "</div></div>";
       }).join("");
       var items = [{ slug: "everything", name: "Everything", tag: allTracks(data).length + " tracks", art: "assets/img/here-cover.jpg" }]
         .concat((pls && pls.playlists) || []);
       if (rotation().length) items.push({ slug: "my-rotation", name: "My Rotation", tag: rotation().length + " saved", art: "assets/img/m-mark.png" });
-      document.getElementById("railPl").innerHTML = items.map(function (p) {
-        return railCard("album.html?playlist=" + p.slug, p.art, p.name, p.tag || "", PL === p.slug);
+      var list = document.getElementById("plList");
+      if (list) list.innerHTML = items.map(function (p) {
+        var got = resolvePlaylist(data, pls, p.slug);
+        var first = got && got.queue[0] ? got.queue[0].src : "";
+        return '<div class="pll' + (PL === p.slug ? " is-here" : "") + '" data-open="album.html?playlist=' + p.slug + '">' +
+          '<img class="pll__art" src="' + p.art + '" alt="" loading="lazy">' +
+          '<span class="pll__t"><b>' + esc(p.name) + "</b><small>" + esc(p.tag || "") + "</small></span>" +
+          (first ? '<button class="pll__play" type="button" data-pv="pl:' + p.slug + '" data-src="' + first + '" aria-label="Preview ' + esc(p.name) + '">' + PLAY_IC + "</button>" : "") +
+          "</div>";
       }).join("");
+      /* one hand on the whole shelf: chips filter, plays preview, cards open */
+      document.querySelectorAll("#featRail, #plList").forEach(function (zone) {
+        zone.addEventListener("click", function (e) {
+          var b = e.target.closest && e.target.closest("[data-pv]");
+          if (b) { e.stopPropagation(); pvGo(b); return; }
+          var c = e.target.closest && e.target.closest("[data-open]");
+          if (c) location.href = c.getAttribute("data-open");
+        });
+      });
+      var chips = document.getElementById("chips");
+      if (chips) chips.addEventListener("click", function (e) {
+        var b = e.target.closest && e.target.closest("[data-chip]");
+        if (!b) return;
+        chips.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+        var w = b.getAttribute("data-chip");
+        document.getElementById("featWrap").hidden = w === "playlists";
+        document.getElementById("plWrap").hidden = w === "albums";
+      });
     }
     function init() {
     var bar = document.getElementById("deckbar");

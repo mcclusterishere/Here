@@ -180,12 +180,14 @@
       lastMoveT = now;
       var k = state.fov / canvas.clientHeight;
       var dx = (e.clientX - px) * k, dy = (e.clientY - py) * k;
-      state.yaw -= dx; state.pitch += dy;
+      // both axes ride the SAME convention — a thumb stroke moves the view
+      // the same way horizontally as it does vertically
+      state.yaw += dx; state.pitch += dy;
       // momentum is normalized to REAL time — iOS delivers coalesced events
       // with big deltas at low frequency, and per-event velocity made every
       // flick a runaway. Per-frame velocity, hard-capped.
       var scale = Math.min(2, 16.7 / dt);
-      state.vyaw = Math.max(-VMAX, Math.min(VMAX, -dx * scale * 0.85));
+      state.vyaw = Math.max(-VMAX, Math.min(VMAX, dx * scale * 0.85));
       state.vpitch = Math.max(-VMAX, Math.min(VMAX, dy * scale * 0.85));
       px = e.clientX; py = e.clientY;
       clampPitch();
