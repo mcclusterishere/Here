@@ -3781,19 +3781,60 @@ html.vr-locked .float-pause:hover { background: var(--vaunt); }
 /* ============ THE STUDIO CARD — the end-credit line under the 360.
    The sales pitch used to shout here; now it reads like a title card. ============ */
 .sitenote { padding: clamp(3.2rem, 10vh, 5.5rem) 1.4rem; }
+/* THE INTERRUPT — small tile, loud as hell. Marching red frame,
+   bold Anton type, a shine sweep, a blinking cue, and a red scan
+   that fires every time it scrolls back into view. */
 .sitenote__inner {
+  position: relative; overflow: hidden;
   max-width: 40rem; margin: 0 auto; text-align: center;
-  border-top: 1px solid rgba(229,56,59, 0.3);
-  border-bottom: 1px solid rgba(229,56,59, 0.3);
-  padding: 1.7rem 0.6rem;
+  padding: 1.8rem 1rem;
+  background:
+    repeating-linear-gradient(90deg, var(--ruby-hot) 0 12px, transparent 12px 26px) left top / 26px 3px repeat-x,
+    repeating-linear-gradient(90deg, var(--ruby-hot) 0 12px, transparent 12px 26px) left bottom / 26px 3px repeat-x;
+  animation: snMarch 0.8s linear infinite;
 }
+@keyframes snMarch { to { background-position: 26px top, 26px bottom; } }
+.sitenote__inner::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(100deg, transparent 34%, rgba(229, 56, 59, 0.32) 50%, transparent 66%);
+  transform: translateX(-130%);
+}
+.sitenote__inner.is-hit::after { animation: snScan 0.95s ease 1; }
+@keyframes snScan { to { transform: translateX(130%); } }
 .sitenote__mark {
-  font-size: 0.72rem; letter-spacing: 0.34em; text-transform: uppercase;
-  color: rgba(229,56,59, 0.95);
+  position: relative; z-index: 1;
+  font-family: var(--body); font-weight: 700;
+  font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cream);
 }
-.sitenote__line { margin-top: 0.6rem; color: var(--cream-dim); line-height: 1.75; font-size: 0.95rem; }
-.sitenote__line a { color: var(--cream); text-decoration-color: rgba(229,56,59, 0.6); text-underline-offset: 3px; }
-.sitenote__line a:hover { color: #fff; }
+.sitenote__mark::before {
+  content: "\25CF"; color: var(--ruby-hot); margin-right: 0.55em;
+  animation: snBlink 1s steps(1, end) infinite;
+}
+@keyframes snBlink { 50% { opacity: 0.15; } }
+.sitenote__line {
+  position: relative; z-index: 1; margin: 0.7rem 0 0;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.35rem, 5.6vw, 1.95rem); line-height: 0.98; letter-spacing: 0.012em;
+  text-transform: uppercase;
+  background-image: linear-gradient(100deg, var(--cream) 42%, var(--ruby-hot) 50%, var(--cream) 58%);
+  background-size: 260% 100%; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: snShine 3s linear infinite;
+}
+@keyframes snShine { to { background-position: -260% 0; } }
+.sitenote__sub {
+  display: block; margin-top: 0.45rem;
+  font-family: var(--body); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.24em;
+  color: var(--ruby-hot); -webkit-text-fill-color: var(--ruby-hot);
+}
+.sitenote__invite {
+  position: relative; z-index: 1; margin: 0.85rem 0 0;
+  font-family: var(--body); font-weight: 700; font-size: 0.9rem; color: var(--cream-dim);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sitenote__inner, .sitenote__mark::before, .sitenote__line, .sitenote__inner.is-hit::after { animation: none; }
+  .sitenote__line { -webkit-text-fill-color: var(--cream); color: var(--cream); background: none; }
+}
 .sitenote__doors { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.4rem; }
 .btn--sm { font-size: 0.74rem; letter-spacing: 0.18em; padding: 0.9em 1.7em; }
 

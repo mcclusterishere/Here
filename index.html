@@ -270,14 +270,26 @@
     <section class="sitenote" id="wantsite">
       <div class="sitenote__inner">
         <p class="sitenote__mark">A McCluster Production</p>
-        <p class="sitenote__line">Shot, scored, and built by hand between Connecticut and Georgia.<br>
-          Were you at one of our events? Step into the gallery and find yourself in the work.</p>
+        <p class="sitenote__line">Shot, scored &amp; built by hand<span class="sitenote__sub">Between Connecticut &amp; Georgia</span></p>
+        <p class="sitenote__invite">Were you at one of our events? Find yourself in the work.</p>
         <div class="sitenote__doors">
           <a class="btn btn--ruby btn--sm" href="gallery.html" data-cta="wantsite-gallery">Enter the gallery &#8594;</a>
           <a class="btn btn--ghost btn--sm" href="prints.html" data-cta="wantsite-prints">Buy your prints</a>
         </div>
       </div>
     </section>
+    <script>
+      (function () {
+        var el = document.querySelector(".sitenote__inner");
+        if (!el || !("IntersectionObserver" in window)) return;
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { el.classList.remove("is-hit"); void el.offsetWidth; el.classList.add("is-hit"); }
+          });
+        }, { threshold: 0.5 });
+        io.observe(el);
+      })();
+    </script>
 
     <!-- ============ BRAND COLLABS — mini scroll (selected work as scenes) ============ -->
     <section class="command" id="work">
