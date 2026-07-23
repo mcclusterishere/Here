@@ -18,14 +18,14 @@
       src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
     :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
     .fd { max-width: 44rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 10rem; font-family: var(--ui); }
-    .fd__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .fd__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #e5383b; font-weight: 800; }
     .fd h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.4rem, 10vw, 4rem); margin: 0.3rem 0 0.5rem; }
     .fd__sub { font-weight: 600; color: var(--cream-dim); font-size: 0.92rem; }
     .fd input { width: 100%; margin-top: 0.8rem; padding: 0.85rem 1rem; border: 0; border-radius: 14px;
       background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo)); color: var(--cream);
       font-family: var(--ui); font-size: 1rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
     .fd .go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      margin-top: 0.7rem; padding: 0.85rem 1.4rem; border-radius: 100px; background: var(--metal); color: #16110b;
+      margin-top: 0.7rem; padding: 0.85rem 1.4rem; border-radius: 100px; background: var(--metal); color: #fff;
       font-family: var(--ui); font-weight: 800; font-size: 0.95rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .fd__note { margin-top: 0.7rem; font-size: 0.82rem; color: var(--cream-dim); }
     /* the week, at a glance */
@@ -41,21 +41,21 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
     .lead__top { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
     .lead__top b { font-weight: 800; font-size: 1rem; color: var(--cream); }
-    .lead__want { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #c99d45; }
+    .lead__want { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #e5383b; }
     .lead__when { margin-left: auto; font-size: 0.72rem; color: var(--cream-dim); }
     .lead__note { margin-top: 0.45rem; font-size: 0.9rem; line-height: 1.55; color: var(--cream); }
     .lead__meta { margin-top: 0.45rem; font-size: 0.74rem; color: var(--cream-dim); }
     .lead__meta .src { display: inline-block; border-radius: 100px; padding: 0.16rem 0.6rem; font-weight: 800;
-      background: rgba(127,180,232,0.16); color: #7fb4e8; }
-    .lead__meta .src--ads { background: rgba(215,232,111,0.16); color: #d7e86f; }
+      background: rgba(229,56,59,0.16); color: #e5383b; }
+    .lead__meta .src--ads { background: rgba(229,56,59,0.16); color: #e5383b; }
     .lead__acts { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.7rem; }
     .lead__acts a, .lead__acts button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
       touch-action: manipulation; text-decoration: none; font-family: var(--ui); font-weight: 800; font-size: 0.74rem;
       border-radius: 100px; padding: 0.42rem 0.85rem; color: var(--cream);
       background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
-    .lead__acts .reply { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
-    .lead__acts button.on { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .lead__acts .reply { background: var(--metal); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .lead__acts button.on { background: var(--metal); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .lead.is-closed { opacity: 0.55; }
     /* the three lanes, on the desk */
     .lanechips { display: flex; gap: 0.45rem; overflow-x: auto; scrollbar-width: none; margin: 0 0 1rem; }
@@ -64,7 +64,7 @@
       touch-action: manipulation; font-family: var(--ui); font-weight: 700; font-size: 0.78rem; color: var(--cream);
       background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.5rem 1rem; }
-    .lanechips button.on { color: #16110b; font-weight: 800; background: var(--metal);
+    .lanechips button.on { color: #fff; font-weight: 800; background: var(--metal);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
   </style>
 </head>
@@ -98,7 +98,7 @@
 
       <!-- THE DESIGN VAULT — the three portfolio studies, kept but off the floor -->
       <p class="fd__sub" style="margin-top:2rem">
-        <b style="color:#c99d45; letter-spacing:0.14em; font-size:0.66rem; text-transform:uppercase;">The design vault</b><br>
+        <b style="color:#e5383b; letter-spacing:0.14em; font-size:0.66rem; text-transform:uppercase;">The design vault</b><br>
         Portfolio studies, unlisted but alive:
         <a href="portfolio.html" style="color:var(--cream); font-weight:800;">the gallery</a> ·
         <a href="production.html" style="color:var(--cream); font-weight:800;">the production house</a> ·

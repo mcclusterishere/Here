@@ -38,7 +38,7 @@
   --display: "Anton", Impact, "Arial Narrow", sans-serif;
   --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
   /* THE METAL — champagne, banded like brushed metal catching light */
-  --metal: linear-gradient(165deg, #f6e7bb 0%, #e2c279 34%, #b8914a 58%, #eed49a 100%);
+  --metal: linear-gradient(165deg, #ff5a5c 0%, #e5383b 34%, #b3121b 58%, #ff6a6c 100%);
   --glass-hi: rgba(255, 255, 255, 0.12);
   --glass-lo: rgba(255, 255, 255, 0.045);
   --edge: rgba(255, 255, 255, 0.14);
@@ -3830,12 +3830,12 @@ body.has-appbar { padding-bottom: calc(var(--appbar-h) + 1.4rem + env(safe-area-
 .appbar__tab svg { width: 1.5rem; height: 1.5rem; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .appbar__m { width: 1.7rem; height: 1.7rem; object-fit: contain; }
 .appbar__tab:active { transform: scale(0.92); }
-.appbar__tab:hover { color: #e8c877; }
+.appbar__tab:hover { color: #e5383b; }
 /* the coin: where you are (and, mid-morph, the wing you opened) */
 .appbar__tab.is-here, .appbar__tab.is-active {
   background: var(--metal);
-  color: #16110b;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 26px -8px rgba(200, 164, 90, 0.6);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 26px -8px rgba(229,56,59, 0.6);
 }
 /* wing slots carry their names — new rooms deserve labels */
 .appbar__tab--slot {
@@ -4079,7 +4079,7 @@ html.is-installed .getapp, html.is-installed .getapp-pill { display: none !impor
 .appbar--morph .appbar__tab:nth-child(4) { animation-delay: 0.12s; }
 .appbar--morph .appbar__tab:nth-child(5) { animation-delay: 0.16s; }
 @keyframes dockIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.appbar__tab--wing { color: #e8c877; }
+.appbar__tab--wing { color: #e5383b; }
 @media (prefers-reduced-motion: reduce) { .appbar--morph .appbar__tab { animation: none; } }
 
 /* ---- THE OFFER STAGE: one way on stage at a time ---- */
@@ -4092,7 +4092,7 @@ button.hire__pill { font: inherit; cursor: pointer; }
 .ostage__nav { display: flex; align-items: center; gap: 1rem; margin-top: 0.9rem; }
 .ostage__dots { display: flex; gap: 0.4rem; }
 .ostage__dots i { width: 1.6rem; height: 4px; border-radius: 4px; background: rgba(244, 239, 230, 0.18); }
-.ostage__dots i.is-lit { background: #e8c877; }
+.ostage__dots i.is-lit { background: #e5383b; }
 
 /* ---- THE LENS: documents pop up in place ---- */
 .lens { position: fixed; inset: 0; z-index: 320; display: grid; place-items: center; padding: 1.2rem; }
@@ -4103,7 +4103,7 @@ button.hire__pill { font: inherit; cursor: pointer; }
 .lens__card img { display: block; width: 100%; min-height: 0; object-fit: contain; overflow: auto; background: #f4efe6; }
 .lens__card figcaption { display: flex; align-items: baseline; gap: 0.8rem; justify-content: space-between;
   padding: 0.75rem 1rem; font-size: 0.86rem; color: var(--cream-dim); }
-.lens__card figcaption a { color: #e8c877; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.lens__card figcaption a { color: #e5383b; font-weight: 800; text-decoration: none; white-space: nowrap; }
 .lens__x { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2; width: 2.1rem; height: 2.1rem;
   border-radius: 50%; border: 0; cursor: pointer; background: rgba(10, 8, 7, 0.85); color: #f4efe6;
   font-size: 0.95rem; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5); }
@@ -4129,17 +4129,17 @@ button.hire__pill { font: inherit; cursor: pointer; }
 .dk-peek__top small { display: block; color: var(--cream-dim); font-size: 0.86rem; line-height: 1.55; margin-top: 0.2rem; }
 .dk-peek__acts { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
 .dk-peek__go { font: inherit; font-weight: 900; letter-spacing: 0.03em; border: 0; cursor: pointer;
-  background: linear-gradient(180deg, #e8c877, #c99d45); color: #0a0807; border-radius: 100px;
+  background: linear-gradient(180deg, #e5383b, #e5383b); color: #0a0807; border-radius: 100px;
   padding: 0.6em 1.3em; flex: 1; min-width: 9rem; }
 .dk-peek__alt { font: inherit; font-weight: 700; border: 1px solid rgba(244, 239, 230, 0.3); cursor: pointer;
   background: none; color: var(--cream); border-radius: 100px; padding: 0.6em 1.1em; }
-.dk-peek__full { flex: none; align-self: flex-start; color: #e8c877; font-size: 0.78rem; font-weight: 800;
+.dk-peek__full { flex: none; align-self: flex-start; color: #e5383b; font-size: 0.78rem; font-weight: 800;
   text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; }
 .dk-w { margin-top: 0.7rem; }
 .dk-w__in { width: 100%; box-sizing: border-box; background: rgba(244, 239, 230, 0.06); color: var(--cream);
   border: 1px solid rgba(244, 239, 230, 0.22); border-radius: 10px; padding: 0.65rem 0.8rem; font: inherit;
   font-size: 0.95rem; margin-top: 0.45rem; }
-.dk-w__in:focus { outline: none; border-color: #e8c877; }
+.dk-w__in:focus { outline: none; border-color: #e5383b; }
 .dk-w__out { color: var(--cream-dim); font-size: 0.9rem; line-height: 1.55; margin-top: 0.6rem; min-height: 1.2em; }
 .dk-w__row { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.5rem 0; font-size: 0.92rem;
   border-top: 1px dashed rgba(244, 239, 230, 0.14); }
@@ -4155,14 +4155,14 @@ button.hire__pill { font: inherit; cursor: pointer; }
 .dockwalk__card { max-width: 26rem; width: 100%; border: 1px solid rgba(232, 200, 119, 0.4);
   border-radius: 18px; background: rgba(18, 14, 11, 0.96); padding: 1.2rem 1.25rem 1.3rem;
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6); animation: dockIn 0.35s cubic-bezier(0.2, 0.9, 0.2, 1); }
-.dockwalk__k { font-size: 0.74rem; letter-spacing: 0.26em; text-transform: uppercase; color: #e8c877; font-weight: 800; }
+.dockwalk__k { font-size: 0.74rem; letter-spacing: 0.26em; text-transform: uppercase; color: #e5383b; font-weight: 800; }
 .dockwalk__card h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.5rem; margin-top: 0.35rem; }
 .dockwalk__card p:not(.dockwalk__k) { color: var(--cream-dim); line-height: 1.65; font-size: 0.95rem; margin-top: 0.4rem; }
 .dockwalk__dots { display: flex; gap: 0.4rem; margin-top: 0.9rem; }
 .dockwalk__dots i { width: 1.6rem; height: 4px; border-radius: 4px; background: rgba(244, 239, 230, 0.18); }
-.dockwalk__dots i.is-lit { background: #e8c877; }
+.dockwalk__dots i.is-lit { background: #e5383b; }
 .dockwalk__btn { margin-top: 1rem; font: inherit; font-weight: 900; letter-spacing: 0.04em; border: 0; cursor: pointer;
-  background: linear-gradient(180deg, #e8c877, #c99d45); color: #0a0807; border-radius: 100px; padding: 0.75em 1.6em; }
+  background: linear-gradient(180deg, #e5383b, #e5383b); color: #0a0807; border-radius: 100px; padding: 0.75em 1.6em; }
 
 /* ---- the tab prompt: sound lives in the center tab now ---- */
 .antiabout__tabprompt { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin-top: 1.4rem; text-align: center; }
@@ -4434,11 +4434,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
    they stand: the card is the key to everything, get it ASAP. */
 @keyframes mccCardCall {
   0%, 100% { box-shadow: 0 0 0 0 rgba(232, 200, 119, 0); }
-  50% { box-shadow: 0 0 24px rgba(232, 200, 119, 0.85); border-color: #e8c877; }
+  50% { box-shadow: 0 0 24px rgba(232, 200, 119, 0.85); border-color: #e5383b; }
 }
 .card-call { border: 1.5px solid rgba(232, 200, 119, 0.55); border-radius: 14px;
   animation: mccCardCall 1.5s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .card-call { animation: none; border-color: #e8c877; } }
+@media (prefers-reduced-motion: reduce) { .card-call { animation: none; border-color: #e5383b; } }
 
 /* THE CLOSER — an abandoned move gets one gentle tap back, on every page */
 .closer-bar { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(4.6rem + env(safe-area-inset-bottom, 0px));
@@ -4446,7 +4446,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   border: 1.5px solid rgba(232, 200, 119, 0.6); border-radius: 100px; background: rgba(14, 11, 9, 0.96);
   padding: 0.55rem 0.6rem 0.55rem 1rem; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 18px rgba(232, 200, 119, 0.25);
   animation: mccCardCall 2.2s ease-in-out infinite; }
-.closer-bar a { color: #e8c877; font-weight: 800; font-size: 0.9rem; text-decoration: none; line-height: 1.35; }
+.closer-bar a { color: #e5383b; font-weight: 800; font-size: 0.9rem; text-decoration: none; line-height: 1.35; }
 .closer-bar button { flex: none; border: 0; background: none; color: rgba(244, 239, 230, 0.7); font-size: 0.9rem;
   cursor: pointer; padding: 0.3em 0.5em; }
 @media (prefers-reduced-motion: reduce) { .closer-bar { animation: none; } }
@@ -4467,7 +4467,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .street__row { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
 .street__row + .street__row { margin-top: 0.35rem; }
 .street__name { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.15rem; }
-.street__tick { color: #e8c877; font-weight: 800; font-size: 0.86rem; letter-spacing: 0.08em; }
+.street__tick { color: #e5383b; font-weight: 800; font-size: 0.86rem; letter-spacing: 0.08em; }
 .street__px { font-variant-numeric: tabular-nums; color: #00c805; font-size: 1.05rem; }
 .street__chg { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 0.84rem; }
 .street__cred { margin-left: auto; font-variant-numeric: tabular-nums; color: #2fbf71; font-weight: 800; font-size: 0.9rem; }
@@ -4478,7 +4478,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .street__go { background: linear-gradient(180deg, #e5383b, #a4161a); border-color: transparent; color: #fff; }
 .street__trade { color: #00c805; border-color: rgba(0, 200, 5, 0.45); }
 .street__all { margin-top: 1.3rem; }
-.street__all a { color: #e8c877; font-weight: 800; text-decoration: none; }
+.street__all a { color: #e5383b; font-weight: 800; text-decoration: none; }
 
 /* THE FOLD — long copy waits behind one honest tap; the fast reader
    never pays for the slow reader's detail */
@@ -4492,7 +4492,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 /* THE TL;DR CARD — the whole paper in three lines + the honest clock */
 .tldr { border: 1.5px solid rgba(232, 200, 119, 0.5); border-radius: 14px; background: rgba(20, 16, 12, 0.85);
   padding: 1rem 1.1rem; margin: 1.2rem 0; }
-.tldr__k { color: #e8c877; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 800; }
+.tldr__k { color: #e5383b; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 800; }
 .tldr ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
 .tldr li { color: var(--cream-dim); line-height: 1.6; font-size: 0.92rem; margin-top: 0.25rem; }
 .tldr li b { color: var(--cream); }
@@ -4515,7 +4515,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .leadsheet__card select { -webkit-appearance: none; appearance: none; }
 .leadsheet__go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
   text-decoration: none; text-align: center; margin-top: 0.2rem; padding: 0.9rem 1rem; border-radius: 100px;
-  background: var(--metal); color: #16110b; font-family: inherit; font-weight: 800; font-size: 0.98rem;
+  background: var(--metal); color: #fff; font-family: inherit; font-weight: 800; font-size: 0.98rem;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 .leadsheet__go:disabled { opacity: 0.6; }
 .leadsheet__no { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;

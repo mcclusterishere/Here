@@ -28,14 +28,14 @@
   var CSS = document.createElement("style");
   CSS.textContent =
     '.cmroom{position:relative;z-index:2;max-width:44rem;margin:2.5rem auto 0;padding:0 clamp(1.1rem,4vw,2rem) 8rem;font-family:var(--ui,Manrope,sans-serif)}' +
-    '.cmroom h3{font-weight:800;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:#c99d45;margin:0 0 .9rem}' +
+    '.cmroom h3{font-weight:800;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:#e5383b;margin:0 0 .9rem}' +
     '.cm{border-radius:16px;padding:.8rem .95rem;margin-bottom:.55rem;background:linear-gradient(180deg,var(--glass-hi,rgba(255,255,255,.08)),var(--glass-lo,rgba(255,255,255,.03)));box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}' +
     '.cm b{font-weight:800;font-size:.84rem;color:var(--cream,#f2e9db)}' +
     '.cm .wh{float:right;font-weight:700;font-size:.68rem;color:var(--cream-dim,#a08f81)}' +
     '.cm p{margin:.3rem 0 0;font-weight:600;font-size:.88rem;line-height:1.5;color:var(--cream,#f2e9db)}' +
     '.cm .rm{margin-top:.4rem;-webkit-appearance:none;appearance:none;border:0;cursor:pointer;background:transparent;color:#e8a68a;font-weight:800;font-size:.68rem;padding:0}' +
     '.cmroom textarea,.cmroom input{width:100%;-webkit-appearance:none;appearance:none;border:0;margin-top:.5rem;font-family:inherit;font-weight:600;font-size:1rem;color:var(--cream,#f2e9db);border-radius:13px;padding:.75rem .9rem;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}' +
-    '.cmroom .go{-webkit-appearance:none;appearance:none;border:0;cursor:pointer;touch-action:manipulation;margin-top:.6rem;font-family:inherit;font-weight:800;font-size:.88rem;color:#16110b;background:var(--metal,#e2c279);border-radius:100px;padding:.75rem 1.5rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}' +
+    '.cmroom .go{-webkit-appearance:none;appearance:none;border:0;cursor:pointer;touch-action:manipulation;margin-top:.6rem;font-family:inherit;font-weight:800;font-size:.88rem;color:#fff;background:var(--metal,#e5383b);border-radius:100px;padding:.75rem 1.5rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}' +
     '.cmroom .note{font-weight:600;font-size:.8rem;color:var(--cream-dim,#a08f81);margin:.6rem 0 0}' +
     '.cmroom .note a{color:var(--cream,#f2e9db);font-weight:800}';
   document.head.appendChild(CSS);

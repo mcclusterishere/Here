@@ -22,14 +22,14 @@
       src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
     :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
     .pr { max-width: 62rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 9rem; }
-    .pr__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .pr__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #e5383b; font-weight: 800; }
     .pr h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.6rem, 11vw, 4.4rem); margin: 0.3rem 0 0.4rem; }
     .pr__sub { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.95rem; max-width: 48ch; }
     .pr__tiers { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.4rem 0 1.6rem; }
     .pr__tiers span { font-family: var(--ui); font-weight: 800; font-size: 0.74rem; color: var(--cream);
       background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.5rem 0.95rem; }
-    .pr__tiers span.gold { color: #16110b; background: var(--metal); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .pr__tiers span.gold { color: #fff; background: var(--metal); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .prgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 0.8rem; }
     .prph { position: relative; overflow: hidden; border-radius: 18px; background: #0d0a08; aspect-ratio: 4 / 5;
       cursor: pointer; isolation: isolate; border: 0; padding: 0; -webkit-appearance: none; appearance: none;
@@ -46,7 +46,7 @@
     .prph .tt small { display: block; font-family: var(--ui); font-weight: 700; font-size: 0.62rem; letter-spacing: 0.12em;
       text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
     .prph .from { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; font-family: var(--ui); font-weight: 800;
-      font-size: 0.62rem; letter-spacing: 0.08em; color: #16110b; background: var(--metal);
+      font-size: 0.62rem; letter-spacing: 0.08em; color: #fff; background: var(--metal);
       border-radius: 100px; padding: 0.3rem 0.7rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); }
     /* THE COUNTER — the buy sheet */
     .bs { position: fixed; inset: 0; z-index: 240; display: none; overflow-y: auto;
@@ -65,7 +65,7 @@
       background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='150'%3E%3Ctext x='6' y='84' font-family='sans-serif' font-size='15' font-weight='800' fill='rgba(255,255,255,0.28)' transform='rotate(-18 110 75)'%3E%C2%A9 MCCLUSTER%3C/text%3E%3C/svg%3E"); }
     .bs h2 { font-weight: 800; font-size: 1.3rem; margin: 0.9rem 0 0.1rem; }
     .bs__sub { font-weight: 600; font-size: 0.8rem; color: rgba(255,255,255,0.6); }
-    .bs h3 { font-weight: 800; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: #d9b264; margin: 1.3rem 0 0.6rem; }
+    .bs h3 { font-weight: 800; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: #e5383b; margin: 1.3rem 0 0.6rem; }
     .bs__opt { display: block; width: 100%; text-align: left; -webkit-appearance: none; appearance: none; border: 0;
       cursor: pointer; touch-action: manipulation; font-family: var(--ui); color: #fff; border-radius: 14px;
       padding: 0.85rem 1rem; margin-bottom: 0.5rem;
@@ -73,7 +73,7 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); }
     .bs__opt.on { box-shadow: inset 0 0 0 2px #de3a3a; }
     .bs__opt b { font-weight: 800; font-size: 0.9rem; }
-    .bs__opt .p { float: right; font-weight: 800; color: #eed49a; }
+    .bs__opt .p { float: right; font-weight: 800; color: #e5383b; }
     .bs__opt small { display: block; font-weight: 500; font-size: 0.74rem; color: rgba(255,255,255,0.55); margin-top: 0.2rem; }
     .bs__ship { font-weight: 600; font-size: 0.74rem; color: rgba(255,255,255,0.5); margin: 0.2rem 0 0; }
     .bs input { width: 100%; -webkit-appearance: none; appearance: none; border: 0; margin-top: 0.5rem;
@@ -81,7 +81,7 @@
       background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); }
     .bs input::placeholder { color: rgba(255,255,255,0.4); }
     .bs__go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      width: 100%; margin-top: 0.8rem; font-family: var(--ui); font-weight: 800; font-size: 0.95rem; color: #16110b;
+      width: 100%; margin-top: 0.8rem; font-family: var(--ui); font-weight: 800; font-size: 0.95rem; color: #fff;
       background: var(--metal); border-radius: 100px; padding: 0.95rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
     .bs__err { color: #e8a68a; font-weight: 700; font-size: 0.78rem; margin: 0.5rem 0 0; }
     .bs__done b { display: block; font-weight: 800; font-size: 1.1rem; }
