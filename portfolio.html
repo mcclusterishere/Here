@@ -94,6 +94,13 @@
     .band h2 { color: #fff; }
     .band h2 em { font-family: var(--tb-serif); font-style: italic; color: var(--tb-soft); }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem 1.2rem; position: relative; }
+    /* group headers ride full-width inside the band */
+    .grp { grid-column: 1 / -1; margin: 1.2rem 0 -0.2rem; }
+    .grp:first-child { margin-top: 0; }
+    .grp small { display: block; font-weight: 600; font-size: 0.62rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--tb-soft); }
+    .grp b { display: block; font-weight: 700; font-size: 1.25rem; color: #fff; margin-top: 0.25rem; }
+    .grp span { display: block; font-weight: 400; font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 0.3rem; max-width: 52ch; }
     .work { display: block; text-decoration: none; color: #fff; cursor: pointer; }
     .work__media { position: relative; display: block; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3;
       background: #24264a; isolation: isolate; }
@@ -288,7 +295,7 @@
       document.querySelectorAll("[data-lane]").forEach(function (x) {
         x.classList.toggle("on", x.getAttribute("data-lane") === cat);
       });
-      grid.querySelectorAll(".work").forEach(function (w) {
+      grid.querySelectorAll(".work, .grp").forEach(function (w) {
         w.style.display = (cat === "All" || w.getAttribute("data-cat") === cat) ? "" : "none";
       });
       var L = LANES[cat] || LANES.All;
@@ -297,11 +304,28 @@
       lock.setAttribute("data-lead-sheet", L.want);
       lock.innerHTML = L.lock;
     }
+    /* what each shelf means — the honest labels */
+    var GROUP_NOTES = {
+      "On location": "Real shoots, real rooms, real people.",
+      "The Concept Lab": "AI-built worlds — directed, prompted, and cut in-house. This is a bookable service.",
+      "On assignment": "Shot on the ground, delivered same week.",
+      "Covers & art direction": "The records wear these.",
+      "The platforms": "Live operations I built and run — click through, they're real.",
+      "The operation": "Concept films showing how the desk works.",
+    };
     fetch("data/portfolio.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
       var items = j.items || [];
+      var lastKey = "";
       grid.innerHTML = items.map(function (w) {
         var tag = w.href ? "a" : "div";
-        return "<" + tag + ' class="work" data-cat="' + esc(w.cat) + '"' + (w.href ? ' href="' + w.href + '"' : "") + ">" +
+        var head = "";
+        var key = w.cat + "·" + (w.group || "");
+        if (w.group && key !== lastKey) {
+          lastKey = key;
+          head = '<div class="grp" data-cat="' + esc(w.cat) + '"><small>' + esc(w.cat) + "</small><b>" + esc(w.group) + "</b>" +
+            (GROUP_NOTES[w.group] ? "<span>" + esc(GROUP_NOTES[w.group]) + "</span>" : "") + "</div>";
+        }
+        return head + "<" + tag + ' class="work" data-cat="' + esc(w.cat) + '"' + (w.href ? ' href="' + w.href + '"' : "") + ">" +
           '<span class="work__media">' +
           (w.video
             ? '<video muted loop playsinline preload="none" data-src="' + w.video + '"' +
