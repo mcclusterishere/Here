@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Print Shop — Matthew McCluster · prints, files, and rights</title>
+  <meta name="description" content="Buy the work: museum-stock prints shipped to your door, personal-use files, or the RAW with commercial rights.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/prints.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0908">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <script src="js/theme.js?v=__STAMP__"></script>
+  <style>
+    @font-face { font-family: "Manrope"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
+    :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
+    .pr { max-width: 62rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 9rem; }
+    .pr__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
+    .pr h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.6rem, 11vw, 4.4rem); margin: 0.3rem 0 0.4rem; }
+    .pr__sub { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.95rem; max-width: 48ch; }
+    .pr__tiers { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.4rem 0 1.6rem; }
+    .pr__tiers span { font-family: var(--ui); font-weight: 800; font-size: 0.74rem; color: var(--cream);
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.5rem 0.95rem; }
+    .pr__tiers span.gold { color: #16110b; background: var(--metal); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .prgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 0.8rem; }
+    .prph { position: relative; overflow: hidden; border-radius: 18px; background: #0d0a08; aspect-ratio: 4 / 5;
+      cursor: pointer; isolation: isolate; border: 0; padding: 0; -webkit-appearance: none; appearance: none;
+      text-align: left; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.18), 0 20px 44px -20px rgba(0,0,0,0.9); }
+    .prph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+      -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+      transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    @media (hover: hover) { .prph:hover img { transform: scale(1.04); } }
+    .prph .wm { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.85;
+      background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='150'%3E%3Ctext x='6' y='84' font-family='sans-serif' font-size='15' font-weight='800' fill='rgba(255,255,255,0.28)' transform='rotate(-18 110 75)'%3E%C2%A9 MCCLUSTER%3C/text%3E%3C/svg%3E"); }
+    .prph .sc { position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, transparent 55%, rgba(9,7,5,0.85) 100%); }
+    .prph .tt { position: absolute; left: 0.85rem; right: 0.85rem; bottom: 0.8rem; z-index: 2; color: #fff; }
+    .prph .tt b { display: block; font-family: var(--ui); font-weight: 800; font-size: 0.92rem; }
+    .prph .tt small { display: block; font-family: var(--ui); font-weight: 700; font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+    .prph .from { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; font-family: var(--ui); font-weight: 800;
+      font-size: 0.62rem; letter-spacing: 0.08em; color: #16110b; background: var(--metal);
+      border-radius: 100px; padding: 0.3rem 0.7rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); }
+    /* THE COUNTER — the buy sheet */
+    .bs { position: fixed; inset: 0; z-index: 240; display: none; overflow-y: auto;
+      background: rgba(7,5,4,0.97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .bs.on { display: block; }
+    .bs__in { max-width: 34rem; margin: 0 auto; padding: 1rem clamp(1rem, 4vw, 1.6rem) 7rem; font-family: var(--ui); color: #fff; }
+    .bs__bar { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0 0.9rem; }
+    .bs__bar b { font-weight: 800; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+    .bs__x { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; width: 2.4rem; height: 2.4rem;
+      border-radius: 100px; color: #fff; font-size: 1rem; font-weight: 800;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); }
+    .bs__pic { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10; isolation: isolate; }
+    .bs__pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .bs__pic .wm { position: absolute; inset: 0; pointer-events: none; opacity: 0.85;
+      background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='150'%3E%3Ctext x='6' y='84' font-family='sans-serif' font-size='15' font-weight='800' fill='rgba(255,255,255,0.28)' transform='rotate(-18 110 75)'%3E%C2%A9 MCCLUSTER%3C/text%3E%3C/svg%3E"); }
+    .bs h2 { font-weight: 800; font-size: 1.3rem; margin: 0.9rem 0 0.1rem; }
+    .bs__sub { font-weight: 600; font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+    .bs h3 { font-weight: 800; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: #d9b264; margin: 1.3rem 0 0.6rem; }
+    .bs__opt { display: block; width: 100%; text-align: left; -webkit-appearance: none; appearance: none; border: 0;
+      cursor: pointer; touch-action: manipulation; font-family: var(--ui); color: #fff; border-radius: 14px;
+      padding: 0.85rem 1rem; margin-bottom: 0.5rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); }
+    .bs__opt.on { box-shadow: inset 0 0 0 2px #de3a3a; }
+    .bs__opt b { font-weight: 800; font-size: 0.9rem; }
+    .bs__opt .p { float: right; font-weight: 800; color: #eed49a; }
+    .bs__opt small { display: block; font-weight: 500; font-size: 0.74rem; color: rgba(255,255,255,0.55); margin-top: 0.2rem; }
+    .bs__ship { font-weight: 600; font-size: 0.74rem; color: rgba(255,255,255,0.5); margin: 0.2rem 0 0; }
+    .bs input { width: 100%; -webkit-appearance: none; appearance: none; border: 0; margin-top: 0.5rem;
+      font-family: var(--ui); font-weight: 600; font-size: 1rem; color: #fff; border-radius: 13px; padding: 0.8rem 0.95rem;
+      background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14); }
+    .bs input::placeholder { color: rgba(255,255,255,0.4); }
+    .bs__go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 100%; margin-top: 0.8rem; font-family: var(--ui); font-weight: 800; font-size: 0.95rem; color: #16110b;
+      background: var(--metal); border-radius: 100px; padding: 0.95rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+    .bs__err { color: #e8a68a; font-weight: 700; font-size: 0.78rem; margin: 0.5rem 0 0; }
+    .bs__done b { display: block; font-weight: 800; font-size: 1.1rem; }
+    .bs__done small { display: block; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.6); margin-top: 0.4rem; line-height: 1.5; }
+    .bs__total { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.95rem;
+      border-top: 1px solid rgba(255,255,255,0.14); margin-top: 1.1rem; padding-top: 0.8rem; }
+  </style>
+</head>
+<body class="songpage">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="pr">
+    <p class="pr__k">Prints · files · rights</p>
+    <h1>The Print<br>Shop</h1>
+    <p class="pr__sub">Own the work three ways: a museum-stock print shipped to your door, the file for personal use, or the RAW with commercial rights in writing.</p>
+    <div class="pr__tiers" id="prTiers"></div>
+    <div class="prgrid" id="prGrid"></div>
+  </main>
+
+  <!-- THE COUNTER -->
+  <div class="bs" id="prBuy" role="dialog" aria-label="Buy this work">
+    <div class="bs__in" id="prBuyIn"></div>
+  </div>
+
+  <!-- THE BAR -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/crm.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    var track = function (n, p) { if (window.MCC_TRACK) window.MCC_TRACK(n, p || {}); };
+    var SHOP = null, OPEN = null, PICK = null;
+
+    document.addEventListener("contextmenu", function (e) {
+      if (e.target && e.target.tagName === "IMG") e.preventDefault();
+    });
+
+    function money(n) { return "$" + n; }
+    function fromPrice() {
+      var lows = [SHOP.sizes[0].price, SHOP.digital[0].price];
+      return Math.min.apply(null, lows);
+    }
+
+    function paint() {
+      $("prTiers").innerHTML =
+        '<span class="gold">Prints from ' + money(SHOP.sizes[0].price) + "</span>" +
+        "<span>Files from " + money(SHOP.digital[0].price) + "</span>" +
+        "<span>RAW + commercial rights " + money(SHOP.digital[2].price) + "</span>";
+      $("prGrid").innerHTML = SHOP.photos.map(function (p) {
+        return '<button class="prph" type="button" data-id="' + esc(p.id) + '">' +
+          '<img src="' + esc(p.src) + '" alt="' + esc(p.title) + '" loading="lazy" draggable="false">' +
+          '<span class="wm"></span><span class="sc"></span>' +
+          '<span class="from">from ' + money(fromPrice()) + "</span>" +
+          '<span class="tt"><b>' + esc(p.title) + "</b><small>" + esc(p.sub || "") + "</small></span></button>";
+      }).join("");
+    }
+
+    function options(p) {
+      var out = [];
+      SHOP.sizes.forEach(function (s) {
+        out.push({ kind: "print", id: s.id, label: s.label, price: s.price, note: SHOP.shippingNote });
+      });
+      SHOP.digital.forEach(function (d) {
+        out.push({ kind: "digital", id: d.id, label: d.label, price: d.price, note: d.note });
+      });
+      return out;
+    }
+
+    function sheetHTML(p) {
+      var opts = options(p);
+      return '<div class="bs__bar"><b>Own this work</b><button class="bs__x" type="button" data-close aria-label="Close">&#10005;</button></div>' +
+        '<div class="bs__pic"><img src="' + esc(p.src) + '" alt=""><span class="wm"></span></div>' +
+        "<h2>" + esc(p.title) + "</h2>" +
+        '<p class="bs__sub">' + esc(p.sub || "") + "</p>" +
+        "<h3>Pick your format</h3><div data-opts>" +
+        opts.map(function (o, i) {
+          return '<button class="bs__opt' + (i === 0 ? " on" : "") + '" type="button" data-opt="' + i + '">' +
+            '<span class="p">' + money(o.price) + "</span><b>" + esc(o.label) + "</b><small>" + esc(o.note || "") + "</small></button>";
+        }).join("") + "</div>" +
+        "<h3>Where it goes</h3>" +
+        '<input name="name" placeholder="Your name" autocomplete="name" maxlength="80">' +
+        '<input name="email" type="email" placeholder="Email" autocomplete="email" maxlength="120">' +
+        '<div data-ship>' +
+        '<input name="addr" placeholder="Street address" autocomplete="street-address" maxlength="160">' +
+        '<input name="city" placeholder="City, State, ZIP" maxlength="120">' +
+        "</div>" +
+        '<div class="bs__total"><span>Total today</span><span data-total>' + money(opts[0].price) + "</span></div>" +
+        '<button class="bs__go" type="button" data-order>Place the order &#8594;</button>' +
+        '<p class="bs__ship">You pay nothing on this screen — the invoice lands in your email today, your order ships or delivers as soon as it clears.</p>' +
+        '<p class="bs__err" hidden></p>';
+    }
+
+    function openSheet(id, push) {
+      var p = SHOP.photos.find(function (x) { return x.id === id; });
+      if (!p) return;
+      OPEN = p; PICK = 0;
+      $("prBuyIn").innerHTML = sheetHTML(p);
+      $("prBuy").classList.add("on");
+      $("prBuy").scrollTop = 0;
+      document.body.style.overflow = "hidden";
+      if (push !== false) { try { history.pushState(null, "", "#/" + id); } catch (e) {} }
+      track("prints_open", { photo: id });
+    }
+    function closeSheet(push) {
+      $("prBuy").classList.remove("on");
+      document.body.style.overflow = "";
+      OPEN = null;
+      if (push !== false) { try { history.pushState(null, "", location.pathname + location.search); } catch (e) {} }
+    }
+    window.addEventListener("popstate", function () {
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id && SHOP) openSheet(id, false); else closeSheet(false);
+    });
+
+    $("prGrid").addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest(".prph");
+      if (b) openSheet(b.getAttribute("data-id"));
+    });
+
+    $("prBuy").addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-close]")) { closeSheet(); return; }
+      var box = $("prBuyIn");
+      var opt = e.target.closest && e.target.closest("[data-opt]");
+      if (opt) {
+        PICK = parseInt(opt.getAttribute("data-opt"), 10);
+        box.querySelectorAll(".bs__opt").forEach(function (o) { o.classList.toggle("on", o === opt); });
+        var o = options(OPEN)[PICK];
+        box.querySelector("[data-total]").textContent = money(o.price);
+        box.querySelector("[data-ship]").style.display = o.kind === "print" ? "" : "none";
+        return;
+      }
+      if (e.target.closest && e.target.closest("[data-order]")) {
+        var f = function (n) { var i = box.querySelector('[name="' + n + '"]'); return i ? i.value.trim() : ""; };
+        var o = options(OPEN)[PICK];
+        var name = f("name"), email = f("email"), addr = f("addr"), city = f("city");
+        var err = box.querySelector(".bs__err");
+        if (!name || !/.+@.+\..+/.test(email)) { err.textContent = "Name and a real email — the order has to land somewhere."; err.hidden = false; return; }
+        if (o.kind === "print" && (!addr || !city)) { err.textContent = "Prints need a shipping address."; err.hidden = false; return; }
+        var btn = box.querySelector("[data-order]");
+        btn.disabled = true; btn.textContent = "Placing…";
+        window.MCC_CRM.send({
+          name: name, email: email, want: "Photography",
+          note: "PRINT SHOP · " + OPEN.id + " · " + o.label + " (" + money(o.price) + ")" +
+            (o.kind === "print" ? " · SHIP TO: " + addr + ", " + city : " · digital delivery"),
+          campaign: "print-shop",
+        }).then(function () {
+          track("prints_order", { photo: OPEN.id, format: o.id, price: o.price });
+          box.innerHTML = '<div class="bs__bar"><b>Order placed</b><button class="bs__x" type="button" data-close>&#10005;</button></div>' +
+            '<div class="bs__done" style="margin-top:1rem"><b>It&rsquo;s on the desk.</b>' +
+            "<small>Your invoice for <b>" + esc(o.label) + " — " + money(o.price) + "</b> lands in your email today. " +
+            (o.kind === "print"
+              ? "The print ships tracked as soon as it clears."
+              : (o.id === "raw" ? "The RAW and your commercial license deliver within 24 hours of payment." : "Your file delivers by email as soon as it clears.")) +
+            "</small></div>";
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "Place the order →";
+          err.textContent = "That didn’t go through — try again in a second.";
+          err.hidden = false;
+        });
+      }
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && OPEN) closeSheet(); });
+
+    fetch("data/prints.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+      SHOP = j;
+      paint();
+      track("prints_view", { photos: SHOP.photos.length });
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id) openSheet(id, false);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -241,7 +241,8 @@
       if (isFree && !mode) {
         deck.innerHTML = "<b>This one's yours.</b>" +
           "<small>Long-press the photo and save it. Want every shot from the night? The pack is $" + (EV.packPrice || 5) + ".</small>" +
-          '<div class="row"><button class="go" type="button" data-act="pack">Get the whole pack &#8594;</button></div>';
+          '<div class="row"><button class="go" type="button" data-act="pack">Get the whole pack &#8594;</button>' +
+          '<a class="alt" href="prints.html#/' + p.id + '">Own it in print &#8594;</a></div>';
         return;
       }
       if (mode === "follow") {

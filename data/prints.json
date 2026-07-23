@@ -1,0 +1,27 @@
+{
+ "sizes": [
+  { "id": "8x10", "label": "8×10 print", "price": 35 },
+  { "id": "11x14", "label": "11×14 print", "price": 65 },
+  { "id": "16x20", "label": "16×20 print", "price": 110 },
+  { "id": "24x36", "label": "24×36 print", "price": 200 }
+ ],
+ "digital": [
+  { "id": "png", "label": "PNG — personal use", "price": 25,
+    "note": "Full-size PNG · print at home, post it, frame it. No commercial use." },
+  { "id": "fullres", "label": "Full-res + print rights", "price": 65,
+    "note": "Maximum-quality file with personal print rights, delivered by email." },
+  { "id": "raw", "label": "RAW + commercial rights", "price": 350,
+    "note": "The negative itself, with a written commercial license. Delivered within 24h." }
+ ],
+ "shippingNote": "Museum-stock giclée, printed and shipped tracked in the US · shipping calculated on the invoice",
+ "photos": [
+  { "id": "rally-01", "title": "October 5th — the rally", "sub": "Bridgeport Creates · documentary", "src": "assets/img/rally/rally-01.jpg" },
+  { "id": "rally-02", "title": "Zion Baptist — the room", "sub": "Community · event", "src": "assets/img/rally/rally-02.jpg" },
+  { "id": "rally-03", "title": "The march", "sub": "Documentary · street", "src": "assets/img/rally/rally-03.jpg" },
+  { "id": "rally-04", "title": "The speakers", "sub": "Stage · press", "src": "assets/img/rally/rally-04.jpg" },
+  { "id": "rally-05", "title": "The crowd", "sub": "The people, on the record", "src": "assets/img/rally/rally-05.jpg" },
+  { "id": "here-cover", "title": "HERE — the album cover", "sub": "Art direction", "src": "assets/img/here-cover.jpg" },
+  { "id": "heal-the-3", "title": "Heal the 3 — the cover", "sub": "Art direction", "src": "assets/img/heal-the-3-cover.jpg" },
+  { "id": "uprise-still", "title": "The uprise still", "sub": "Editorial", "src": "assets/img/uprise-still.jpg" }
+ ]
+}

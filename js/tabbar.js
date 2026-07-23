@@ -62,7 +62,7 @@
     "album.html": "music", "films.html": "music", "catalogue.html": "music",
     "": "home", "index.html": "home", "hire.html": "home", "feed.html": "home",
     "ecosystem.html": "home", "equity-uprise.html": "home", "docket-516.html": "home",
-    "portfolio.html": "home", "shots.html": "home", "production.html": "home", "archive.html": "home",
+    "portfolio.html": "home", "shots.html": "home", "production.html": "home", "archive.html": "home", "prints.html": "home",
     "account.html": "profile", "cut.html": "profile", "pay.html": "profile",
     "press.html": "profile", "matthew-mccluster.html": "profile", "crm.html": "profile"
   };
