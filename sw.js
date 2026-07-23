@@ -9,7 +9,7 @@
    The version stamp changes on every deploy, which retires the
    old cache automatically. No stale sites, ever.
    ============================================================ */
-var V = "mcc-__STAMP__";
+var V = "mcc-2cf3d88f315a";
 
 self.addEventListener("install", function () { self.skipWaiting(); });
 
