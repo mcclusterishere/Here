@@ -122,7 +122,7 @@
       color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.14); user-select: none; }
     /* ---- the operator panel: the man, cut out like the template does it ---- */
     .opr { position: relative; overflow: hidden; background: #fff; border-radius: 30px; margin-top: 1.2rem;
-      display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: end; min-height: 21rem;
+      display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: end;
       box-shadow: 0 30px 70px -40px rgba(23,26,59,0.35); }
     .opr__tx { padding: clamp(1.6rem, 5vw, 3.2rem); align-self: center; }
     .opr__tx h2 { font-weight: 700; letter-spacing: -0.01em; color: var(--tb-ink);
@@ -227,9 +227,13 @@
         <p>Shooter, editor, strategist — the person you talk to is the person on the job. Bridgeport raised, everywhere booked.</p>
         <a class="opr__ig" href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">Follow @McClusterishere</a>
       </div>
-      <div class="opr__fig">
-        <span class="dia dia--a" aria-hidden="true"></span><span class="dia dia--b" aria-hidden="true"></span>
-        <img src="assets/img/mcc-cutout.png" alt="Matthew McCluster with his camera">
+      <!-- the figure returns the day a real photo of the man arrives:
+           <div class="opr__fig">
+             <span class="dia dia--a" aria-hidden="true"></span><span class="dia dia--b" aria-hidden="true"></span>
+             <img src="assets/img/mcc-cutout.png" alt="Matthew McCluster">
+           </div> -->
+      <div class="opr__fig" aria-hidden="true">
+        <span class="dia dia--a"></span><span class="dia dia--b"></span>
       </div>
     </section>
 
