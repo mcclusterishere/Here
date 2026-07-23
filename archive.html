@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Archive — Matthew McCluster · every shoot, on the ledger</title>
+  <meta name="description" content="The McCluster archive: every shoot numbered, detailed, and for sale — prints, licenses, and bookings straight from the record.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/archive.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0908">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/playfairdisplay-italic-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <script src="js/theme.js?v=__STAMP__"></script>
+  <style>
+    /* ============ THE ARCHIVE — editorial ledger, museum manners ============ */
+    @font-face { font-family: "Manrope"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Playfair Display"; font-weight: 700; font-style: italic; font-display: swap;
+      src: url("assets/fonts/playfairdisplay-italic-700.woff2") format("woff2"); }
+    :root {
+      --ar-ui: "Manrope", system-ui, -apple-system, sans-serif;
+      --ar-serif: "Playfair Display", Georgia, serif;
+      --ar-bg: #f7f5f0; --ar-ink: #161210; --ar-mut: #85786e;
+      --ar-line: rgba(22,18,16,0.16); --ar-red: #de3a3a; --ar-gold: #b8914a; --ar-panel: #ffffff;
+    }
+    html[data-theme="dark"] {
+      --ar-bg: #100d0a; --ar-ink: #f0e8dc; --ar-mut: #9b8d80;
+      --ar-line: rgba(240,232,220,0.16); --ar-panel: #191410;
+    }
+    html { background: var(--ar-bg); }
+    body.archive { background: var(--ar-bg); color: var(--ar-ink); font-family: var(--ar-ui); }
+    body.archive .grain { display: none; }
+    .ar { max-width: 68rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem) 9rem; }
+    /* masthead */
+    .ar__head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+      border-bottom: 1px solid var(--ar-ink); padding: 1.4rem 0 0.9rem; }
+    .ar__mark { font-weight: 800; letter-spacing: 0.2em; font-size: 0.8rem; text-decoration: none; color: var(--ar-ink); }
+    .ar__head small { color: var(--ar-mut); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; }
+    .ar__tools { margin-left: auto; display: flex; gap: 0.5rem; align-items: center; }
+    .ar__moon { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 2.2rem; height: 2.2rem; border-radius: 100px; color: var(--ar-ink); font-size: 0.95rem;
+      background: transparent; box-shadow: inset 0 0 0 1px var(--ar-line); }
+    .ar__hire { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--ar-ui); font-weight: 800; font-size: 0.78rem; color: var(--ar-bg); background: var(--ar-ink);
+      border-radius: 100px; padding: 0.55rem 1.15rem; }
+    /* intro */
+    .ar__intro { padding: clamp(1.8rem, 5vh, 3rem) 0 1.6rem; max-width: 40rem; }
+    .ar__intro h1 { font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;
+      font-size: clamp(2rem, 7.5vw, 3.4rem); margin: 0 0 0.7rem; }
+    .ar__intro h1 em { font-family: var(--ar-serif); font-style: italic; font-weight: 700; color: var(--ar-red); }
+    .ar__intro p { font-weight: 400; color: var(--ar-mut); font-size: 0.95rem; line-height: 1.6; margin: 0; }
+    /* filter tabs */
+    .ar__tabs { display: flex; gap: 1.4rem; flex-wrap: wrap; border-bottom: 1px solid var(--ar-line); padding-bottom: 0.7rem; }
+    .ar__tabs button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      background: transparent; font-family: var(--ar-ui); font-weight: 700; font-size: 0.84rem; color: var(--ar-mut);
+      padding: 0.2rem 0; position: relative; }
+    .ar__tabs button sup { font-weight: 800; font-size: 0.6rem; color: var(--ar-gold); margin-left: 0.2rem; }
+    .ar__tabs button.on { color: var(--ar-ink); }
+    .ar__tabs button.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.75rem;
+      height: 2px; background: var(--ar-red); }
+    /* the ledger */
+    .lg { position: relative; }
+    .lg__row { display: grid; grid-template-columns: 2.6rem 4.4rem 1fr auto; gap: 0.8rem; align-items: center;
+      width: 100%; text-align: left; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; background: transparent; font-family: var(--ar-ui); color: var(--ar-ink);
+      padding: 0.95rem 0.2rem; border-bottom: 1px solid var(--ar-line);
+      transition: padding-left 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    @media (hover: hover) { .lg__row:hover { padding-left: 0.8rem; } }
+    .lg__row .no { font-weight: 800; font-size: 0.72rem; color: var(--ar-gold); }
+    .lg__row .th { width: 4.4rem; aspect-ratio: 4 / 3; border-radius: 8px; object-fit: cover; display: block; }
+    .lg__row .tt b { display: block; font-weight: 800; font-size: clamp(0.95rem, 3vw, 1.15rem); line-height: 1.25; }
+    .lg__row .tt small { display: block; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ar-mut); margin-top: 0.2rem; }
+    .lg__row .pr { text-align: right; font-weight: 700; font-size: 0.74rem; color: var(--ar-mut); white-space: nowrap; }
+    .lg__row .pr b { display: block; color: var(--ar-ink); font-weight: 800; font-size: 0.82rem; }
+    /* cursor-following preview (desktop only) */
+    .lg__peek { position: fixed; z-index: 50; width: 15rem; aspect-ratio: 4 / 3; border-radius: 14px;
+      overflow: hidden; pointer-events: none; opacity: 0; transform: scale(0.96); box-shadow: 0 26px 60px -24px rgba(0,0,0,0.5);
+      transition: opacity 0.25s ease, transform 0.25s ease; }
+    .lg__peek.on { opacity: 1; transform: none; }
+    .lg__peek img { width: 100%; height: 100%; object-fit: cover; }
+    @media (hover: none) { .lg__peek { display: none; } }
+    /* the case sheet */
+    .cs { position: fixed; inset: 0; z-index: 240; display: none; overflow-y: auto;
+      background: var(--ar-bg); }
+    .cs.on { display: block; }
+    .cs__in { max-width: 62rem; margin: 0 auto; padding: 1rem clamp(1rem, 4vw, 2rem) 7rem; }
+    .cs__bar { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0 1rem; }
+    .cs__bar .no { font-weight: 800; font-size: 0.74rem; color: var(--ar-gold); }
+    .cs__x { margin-left: auto; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; width: 2.4rem; height: 2.4rem; border-radius: 100px; font-size: 1rem;
+      color: var(--ar-ink); background: transparent; box-shadow: inset 0 0 0 1px var(--ar-line); }
+    .cs__media { border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 9; position: relative; isolation: isolate;
+      background: var(--ar-panel); box-shadow: inset 0 0 0 1px var(--ar-line); }
+    .cs__media video, .cs__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cs h2 { font-weight: 800; letter-spacing: -0.015em; font-size: clamp(1.5rem, 5.5vw, 2.5rem); margin: 1.2rem 0 0.2rem; }
+    .cs__sub { font-weight: 600; color: var(--ar-mut); font-size: 0.85rem; }
+    .cs__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.6rem; }
+    @media (max-width: 46rem) { .cs__grid { grid-template-columns: 1fr; } }
+    .cs__meta h3, .cs__own h3 { font-weight: 800; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--ar-gold); margin: 0 0 0.6rem; }
+    .cs__meta dl { margin: 0; }
+    .cs__meta div { display: flex; gap: 1rem; justify-content: space-between; padding: 0.55rem 0;
+      border-bottom: 1px solid var(--ar-line); }
+    .cs__meta dt { font-weight: 600; font-size: 0.8rem; color: var(--ar-mut); }
+    .cs__meta dd { margin: 0; font-weight: 700; font-size: 0.8rem; text-align: right; max-width: 60%; }
+    .cs__offer { display: block; width: 100%; text-align: left; -webkit-appearance: none; appearance: none;
+      border: 0; cursor: pointer; touch-action: manipulation; font-family: var(--ar-ui); color: var(--ar-ink);
+      background: var(--ar-panel); border-radius: 14px; padding: 0.9rem 1rem; margin-bottom: 0.55rem;
+      box-shadow: inset 0 0 0 1px var(--ar-line); transition: box-shadow 0.25s ease; }
+    .cs__offer.on { box-shadow: inset 0 0 0 2px var(--ar-red); }
+    .cs__offer b { font-weight: 800; font-size: 0.9rem; }
+    .cs__offer .p { float: right; font-weight: 800; font-size: 0.82rem; color: var(--ar-red); }
+    .cs__offer small { display: block; font-weight: 500; font-size: 0.74rem; color: var(--ar-mut); margin-top: 0.2rem; }
+    .cs__form input { width: 100%; -webkit-appearance: none; appearance: none; border: 0; margin-top: 0.55rem;
+      font-family: var(--ar-ui); font-weight: 600; font-size: 1rem; color: var(--ar-ink); border-radius: 12px;
+      padding: 0.8rem 0.95rem; background: var(--ar-panel); box-shadow: inset 0 0 0 1px var(--ar-line); }
+    .cs__form input::placeholder { color: var(--ar-mut); }
+    .cs__go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 100%; margin-top: 0.7rem; font-family: var(--ar-ui); font-weight: 800; font-size: 0.92rem; color: #fff;
+      background: var(--ar-red); border-radius: 100px; padding: 0.95rem;
+      box-shadow: 0 16px 34px -14px rgba(222,58,58,0.55); }
+    .cs__err { color: var(--ar-red); font-weight: 700; font-size: 0.78rem; margin: 0.5rem 0 0; }
+    .cs__done b { display: block; font-weight: 800; font-size: 1.05rem; }
+    .cs__done small { display: block; font-weight: 500; color: var(--ar-mut); font-size: 0.84rem; margin-top: 0.35rem; }
+    .cs__nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.2rem;
+      border-top: 1px solid var(--ar-line); padding-top: 1rem; }
+    .cs__nav button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      background: transparent; font-family: var(--ar-ui); font-weight: 800; font-size: 0.82rem; color: var(--ar-ink); }
+    .cs__nav button small { display: block; font-weight: 600; font-size: 0.64rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ar-mut); margin-bottom: 0.2rem; }
+    .cs__nav button:last-child { text-align: right; }
+    /* footer */
+    .ar__foot { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between;
+      border-top: 1px solid var(--ar-ink); margin-top: 2.4rem; padding-top: 1.1rem;
+      font-weight: 600; font-size: 0.76rem; color: var(--ar-mut); }
+    .ar__foot a { color: var(--ar-ink); text-decoration: none; font-weight: 800; }
+  </style>
+</head>
+<body class="archive">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="ar">
+    <header class="ar__head">
+      <a class="ar__mark" href="index.html">McCLUSTER</a>
+      <small>The Archive &middot; Bridgeport, CT</small>
+      <span class="ar__tools">
+        <button class="ar__moon" id="arTheme" type="button" aria-label="Flip the lights">&#9789;</button>
+        <button class="ar__hire" type="button" data-lead-sheet="">Lock in</button>
+      </span>
+    </header>
+
+    <section class="ar__intro">
+      <h1>Every shoot, <em>on the ledger.</em></h1>
+      <p>The complete record — numbered, detailed, and for sale. Open any entry for the full case sheet: what it was, how it was made, and how to own it.</p>
+    </section>
+
+    <div class="ar__tabs" id="arTabs">
+      <button type="button" class="on" data-tab="All">All</button>
+    </div>
+
+    <div class="lg" id="arLedger"></div>
+    <div class="lg__peek" id="arPeek"><img src="" alt=""></div>
+
+    <footer class="ar__foot">
+      <span>A McCluster Production</span>
+      <a href="portfolio.html">The gallery cut &#8594;</a>
+      <a href="production.html">The production cut &#8594;</a>
+      <a href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">@McClusterishere</a>
+    </footer>
+  </main>
+
+  <!-- THE CASE SHEET -->
+  <div class="cs" id="arCase" role="dialog" aria-label="Case sheet">
+    <div class="cs__in" id="arCaseIn"></div>
+  </div>
+
+  <!-- THE BAR -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/crm.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    var track = function (n, p) { if (window.MCC_TRACK) window.MCC_TRACK(n, p || {}); };
+    var ITEMS = [], TAB = "All";
+
+    /* theme */
+    var moon = $("arTheme");
+    function moonface() { moon.innerHTML = (window.MCC_THEME && MCC_THEME.get() === "dark") ? "&#9788;" : "&#9789;"; }
+    moon.addEventListener("click", function () { if (window.MCC_THEME) { MCC_THEME.flip(); moonface(); } });
+    moonface();
+
+    function thumbOf(w) { return w.poster || w.img || "assets/img/m-mark.png"; }
+    function priceOf(w) { return (w.offers && w.offers[0]) ? w.offers[0].price : "on request"; }
+
+    /* ---------- the ledger ---------- */
+    function paintLedger() {
+      var rows = TAB === "All" ? ITEMS : ITEMS.filter(function (w) { return w.cat === TAB; });
+      $("arLedger").innerHTML = rows.map(function (w) {
+        return '<button class="lg__row" type="button" data-id="' + esc(w.id) + '" data-th="' + esc(thumbOf(w)) + '">' +
+          '<span class="no">' + esc(w.no) + "</span>" +
+          '<img class="th" src="' + esc(thumbOf(w)) + '" alt="" loading="lazy">' +
+          '<span class="tt"><b>' + esc(w.title) + "</b><small>" + esc(w.cat) + " · " + esc(w.group || "") + "</small></span>" +
+          '<span class="pr"><b>' + esc(priceOf(w)) + "</b>own it &#8594;</span></button>";
+      }).join("");
+    }
+    $("arTabs").addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-tab]");
+      if (!b) return;
+      TAB = b.getAttribute("data-tab");
+      $("arTabs").querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      paintLedger();
+      track("archive_filter", { tab: TAB });
+    });
+
+    /* cursor-following preview */
+    var peek = $("arPeek"), peekImg = peek.querySelector("img");
+    document.addEventListener("mousemove", function (e) {
+      var row = e.target.closest && e.target.closest(".lg__row");
+      if (row) {
+        var th = row.getAttribute("data-th");
+        if (peekImg.getAttribute("src") !== th) peekImg.src = th;
+        peek.style.left = Math.min(e.clientX + 24, innerWidth - 260) + "px";
+        peek.style.top = Math.min(e.clientY - 90, innerHeight - 200) + "px";
+        peek.classList.add("on");
+      } else peek.classList.remove("on");
+    });
+
+    /* ---------- the case sheet ---------- */
+    var OPEN = null;
+    function caseHTML(w) {
+      var idx = ITEMS.indexOf(w);
+      var prev = ITEMS[(idx - 1 + ITEMS.length) % ITEMS.length];
+      var next = ITEMS[(idx + 1) % ITEMS.length];
+      return '<div class="cs__bar"><span class="no">No. ' + esc(w.no) + " / " + ("%02d".replace("%02d", (ITEMS.length < 10 ? "0" : "") + ITEMS.length)) + '</span>' +
+        '<button class="cs__x" type="button" data-cs-close aria-label="Close">&#10005;</button></div>' +
+        '<div class="cs__media">' +
+        (w.video
+          ? '<video muted loop playsinline autoplay preload="metadata" src="' + w.video + '"' + (w.poster ? ' poster="' + w.poster + '"' : "") + "></video>"
+          : '<img src="' + w.img + '" alt="">') +
+        "</div>" +
+        "<h2>" + esc(w.title) + "</h2>" +
+        '<p class="cs__sub">' + esc(w.sub || "") + "</p>" +
+        '<div class="cs__grid"><div class="cs__meta"><h3>The details</h3><dl>' +
+        [["Lane", w.cat], ["Shelf", w.group], ["Role", w.role], ["Deliverables", w.deliverables],
+         ["Location", w.location], ["Made", w.made]].map(function (kv) {
+          return kv[1] ? "<div><dt>" + esc(kv[0]) + "</dt><dd>" + esc(kv[1]) + "</dd></div>" : "";
+        }).join("") + "</dl>" +
+        (w.href ? '<div style="margin-top:0.9rem"><a href="' + w.href + '" style="font-weight:800;color:var(--ar-red);text-decoration:none">Visit the live piece &#8594;</a></div>' : "") +
+        "</div>" +
+        '<div class="cs__own"><h3>Own this work</h3><div data-offers>' +
+        (w.offers || []).map(function (o, i) {
+          return '<button class="cs__offer' + (i === 0 ? " on" : "") + '" type="button" data-offer="' + i + '">' +
+            '<span class="p">' + esc(o.price) + "</span><b>" + esc(o.label) + "</b><small>" + esc(o.note || "") + "</small></button>";
+        }).join("") + "</div>" +
+        '<div class="cs__form">' +
+        '<input name="name" placeholder="Your name" autocomplete="name" maxlength="80">' +
+        '<input name="email" type="email" placeholder="Email — the invoice and details land here" autocomplete="email" maxlength="120">' +
+        '<button class="cs__go" type="button" data-buy>Start the purchase &#8594;</button>' +
+        '<p class="cs__err" hidden>Name and a real email — the paperwork has to land somewhere.</p></div></div></div>' +
+        '<div class="cs__nav">' +
+        '<button type="button" data-go="' + esc(prev.id) + '"><small>Previous</small>&#8592; ' + esc(prev.title) + "</button>" +
+        '<button type="button" data-go="' + esc(next.id) + '"><small>Next</small>' + esc(next.title) + " &#8594;</button></div>";
+    }
+    function openCase(id, push) {
+      var w = ITEMS.find(function (x) { return x.id === id; });
+      if (!w) return;
+      OPEN = w;
+      $("arCaseIn").innerHTML = caseHTML(w);
+      $("arCase").classList.add("on");
+      $("arCase").scrollTop = 0;
+      document.body.style.overflow = "hidden";
+      if (push !== false) { try { history.pushState(null, "", "#/" + id); } catch (e) {} }
+      track("archive_case", { piece: id });
+    }
+    function closeCase(push) {
+      $("arCase").classList.remove("on");
+      document.body.style.overflow = "";
+      OPEN = null;
+      if (push !== false) { try { history.pushState(null, "", location.pathname + location.search); } catch (e) {} }
+    }
+    window.addEventListener("popstate", function () {
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id) openCase(id, false); else closeCase(false);
+    });
+
+    $("arLedger").addEventListener("click", function (e) {
+      var r = e.target.closest && e.target.closest(".lg__row");
+      if (r) openCase(r.getAttribute("data-id"));
+    });
+    $("arCase").addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-cs-close]")) { closeCase(); return; }
+      var go = e.target.closest && e.target.closest("[data-go]");
+      if (go) { openCase(go.getAttribute("data-go")); return; }
+      var off = e.target.closest && e.target.closest("[data-offer]");
+      if (off) {
+        off.parentNode.querySelectorAll(".cs__offer").forEach(function (o) { o.classList.toggle("on", o === off); });
+        return;
+      }
+      if (e.target.closest && e.target.closest("[data-buy]")) {
+        var box = $("arCaseIn");
+        var f = function (n) { var i = box.querySelector('[name="' + n + '"]'); return i ? i.value.trim() : ""; };
+        var name = f("name"), email = f("email");
+        var err = box.querySelector(".cs__err");
+        if (!name || !/.+@.+\..+/.test(email)) { err.hidden = false; return; }
+        var sel = box.querySelector(".cs__offer.on");
+        var oi = sel ? parseInt(sel.getAttribute("data-offer"), 10) : 0;
+        var o = (OPEN.offers || [])[oi] || { label: "Inquiry", price: "" };
+        var WANT = { "Videography": "Video / brand film", "Photography": "Photography", "Media management": "Media management / consulting" };
+        var btn = box.querySelector("[data-buy]");
+        btn.disabled = true; btn.textContent = "Sending…";
+        window.MCC_CRM.send({
+          name: name, email: email,
+          want: WANT[OPEN.cat] || "Something else",
+          note: "THE ARCHIVE · No." + OPEN.no + " " + OPEN.title + " · " + o.label + " (" + o.price + ")",
+          campaign: "archive",
+        }).then(function () {
+          track("archive_buy", { piece: OPEN.id, offer: o.label });
+          box.querySelector(".cs__form").innerHTML =
+            '<div class="cs__done" style="margin-top:0.8rem"><b>It’s on the desk.</b>' +
+            "<small>Invoice and delivery details land in your email today. Want it faster? " +
+            'Email <a href="mailto:matthew@mccluster.org" style="color:var(--ar-red);font-weight:800;text-decoration:none">matthew@mccluster.org</a>.</small></div>';
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "Start the purchase →";
+          err.textContent = "That didn’t go through — try again in a second.";
+          err.hidden = false;
+        });
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && OPEN) closeCase();
+    });
+
+    /* ---------- boot ---------- */
+    fetch("data/archive.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+      ITEMS = j.items || [];
+      var cats = [];
+      ITEMS.forEach(function (w) { if (cats.indexOf(w.cat) === -1) cats.push(w.cat); });
+      $("arTabs").innerHTML = '<button type="button" class="on" data-tab="All">All<sup>' + ITEMS.length + "</sup></button>" +
+        cats.map(function (c) {
+          var n = ITEMS.filter(function (w) { return w.cat === c; }).length;
+          return '<button type="button" data-tab="' + esc(c) + '">' + esc(c) + "<sup>" + n + "</sup></button>";
+        }).join("");
+      paintLedger();
+      track("archive_view", { pieces: ITEMS.length });
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id) openCase(id, false);
+    });
+  })();
+  </script>
+</body>
+</html>
