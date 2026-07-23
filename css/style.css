@@ -4214,7 +4214,7 @@ html.vr-locked .wayback { bottom: calc(var(--appbar-h, 3.7rem) + env(safe-area-i
   src: url("../assets/fonts/mccluster/McClusterM-Split.woff") format("woff");
   font-display: swap;
 }
-:root { --sig: "McCluster M", "Anton", sans-serif; }
+:root { --sig: "Anton", Impact, "Arial Narrow", sans-serif; }
 .brand__rest, .site-foot__brand { font-family: var(--sig); letter-spacing: 0.03em; }
 
 /* ============ THE MICRO PRINT — McCluster Shard Condensed ============
@@ -4226,8 +4226,8 @@ html.vr-locked .wayback { bottom: calc(var(--appbar-h, 3.7rem) + env(safe-area-i
   src: url("../assets/fonts/mccluster/McClusterShard-Condensed.woff") format("woff");
   font-display: swap;
 }
-:root { --micro: "McCluster Micro", var(--body, sans-serif); }
-.kicker { font-family: var(--micro); font-size: 0.84rem; letter-spacing: 0.3em; }
+:root { --micro: var(--body, sans-serif); }
+.kicker { font-family: var(--micro); font-weight: 800; font-size: 0.74rem; letter-spacing: 0.3em; }
 .appbar__tab span { font-family: var(--micro); font-size: 0.78rem; letter-spacing: 0.08em; }
 .ta__status, .cr__tag { font-family: var(--micro); }
 .mk__k { font-family: var(--micro); font-size: 0.78rem; letter-spacing: 0.2em; }

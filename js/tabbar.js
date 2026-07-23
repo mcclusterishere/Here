@@ -38,8 +38,8 @@
       slots: [
         ["hire.html", "case", "Hire", { ic: "🤝", title: "Hire the agency",
           sub: "Brand films, photography, web builds, campaign strategy — one team, start to finish." }],
-        ["feed.html", "news", "Feed", { ic: "📰", title: "Feed — the daily record",
-          sub: "The claims everyone's arguing about, put on the record with sources. Filed daily from the desk — every entry is a citable link." }],
+        ["prints.html", "card", "Prints", { ic: "🖼️", title: "The Print Shop",
+          sub: "Own the work — museum-stock prints shipped to your door, files for personal use, or the RAW with commercial rights." }],
       ],
     },
     profile: {
@@ -51,8 +51,8 @@
             var u = window.MCC_AUTH && window.MCC_AUTH.user && window.MCC_AUTH.user();
             return u ? "Signed in as " + (u.email || "your instant account") + " — your bookings and receipts are on the record." : null;
           } }],
-        ["cut.html", "film", "Your cut", { ic: "✂️", title: "The cutting room",
-          sub: "Bring your record, your timecoded lyrics, and your clips — the machine cuts your lyric video with the same laws the house rides." }],
+        ["shots.html", "grid", "Shot Wall", { ic: "📸", title: "The Shot Wall",
+          sub: "Were you at the event? Find your photo on the wall — the first one's free with a follow, the whole pack is a few dollars." }],
       ],
     },
   };

@@ -545,6 +545,9 @@
   </div>
 
   <!-- THE BAR — Music · HERE · Profile. One tap opens the wing, two taps go through, three do nothing. -->
+  <!-- THE ROOM — fans speak under the record -->
+  <div data-comments="the-album"></div>
+
   <nav class="appbar" aria-label="Sections">
     <a class="appbar__tab" href="album.html" data-appnav="music">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
@@ -562,6 +565,7 @@
 
   <script src="js/env.js?v=__STAMP__"></script>
   <script src="js/backend.js?v=__STAMP__"></script>
+  <script src="js/comments.js?v=__STAMP__"></script>
   <script src="js/payments.js?v=__STAMP__"></script>
   <script src="js/analytics.js?v=__STAMP__"></script>
   <script>
@@ -825,7 +829,6 @@
         ? desk.craft + " · @" + desk.slug : "@" + desk.slug;
       var payLink = "pay.html?to=" + encodeURIComponent(desk.slug);
       var tiles = payoutTile(desk) +
-        deskTile("Cut a lyric video", "Open", "your record + your timecodes → the machine", "cut.html") +
         (desk.charges_enabled
           ? deskTile("Your pay link", "Open", "drop it in any bio — Apple Pay ready", payLink)
           : "") +
@@ -914,7 +917,7 @@
         deskTile("The books", "Open", "Deals, payments, the record", "account.html") +
         deskTile("Bookings", "Open", "The desk takes the call", "hire.html") +
         deskTile("The registry", "QT6KV", "Every song, numbered", "catalogue.html") +
-        deskTile("File a report", "Open", "the daily record desk", "feed.html");
+        deskTile("The Front Desk", "Open", "Leads, orders, the pipeline", "crm.html");
       var grid = document.getElementById("deskGrid");
       grid.innerHTML = deskTile("Streams", "…", "warming up") + doors;
 
