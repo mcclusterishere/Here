@@ -2,51 +2,171 @@
  "note": "STAGED — media arrays stay empty until the owner sends assets. Each media item, when it arrives, gets {id,type:'photo'|'video',src,poster?,sell:true} and sellable photos also join data/prints.json.",
  "events": [
   {
-   "id": "eu-rally", "kind": "photo", "title": "Equity Uprise Rally",
-   "client": "Equity Uprise", "venue": "Bridgeport", "date": "October 5",
-   "tags": ["Photos"], "media": []
+   "id": "eu-rally",
+   "kind": "photo",
+   "title": "Equity Uprise Rally",
+   "client": "City of Bridgeport, Connecticut",
+   "venue": "Bridgeport",
+   "date": "October 5",
+   "tags": [
+    "Photos"
+   ],
+   "media": [],
+   "cited": true
   },
   {
-   "id": "brunch-and-beats", "kind": "photo", "title": "Brunch & Beats",
-   "client": "Future Successors of ATL", "venue": "Apartment 4B", "city": "Atlanta, GA",
-   "date": "July 19, 2026", "tags": ["Photos"], "media": []
+   "id": "brunch-and-beats",
+   "kind": "photo",
+   "title": "Brunch & Beats",
+   "client": "Future Successors of ATL",
+   "venue": "Apartment 4B",
+   "city": "Atlanta, GA",
+   "date": "July 19, 2026",
+   "tags": [
+    "Photos"
+   ],
+   "media": []
   },
   {
-   "id": "hive-museum", "kind": "photo", "title": "The Hive Museum of Arts",
-   "client": "West Haven Management of Georgia", "city": "Atlanta, GA",
-   "date": "July 1, 2025", "tags": ["Photos"], "media": []
+   "id": "hive-museum",
+   "kind": "photo",
+   "title": "The Hive Museum of Arts",
+   "client": "West Haven Management of Georgia",
+   "city": "Atlanta, GA",
+   "date": "July 1, 2025",
+   "tags": [
+    "Photos"
+   ],
+   "media": []
   },
   {
-   "id": "juneteenth-festival", "kind": "photo", "title": "Juneteenth Festival",
-   "venue": "Rainbow Park Amphitheater", "date": "June 13, 2026",
-   "tags": ["Photos"], "media": []
+   "id": "juneteenth-festival",
+   "kind": "photo",
+   "title": "Juneteenth Festival",
+   "venue": "Rainbow Park Amphitheater",
+   "date": "June 13, 2026",
+   "tags": [
+    "Photos"
+   ],
+   "media": [],
+   "client": "DeKalb County"
   },
   {
-   "id": "candler-crossing", "kind": "photo", "title": "Candler Road Crossing — Groundbreaking",
-   "date": "June 11, 2026", "tags": ["Photos"], "media": []
+   "id": "candler-crossing",
+   "kind": "photo",
+   "title": "Candler Road Crossing — Groundbreaking",
+   "date": "June 11, 2026",
+   "tags": [
+    "Photos"
+   ],
+   "media": [],
+   "client": "DeKalb County"
   },
   {
-   "id": "nh-scott-poole", "kind": "photo", "title": "N.H. Scott Poole — Opening",
-   "city": "Decatur, GA", "date": "June 6, 2026", "tags": ["Photos"], "media": []
+   "id": "nh-scott-poole",
+   "kind": "photo",
+   "title": "N.H. Scott Poole — Opening",
+   "city": "Decatur, GA",
+   "date": "June 6, 2026",
+   "tags": [
+    "Photos"
+   ],
+   "media": [],
+   "client": "DeKalb County"
   },
   {
-   "id": "hbm-recaps", "kind": "video", "title": "100 Black Men of DeKalb — Recap Films",
-   "client": "100 Black Men of DeKalb", "tags": ["Video recaps"], "media": []
+   "id": "hbm-recaps",
+   "kind": "video",
+   "title": "100 Black Men of DeKalb — Recap Films",
+   "client": "100 Black Men of DeKalb",
+   "tags": [
+    "Video recaps"
+   ],
+   "media": []
   },
   {
-   "id": "emory-tour", "kind": "video", "title": "Emory Healthcare Tour",
-   "client": "100 Black Men of DeKalb", "date": "June 11",
-   "tags": ["Photos", "Video"], "media": []
+   "id": "emory-tour",
+   "kind": "video",
+   "title": "Emory Healthcare Tour",
+   "client": "100 Black Men of DeKalb",
+   "date": "June 11",
+   "tags": [
+    "Photos",
+    "Video"
+   ],
+   "media": []
   },
   {
-   "id": "hundred-wednesdays", "kind": "video", "title": "100 Wednesdays",
-   "client": "100 Black Men of DeKalb", "venue": "Escoviches — Black-owned venue",
-   "date": "July 14", "tags": ["Photos", "Video recap"], "media": []
+   "id": "hundred-wednesdays",
+   "kind": "video",
+   "title": "100 Wednesdays",
+   "client": "100 Black Men of DeKalb",
+   "venue": "Escoviches — Black-owned venue",
+   "date": "July 14",
+   "tags": [
+    "Photos",
+    "Video recap"
+   ],
+   "media": []
   },
   {
-   "id": "dressed-for-success", "kind": "video", "title": "Dressed for Success",
-   "client": "100 Black Men of DeKalb", "venue": "Dillard's — Stonecrest Mall",
-   "date": "July 16, 2026", "tags": ["Photos", "Long-form film", "Short-form recap"], "media": []
+   "id": "dressed-for-success",
+   "kind": "video",
+   "title": "Dressed for Success",
+   "client": "100 Black Men of DeKalb",
+   "venue": "Dillard's — Stonecrest Mall",
+   "date": "July 16, 2026",
+   "tags": [
+    "Photos",
+    "Long-form film",
+    "Short-form recap"
+   ],
+   "media": []
+  },
+  {
+   "id": "vaunt-runway",
+   "kind": "video",
+   "title": "Vaunt — The Runway Campaign",
+   "client": "Vaunt",
+   "tags": [
+    "Commercial",
+    "Live performance"
+   ],
+   "media": [
+    {
+     "id": "vaunt-film",
+     "type": "video",
+     "src": "assets/video/vaunt.mp4",
+     "poster": "assets/frames/vaunt_0001.jpg"
+    },
+    {
+     "id": "vauntlive-film",
+     "type": "video",
+     "src": "assets/video/vauntlive.mp4",
+     "poster": "assets/frames/vauntlive_0001.jpg"
+    }
+   ]
+  }
+ ],
+ "clients": [
+  {
+   "name": "City of Bridgeport, Connecticut",
+   "cited": true
+  },
+  {
+   "name": "DeKalb County"
+  },
+  {
+   "name": "100 Black Men of DeKalb"
+  },
+  {
+   "name": "Vaunt"
+  },
+  {
+   "name": "Future Successors of ATL"
+  },
+  {
+   "name": "West Haven Management of Georgia"
   }
  ]
 }

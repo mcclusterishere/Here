@@ -96,6 +96,19 @@
     .gxabout .socials a { font-weight: 800; font-size: 0.72rem; color: var(--gx-ink); text-decoration: none;
       border-radius: 100px; padding: 0.5rem 1rem; box-shadow: inset 0 0 0 1px var(--gx-line); }
     @media (max-width: 46rem) { .gxabout { grid-template-columns: 1fr; } }
+    /* ---- the clients ---- */
+    .gxcl { margin-bottom: 3rem; }
+    .gxcl__row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .gxcl__row button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; font-family: var(--gx-ui); font-weight: 700; font-size: 0.78rem;
+      color: var(--gx-ink); background: transparent; border-radius: 100px; padding: 0.6rem 1.1rem;
+      box-shadow: inset 0 0 0 1px var(--gx-line); transition: background 0.25s ease, color 0.25s ease; }
+    .gxcl__row button sup { font-weight: 800; font-size: 0.58rem; color: var(--gx-gold); margin-left: 0.25rem; }
+    .gxcl__row button.on { background: var(--gx-ink); color: var(--gx-bg); box-shadow: none; }
+    .gxcl__row button.on sup { color: var(--gx-red); }
+    .gxcl__row button .seal { color: var(--gx-gold); margin-left: 0.3rem; }
+    .gxcl__cite { font-weight: 600; font-size: 0.74rem; color: var(--gx-mut); margin-top: 0.8rem; }
+    .gxcl__cite a { color: var(--gx-ink); font-weight: 800; text-decoration: none; }
     /* ---- the walls (event rail) ---- */
     .gxwalls h2 { font-weight: 800; letter-spacing: -0.03em; font-size: clamp(2rem, 7.5vw, 3.6rem); margin: 0 0 1.4rem; }
     .gxev { display: block; width: 100%; text-align: left; -webkit-appearance: none; appearance: none; border: 0;
@@ -241,6 +254,15 @@
       </div>
     </section>
 
+    <!-- the clients -->
+    <section class="gxcl rv">
+      <p class="gxlab">/ The clients</p>
+      <h2 class="gxstate">Browse the wall by who booked it.</h2>
+      <div class="gxcl__row" id="gxClients"></div>
+      <p class="gxcl__cite">&#10045; Citation on file — the City of Bridgeport work is recognized on the record.
+        <a href="press.html">See the citations &#8594;</a></p>
+    </section>
+
     <!-- the walls -->
     <section class="gxwalls" id="gxWalls">
       <p class="gxlab">/ The walls</p>
@@ -346,9 +368,29 @@
       }).join("");
     }
 
+    /* ---- the clients ---- */
+    var CLIENT = "All";
+    function paintClients(clients) {
+      var row = [{ name: "All" }].concat(clients || []);
+      $("gxClients").innerHTML = row.map(function (c) {
+        var n = c.name === "All" ? EVENTS.length : EVENTS.filter(function (e) { return e.client === c.name; }).length;
+        return '<button type="button" data-client="' + esc(c.name) + '"' + (c.name === CLIENT ? ' class="on"' : "") + ">" +
+          esc(c.name) + "<sup>" + n + "</sup>" + (c.cited ? '<span class="seal">&#10045;</span>' : "") + "</button>";
+      }).join("");
+    }
+    $("gxClients").addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-client]");
+      if (!b) return;
+      CLIENT = b.getAttribute("data-client");
+      $("gxClients").querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      paintRail();
+      track("gallery_client", { client: CLIENT });
+    });
+
     /* ---- the rail ---- */
     function paintRail() {
-      $("gxRail").innerHTML = EVENTS.map(function (ev) {
+      var rows = CLIENT === "All" ? EVENTS : EVENTS.filter(function (e) { return e.client === CLIENT; });
+      $("gxRail").innerHTML = rows.map(function (ev) {
         var cover = ev.media && ev.media.length && (ev.media[0].poster || ev.media[0].src);
         return '<button class="gxev rv in" type="button" data-id="' + esc(ev.id) + '">' +
           '<span class="gxev__media">' +
@@ -458,6 +500,7 @@
     fetch("data/gallery.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
       EVENTS = j.events || [];
       paintStrip();
+      paintClients(j.clients || []);
       paintRail();
       reveal();
       track("gallery_view", { walls: EVENTS.length });
