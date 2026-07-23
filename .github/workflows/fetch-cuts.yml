@@ -34,6 +34,10 @@ jobs:
             echo "Fetching image $name"
             curl -fL --retry 4 --retry-delay 3 -o "assets/img/${name}.src" "$url"
           done
+          jq -r '.cutouts // {} | to_entries[] | "\(.key) \(.value)"' assets-manifest.json | while read -r name url; do
+            echo "Fetching cutout $name"
+            curl -fL --retry 4 --retry-delay 3 -o "assets/img/${name}.cut" "$url"
+          done
 
       - name: Install ffmpeg
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
@@ -46,6 +50,13 @@ jobs:
             n="${f%.src}"
             ffmpeg -hide_banner -loglevel error -y -i "$f" -vf "scale='min(1080,iw)':-2" -q:v 4 "${n}.jpg" \
               && rm -f "$f" && echo "still $(basename "$n").jpg"
+          done
+          # cutouts: cap width, KEEP the alpha — png in, png out
+          for f in assets/img/*.cut; do
+            [ -f "$f" ] || continue
+            n="${f%.cut}"
+            ffmpeg -hide_banner -loglevel error -y -i "$f" -vf "scale='min(900,iw)':-2" "${n}.png" \
+              && rm -f "$f" && echo "cutout $(basename "$n").png"
           done
           # posters: first frame of each manifest video
           mkdir -p assets/frames
