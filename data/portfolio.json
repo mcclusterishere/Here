@@ -9,43 +9,50 @@
    "cat": "Videography",
    "title": "Vaunt — the runway performance",
    "sub": "Commercial production · performed live with Zakir",
-   "video": "assets/video/vaunt.mp4"
+   "video": "assets/video/vaunt.mp4",
+   "poster": "assets/frames/vaunt_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "Vaunt Live — the launch",
    "sub": "Event coverage · the campaign on its feet",
-   "video": "assets/video/vauntlive.mp4"
+   "video": "assets/video/vauntlive.mp4",
+   "poster": "assets/frames/vauntlive_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "The keynote shoot",
    "sub": "Corporate & stage production",
-   "video": "assets/video/keynote.mp4"
+   "video": "assets/video/keynote.mp4",
+   "poster": "assets/frames/keynote_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "Studio 360",
    "sub": "The edit bay, all the way around",
-   "video": "assets/video/studio360.mp4"
+   "video": "assets/video/studio360.mp4",
+   "poster": "assets/frames/studio360_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "The hero film",
    "sub": "Cinematic direction · the studio orbit",
-   "video": "assets/video/hero.mp4"
+   "video": "assets/video/hero.mp4",
+   "poster": "assets/frames/hero_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "Designer at work",
    "sub": "Process films for brands",
-   "video": "assets/video/designer.mp4"
+   "video": "assets/video/designer.mp4",
+   "poster": "assets/frames/designer_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "Whip Equipped — the fleet",
    "sub": "Automotive brand film",
-   "video": "assets/video/whip.mp4"
+   "video": "assets/video/whip.mp4",
+   "poster": "assets/frames/whip_0001.jpg"
   },
   {
    "cat": "Videography",
@@ -57,13 +64,15 @@
    "cat": "Videography",
    "title": "The red jet",
    "sub": "Aviation & luxury coverage",
-   "video": "assets/video/redjet.mp4"
+   "video": "assets/video/redjet.mp4",
+   "poster": "assets/frames/redjet_0001.jpg"
   },
   {
    "cat": "Videography",
    "title": "The penthouse set",
    "sub": "Nightlife & event films",
-   "video": "assets/video/daniel.mp4"
+   "video": "assets/video/daniel.mp4",
+   "poster": "assets/frames/daniel_0001.jpg"
   },
   {
    "cat": "Photography",
@@ -125,40 +134,46 @@
    "title": "Equity Uprise — the civic engine",
    "sub": "Full campaign: rallies, record, outreach — recognized by two governments",
    "video": "assets/video/equity.mp4",
-   "href": "equity-uprise.html"
+   "href": "equity-uprise.html",
+   "poster": "assets/frames/equity_0001.jpg"
   },
   {
    "cat": "Media management",
    "title": "Docket 516 — the public archive",
    "sub": "325 filings archived, explained, and published",
    "video": "assets/video/docket.mp4",
-   "href": "docket-516.html"
+   "href": "docket-516.html",
+   "poster": "assets/frames/docket_0001.jpg"
   },
   {
    "cat": "Media management",
    "title": "The war room",
    "sub": "Campaign strategy & rollout, run from one desk",
-   "video": "assets/video/warroom.mp4"
+   "video": "assets/video/warroom.mp4",
+   "poster": "assets/frames/warroom_0001.jpg"
   },
   {
    "cat": "Media management",
    "title": "The survey",
    "sub": "Platform ops · data-driven outreach",
-   "video": "assets/video/uisurvey.mp4"
+   "video": "assets/video/uisurvey.mp4",
+   "poster": "assets/frames/uisurvey_0001.jpg"
   },
   {
    "cat": "Media management",
    "title": "The record & citations",
    "sub": "Press, proclamations, and the receipts",
    "video": "assets/video/citations.mp4",
-   "href": "press.html"
+   "href": "press.html",
+   "poster": "assets/frames/citations_0001.jpg"
   },
   {
    "cat": "Media management",
    "title": "The Feed — the daily record",
    "sub": "Claims put on the record with sources, filed daily",
    "video": "assets/video/editors.mp4",
-   "href": "feed.html"
+   "href": "feed.html",
+   "poster": "assets/frames/editors_0001.jpg"
   }
  ]
 }

@@ -4,90 +4,214 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>The Full Portfolio — Matthew McCluster · everything, on the record</title>
-  <meta name="description" content="Every job Matthew McCluster has shot, cut, and run — video, photography, and media management. Watch the work, then lock in a date.">
+  <meta name="description" content="Every job Matthew McCluster has shot, cut, and run — videography, photography, and media management. Watch the work, then lock in a date.">
   <link rel="canonical" href="https://mcclusterishere.github.io/Here/portfolio.html">
   <link rel="icon" type="image/png" href="assets/img/m-mark.png">
-  <link rel="preload" href="assets/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-normal-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/playfairdisplay-italic-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css?v=__STAMP__">
   <script src="js/theme.js?v=__STAMP__"></script>
   <style>
-    @font-face { font-family: "Manrope"; font-weight: 400; font-style: normal; font-display: swap;
-      src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
-    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
-      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
-    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
-      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
-    :root { --ui: "Manrope", system-ui, -apple-system, sans-serif; }
-    .pf { max-width: 62rem; margin: 0 auto; padding: clamp(3.6rem, 8vh, 5rem) clamp(1.1rem, 4vw, 2rem) 13rem; }
-    .pf__k { font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: #c99d45; font-weight: 800; }
-    .pf h1 { font-family: var(--sig); text-transform: uppercase; line-height: 0.88; font-size: clamp(2.6rem, 11vw, 4.6rem); margin: 0.3rem 0 0.4rem; }
-    .pf__sub { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.95rem; max-width: 46ch; }
-    .chips { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; margin: 1.6rem 0 1.2rem; }
-    .chips::-webkit-scrollbar { display: none; }
-    .chips button { flex: none; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
-      font-family: var(--ui); font-weight: 700; font-size: 0.82rem; color: var(--cream);
-      background: linear-gradient(180deg, var(--glass-hi), var(--glass-lo));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); border-radius: 100px; padding: 0.55rem 1.1rem; }
-    .chips button.on { color: #16110b; font-weight: 800; background: var(--metal);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 10px 24px -10px rgba(200,164,90,0.55); }
-    .pf__lede { font-family: var(--ui); font-weight: 600; color: var(--cream-dim); font-size: 0.88rem;
-      max-width: 50ch; margin: 0 0 1.2rem; min-height: 1.4em; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 0.9rem; }
-    .work { position: relative; overflow: hidden; border-radius: 20px; background: #0d0a08; color: #fff;
-      aspect-ratio: 4 / 5; cursor: pointer; isolation: isolate; display: block; text-decoration: none;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.2), 0 22px 50px -20px rgba(0,0,0,0.9); }
-    .work video, .work img.work__im { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-    .work__scrim { position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(180deg, rgba(9,7,5,0.12) 0%, rgba(9,7,5,0.06) 45%, rgba(9,7,5,0.85) 100%); }
-    .work::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(115deg, transparent 34%, rgba(255,255,255,0.12) 45%, transparent 58%); }
-    .work__meta { position: absolute; left: 0.95rem; right: 0.95rem; bottom: 0.9rem; }
-    .work__meta b { display: block; font-family: var(--ui); font-weight: 800; font-size: 1rem; line-height: 1.2;
-      text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
-    .work__meta small { display: block; font-family: var(--ui); font-weight: 700; font-size: 0.64rem;
-      letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.62); margin-top: 0.3rem; }
-    .work__cat { position: absolute; top: 0.8rem; left: 0.8rem; font-family: var(--ui); font-weight: 800;
-      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: #16110b;
-      background: var(--metal); border-radius: 100px; padding: 0.28rem 0.7rem;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); }
-    /* THE CLOSER — the booking bar rides above the dock, always in reach */
-    .bookbar { position: fixed; left: 50%; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.2rem));
-      bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 60;
-      display: flex; gap: 0.5rem; padding: 0.55rem; border-radius: 22px;
-      background: linear-gradient(180deg, rgba(32,26,21,0.88), rgba(14,11,9,0.92));
-      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 50px -14px rgba(0,0,0,0.85); }
-    .bookbar a, .bookbar button { flex: 1; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
-      touch-action: manipulation; text-decoration: none; text-align: center;
-      font-family: var(--ui); font-weight: 800; font-size: 0.9rem; border-radius: 16px; padding: 0.85rem 0.5rem; }
-    .bookbar .bb__lock { background: var(--metal); color: #16110b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
-    .bookbar .bb__call { background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-      color: var(--cream); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15); }
-    html[data-theme="light"] .bookbar { background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(243,238,229,0.94));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 18px 50px -14px rgba(26,20,13,0.35); }
-    html[data-theme="light"] .bookbar .bb__call { color: var(--cream);
-      background: linear-gradient(180deg, rgba(26,20,13,0.08), rgba(26,20,13,0.04)); }
+    /* ============ TENBASE SKIN — the startup-agency read ============ */
+    @font-face { font-family: "Poppins"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/poppins-normal-400.woff2") format("woff2"); }
+    @font-face { font-family: "Poppins"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/poppins-normal-600.woff2") format("woff2"); }
+    @font-face { font-family: "Poppins"; font-weight: 700; font-style: normal; font-display: swap;
+      src: url("assets/fonts/poppins-normal-700.woff2") format("woff2"); }
+    @font-face { font-family: "Playfair Display"; font-weight: 600; font-style: italic; font-display: swap;
+      src: url("assets/fonts/playfairdisplay-italic-600.woff2") format("woff2"); }
+    @font-face { font-family: "Playfair Display"; font-weight: 700; font-style: italic; font-display: swap;
+      src: url("assets/fonts/playfairdisplay-italic-700.woff2") format("woff2"); }
+    :root {
+      --tb-ui: "Poppins", system-ui, -apple-system, sans-serif;
+      --tb-serif: "Playfair Display", Georgia, serif;
+    }
+    :root {
+      --tb-bg: #eceefb; --tb-ink: #171a3b; --tb-mut: #6e7190;
+      --tb-prim: #6472e8; --tb-soft: #c9cff9; --tb-dark: #14152e; --tb-dark2: #1b1d3d;
+      --tb-red: #e8465a; --tb-yel: #f5c244; --tb-pur: #ae4ff0; --tb-grn: #3bc783;
+    }
+    /* the page holds its own weather in both site themes */
+    html, html[data-theme="light"], html[data-theme="dark"] { background: var(--tb-bg); }
+    body.tenbase { background: var(--tb-bg); color: var(--tb-ink); font-family: var(--tb-ui); }
+    body.tenbase .grain { display: none; }
+    .tb { max-width: 82.5rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem) 9rem; }
+    /* ---- top row ---- */
+    .tb__nav { display: flex; align-items: center; justify-content: space-between; padding: 1.3rem 0 0; }
+    .tb__mark { font-weight: 700; letter-spacing: 0.18em; font-size: 0.86rem; color: var(--tb-ink); text-decoration: none; }
+    .tb__talk { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--tb-ui); font-weight: 600; font-size: 0.84rem; color: #fff; background: var(--tb-prim);
+      border-radius: 100px; padding: 0.62rem 1.35rem; box-shadow: 0 12px 26px -12px rgba(100,114,232,0.65); }
+    /* ---- hero ---- */
+    .hero { position: relative; text-align: center; padding: clamp(3rem, 9vh, 5.5rem) 0 clamp(2.6rem, 7vh, 4.4rem); }
+    .hero__k { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tb-prim); }
+    .hero h1 { font-family: var(--tb-ui); font-weight: 700; color: var(--tb-ink);
+      font-size: clamp(2.35rem, 8.6vw, 4.6rem); line-height: 1.06; letter-spacing: -0.02em; margin: 0.55rem 0 0; }
+    .hero h1 em { font-family: var(--tb-serif); font-style: italic; font-weight: 700; color: var(--tb-prim); letter-spacing: 0; }
+    .hero p { font-weight: 400; color: var(--tb-mut); font-size: clamp(0.92rem, 2.6vw, 1.05rem); max-width: 44ch; margin: 1.1rem auto 0; }
+    .hero .dia { position: absolute; width: 0.85rem; height: 0.85rem; border-radius: 3px; transform: rotate(45deg); opacity: 0.9;
+      animation: diaFloat 5s ease-in-out infinite; }
+    .hero .dia--1 { background: var(--tb-red); left: 7%; top: 30%; }
+    .hero .dia--2 { background: var(--tb-yel); right: 9%; top: 24%; animation-delay: 1.2s; }
+    .hero .dia--3 { background: var(--tb-grn); left: 13%; bottom: 16%; animation-delay: 2.1s; }
+    .hero .dia--4 { background: var(--tb-pur); right: 14%; bottom: 22%; animation-delay: 3s; }
+    @keyframes diaFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -0.6rem; } }
+    /* ---- the white sheet: three lanes ---- */
+    .sheet { background: #fff; border-radius: 30px; padding: clamp(1.6rem, 5vw, 3.4rem);
+      box-shadow: 0 30px 70px -40px rgba(23,26,59,0.35); }
+    .sheet__tag, .band__tag, .cta__tag { display: inline-block; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--tb-prim); background: rgba(100,114,232,0.1);
+      border-radius: 100px; padding: 0.4rem 0.95rem; }
+    .sheet h2, .band h2, .cta h2 { font-weight: 700; letter-spacing: -0.01em; color: var(--tb-ink);
+      font-size: clamp(1.5rem, 5vw, 2.3rem); line-height: 1.15; margin: 0.8rem 0 0.4rem; }
+    .sheet h2 em, .cta h2 em { font-family: var(--tb-serif); font-style: italic; color: var(--tb-prim); }
+    .sheet__head { text-align: center; max-width: 42ch; margin: 0 auto 1.8rem; }
+    #pfLede { font-weight: 400; color: var(--tb-mut); font-size: 0.92rem; margin: 0.3rem 0 0; min-height: 1.5em; }
+    .lanesrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.9rem; }
+    .lcard { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      text-align: left; font-family: var(--tb-ui); border-radius: 24px; padding: 1.5rem 1.4rem 1.4rem;
+      background: #f4f5fd; color: var(--tb-ink); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .lcard:active { transform: scale(0.98); }
+    .lcard .dia { display: block; width: 1.05rem; height: 1.05rem; border-radius: 4px; transform: rotate(45deg); margin: 0.2rem 0 1.1rem 0.2rem; }
+    .lcard b { display: block; font-weight: 700; font-size: 1.06rem; }
+    .lcard small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--tb-mut); line-height: 1.5; margin-top: 0.4rem; }
+    .lcard .go { display: inline-block; font-weight: 600; font-size: 0.78rem; color: var(--tb-prim); margin-top: 0.9rem; }
+    .lcard.on { background: var(--tb-prim); color: #fff;
+      box-shadow: 0 26px 50px -22px rgba(100,114,232,0.75); }
+    .lcard.on small, .lcard.on .go { color: rgba(255,255,255,0.85); }
+    .lcard.on .dia { background: #fff !important; }
+    .allrow { text-align: center; margin-top: 1.1rem; }
+    .allrow button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--tb-ui); font-weight: 600; font-size: 0.8rem; color: var(--tb-mut);
+      background: transparent; border-radius: 100px; padding: 0.5rem 1.1rem; }
+    .allrow button.on { color: var(--tb-ink); background: #f0f1fb; }
+    /* ---- the dark band: the work ---- */
+    .band { background: var(--tb-dark); border-radius: 30px; margin-top: 1.2rem;
+      padding: clamp(1.7rem, 5vw, 3.4rem) clamp(1.2rem, 4vw, 3rem) clamp(2.2rem, 5vw, 3rem);
+      position: relative; overflow: hidden; }
+    .band__head { text-align: center; margin-bottom: 1.9rem; }
+    .band h2 { color: #fff; }
+    .band h2 em { font-family: var(--tb-serif); font-style: italic; color: var(--tb-soft); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem 1.2rem; position: relative; }
+    .work { display: block; text-decoration: none; color: #fff; cursor: pointer; }
+    .work__media { position: relative; display: block; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3;
+      background: #24264a; isolation: isolate; }
+    .work__media video, .work__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .work__row { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.85rem; }
+    .work__row b { display: block; font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
+    .work__row small { display: block; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.48); margin-top: 0.2rem; }
+    .work__go { margin-left: auto; flex: none; width: 2.3rem; height: 2.3rem; border-radius: 100px;
+      display: grid; place-items: center; color: #fff; background: rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16); font-weight: 600; }
+    /* numbered capability rows */
+    .nums { max-width: 40rem; margin: 2.6rem auto 0; }
+    .nums button { display: flex; align-items: center; gap: 1rem; width: 100%; -webkit-appearance: none; appearance: none;
+      border: 0; cursor: pointer; touch-action: manipulation; text-align: left; font-family: var(--tb-ui);
+      background: var(--tb-dark2); color: #fff; border-radius: 16px; padding: 1rem 1.2rem; margin-top: 0.6rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+    .nums button .n { font-weight: 700; font-size: 0.78rem; color: var(--tb-prim); }
+    .nums button b { font-weight: 600; font-size: 0.95rem; }
+    .nums button .ct { margin-left: auto; font-weight: 400; font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .nums button.on { background: var(--tb-prim); box-shadow: none; }
+    .nums button.on .n, .nums button.on .ct { color: rgba(255,255,255,0.85); }
+    /* the watermark */
+    .band__wm { display: block; text-align: center; font-weight: 700; letter-spacing: 0.04em;
+      font-size: clamp(3rem, 12vw, 8.5rem); line-height: 1; margin: 2.4rem 0 -1rem;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.14); user-select: none; }
+    /* ---- the CTA panel ---- */
+    .cta { background: linear-gradient(180deg, #dfe3fb, #d3d9fa); border-radius: 30px; margin-top: 1.2rem;
+      text-align: center; padding: clamp(2.4rem, 7vw, 4.4rem) clamp(1.2rem, 4vw, 3rem); }
+    .cta h2 { font-size: clamp(2rem, 8vw, 3.6rem); }
+    .cta p { font-weight: 400; color: var(--tb-mut); font-size: 0.94rem; max-width: 40ch; margin: 0.7rem auto 1.5rem; }
+    .cta__row { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+    .cta__row a, .cta__row button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; text-decoration: none; font-family: var(--tb-ui); font-weight: 600; font-size: 0.92rem;
+      border-radius: 100px; padding: 0.95rem 1.9rem; }
+    #pfLock { background: var(--tb-ink); color: #fff; box-shadow: 0 18px 40px -18px rgba(23,26,59,0.8); }
+    .cta__call { color: var(--tb-ink); background: transparent; box-shadow: inset 0 0 0 1.5px rgba(23,26,59,0.35); }
+    /* footer line */
+    .tb__foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+      font-weight: 400; font-size: 0.78rem; color: var(--tb-mut); padding: 2rem 0.3rem 0; }
+    .tb__foot a { color: var(--tb-ink); text-decoration: none; font-weight: 600; }
   </style>
 </head>
-<body class="songpage">
+<body class="tenbase">
   <div class="grain" aria-hidden="true"></div>
-  <main class="pf">
-    <p class="pf__k">Everything · on the record</p>
-    <h1>The Full<br>Portfolio</h1>
-    <p class="pf__sub">Every job I've shot, cut, and run — watch it move, then lock in a date. The deposit applies to your project.</p>
-
-    <div class="chips" id="pfChips">
-      <button type="button" class="on" data-cat="All">All</button>
+  <main class="tb">
+    <!-- top row -->
+    <div class="tb__nav">
+      <a class="tb__mark" href="index.html">McCLUSTER</a>
+      <button class="tb__talk" type="button" data-lead-sheet="">Let's talk</button>
     </div>
-    <p class="pf__lede" id="pfLede"></p>
-    <div class="grid" id="pfGrid"></div>
-  </main>
 
-  <!-- THE CLOSER -->
-  <div class="bookbar">
-    <button class="bb__lock" id="pfLock" type="button" data-lead-sheet="">Lock in a date &#8594;</button>
-    <a class="bb__call" href="mailto:matthew@mccluster.org?subject=Book%20a%20call%20%E2%80%94%20McCluster">Book a call</a>
-  </div>
+    <!-- hero -->
+    <header class="hero">
+      <span class="dia dia--1" aria-hidden="true"></span><span class="dia dia--2" aria-hidden="true"></span>
+      <span class="dia dia--3" aria-hidden="true"></span><span class="dia dia--4" aria-hidden="true"></span>
+      <p class="hero__k">The full portfolio · on the record</p>
+      <h1>Every job I've<br><em>shot, cut &amp; run.</em></h1>
+      <p>Three lanes, one standard. Watch the work move, then lock in a date — the deposit applies to your project.</p>
+    </header>
+
+    <!-- the three lanes -->
+    <section class="sheet">
+      <div class="sheet__head">
+        <span class="sheet__tag">What I do</span>
+        <h2>Pick a lane, <em>watch it move.</em></h2>
+        <p id="pfLede"></p>
+      </div>
+      <div class="lanesrow" id="pfChips">
+        <button class="lcard" type="button" data-lane="Videography">
+          <span class="dia" style="background:var(--tb-red)"></span>
+          <b>Videography</b>
+          <small>Brand films, commercials, music videos, event coverage — delivered ready to post.</small>
+          <span class="go">See the work &#8594;</span>
+        </button>
+        <button class="lcard" type="button" data-lane="Photography">
+          <span class="dia" style="background:var(--tb-yel)"></span>
+          <b>Photography</b>
+          <small>Events, portraits, the Shot Wall — I shoot the night, you find yourself in it.</small>
+          <span class="go">See the work &#8594;</span>
+        </button>
+        <button class="lcard" type="button" data-lane="Media management">
+          <span class="dia" style="background:var(--tb-pur)"></span>
+          <b>Media management</b>
+          <small>Your socials, your rollout, your strategy — run like a label. Consulting included.</small>
+          <span class="go">See the work &#8594;</span>
+        </button>
+      </div>
+      <div class="allrow"><button type="button" class="on" data-lane="All">Show everything</button></div>
+    </section>
+
+    <!-- the work, on the dark band -->
+    <section class="band">
+      <div class="band__head">
+        <span class="band__tag">Selected work</span>
+        <h2>The record <em>speaks.</em></h2>
+      </div>
+      <div class="grid" id="pfGrid"></div>
+      <div class="nums" id="pfNums"></div>
+      <span class="band__wm" aria-hidden="true">McCLUSTER</span>
+    </section>
+
+    <!-- the closer -->
+    <section class="cta">
+      <span class="cta__tag">Ready when you are</span>
+      <h2>Let's <em>lock in.</em></h2>
+      <p>Tell me what you need — it lands on my desk the second you send it, and I reply fast.</p>
+      <div class="cta__row">
+        <button id="pfLock" type="button" data-lead-sheet="">Lock in a date &#8594;</button>
+        <a class="cta__call" href="mailto:matthew@mccluster.org?subject=Book%20a%20call%20%E2%80%94%20McCluster">Book a call</a>
+      </div>
+    </section>
+
+    <div class="tb__foot">
+      <span>A McCluster Production · Bridgeport</span>
+      <a href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">@McClusterishere</a>
+    </div>
+  </main>
 
   <!-- THE BAR -->
   <nav class="appbar" aria-label="Sections">
@@ -111,11 +235,11 @@
   <script>
   (function () {
     "use strict";
-    var grid = document.getElementById("pfGrid"), chips = document.getElementById("pfChips");
+    var grid = document.getElementById("pfGrid");
     var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
     /* THE THREE LANES — each category sells itself and books itself */
     var LANES = {
-      "All": { lede: "", want: "", lock: "Lock in a date →" },
+      "All": { lede: "Every job I've shot, cut, and run — pick a lane or scroll it all.", want: "", lock: "Lock in a date →" },
       "Videography": { lede: "Brand films, commercials, music videos, event coverage — shot, cut, and delivered ready to post.",
         want: "Video / brand film", lock: "Book a shoot →" },
       "Photography": { lede: "Events, portraits, the Shot Wall — I shoot the night, you find yourself in it.",
@@ -124,7 +248,9 @@
         want: "Media management / consulting", lock: "Book a strategy call →" },
     };
     function setLane(cat) {
-      chips.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-cat") === cat); });
+      document.querySelectorAll("[data-lane]").forEach(function (x) {
+        x.classList.toggle("on", x.getAttribute("data-lane") === cat);
+      });
       grid.querySelectorAll(".work").forEach(function (w) {
         w.style.display = (cat === "All" || w.getAttribute("data-cat") === cat) ? "" : "none";
       });
@@ -135,20 +261,26 @@
       lock.innerHTML = L.lock;
     }
     fetch("data/portfolio.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
-      chips.innerHTML += (j.cats || []).map(function (c) {
-        return '<button type="button" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
-      }).join("");
-      grid.innerHTML = (j.items || []).map(function (w) {
+      var items = j.items || [];
+      grid.innerHTML = items.map(function (w) {
         var tag = w.href ? "a" : "div";
         return "<" + tag + ' class="work" data-cat="' + esc(w.cat) + '"' + (w.href ? ' href="' + w.href + '"' : "") + ">" +
+          '<span class="work__media">' +
           (w.video
             ? '<video muted loop playsinline preload="none" data-src="' + w.video + '"' +
               (w.poster ? ' poster="' + w.poster + '"' : "") + "></video>"
-            : '<img class="work__im" src="' + w.img + '" alt="" loading="lazy">') +
-          '<span class="work__scrim"></span>' +
-          '<span class="work__cat">' + esc(w.cat) + "</span>" +
-          '<span class="work__meta"><b>' + esc(w.title) + "</b><small>" + esc(w.sub || "") + "</small></span>" +
+            : '<img src="' + w.img + '" alt="" loading="lazy">') +
+          "</span>" +
+          '<span class="work__row"><span><b>' + esc(w.title) + "</b><small>" + esc(w.sub || "") + "</small></span>" +
+          '<span class="work__go">&#8594;</span></span>' +
           "</" + tag + ">";
+      }).join("");
+      /* numbered rows — the lanes, counted */
+      var order = ["Videography", "Photography", "Media management"];
+      document.getElementById("pfNums").innerHTML = order.map(function (c, i) {
+        var n = items.filter(function (w) { return w.cat === c; }).length;
+        return '<button type="button" data-lane="' + esc(c) + '"><span class="n">0' + (i + 1) + "</span><b>" + esc(c) + "</b>" +
+          '<span class="ct">' + n + " pieces</span></button>";
       }).join("");
       /* films play only while on screen — the page stays light */
       if ("IntersectionObserver" in window) {
@@ -164,16 +296,16 @@
         }, { threshold: 0.35 });
         grid.querySelectorAll(".work").forEach(function (c) { io.observe(c); });
       }
-      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_view", { items: (j.items || []).length });
+      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_view", { items: items.length });
       /* a lane link (tap card, shots hub) opens with its lane already on */
       var deep = new URLSearchParams(location.search).get("cat");
-      if (deep && LANES[deep]) setLane(deep);
+      setLane(deep && LANES[deep] ? deep : "All");
     });
-    chips.addEventListener("click", function (e) {
-      var b = e.target.closest && e.target.closest("[data-cat]");
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-lane]");
       if (!b) return;
-      setLane(b.getAttribute("data-cat"));
-      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_filter", { cat: b.getAttribute("data-cat") });
+      setLane(b.getAttribute("data-lane"));
+      if (window.MCC_TRACK) window.MCC_TRACK("portfolio_filter", { cat: b.getAttribute("data-lane") });
     });
   })();
   </script>
