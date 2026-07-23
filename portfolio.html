@@ -134,14 +134,14 @@
     .opr__fig { position: relative; align-self: end; min-height: 100%; }
     .opr__fig::before { content: ""; position: absolute; left: 50%; bottom: -34%; transform: translateX(-50%);
       width: 130%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(100,114,232,0.28), transparent 65%); }
-    .opr__fig img { position: relative; display: block; width: 100%; max-width: 14rem; margin: 0 auto; }
+    .opr__fig img { position: relative; display: block; width: 100%; max-width: 16rem; margin: 0 auto; }
     .opr .dia { position: absolute; width: 0.75rem; height: 0.75rem; border-radius: 3px; transform: rotate(45deg); }
     .opr .dia--a { background: var(--tb-yel); right: 8%; top: 18%; }
     .opr .dia--b { background: var(--tb-red); right: 40%; top: 38%; }
     @media (max-width: 43rem) {
       .opr { grid-template-columns: 1fr; min-height: 0; }
       .opr__tx { padding-bottom: 0.6rem; }
-      .opr__fig img { max-width: 12rem; }
+      .opr__fig img { max-width: 13.5rem; }
     }
     /* ---- the CTA panel ---- */
     .cta { background: linear-gradient(180deg, #dfe3fb, #d3d9fa); border-radius: 30px; margin-top: 1.2rem;
@@ -227,13 +227,9 @@
         <p>Shooter, editor, strategist — the person you talk to is the person on the job. Bridgeport raised, everywhere booked.</p>
         <a class="opr__ig" href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">Follow @McClusterishere</a>
       </div>
-      <!-- the figure returns the day a real photo of the man arrives:
-           <div class="opr__fig">
-             <span class="dia dia--a" aria-hidden="true"></span><span class="dia dia--b" aria-hidden="true"></span>
-             <img src="assets/img/mcc-cutout.png" alt="Matthew McCluster">
-           </div> -->
-      <div class="opr__fig" aria-hidden="true">
-        <span class="dia dia--a"></span><span class="dia dia--b"></span>
+      <div class="opr__fig">
+        <span class="dia dia--a" aria-hidden="true"></span><span class="dia dia--b" aria-hidden="true"></span>
+        <img src="assets/img/mcc-cutout.png" alt="Matthew McCluster">
       </div>
     </section>
 

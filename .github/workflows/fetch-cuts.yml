@@ -55,7 +55,7 @@ jobs:
           for f in assets/img/*.cut; do
             [ -f "$f" ] || continue
             n="${f%.cut}"
-            ffmpeg -hide_banner -loglevel error -y -i "$f" -vf "scale='min(900,iw)':-2" "${n}.png" \
+            ffmpeg -hide_banner -loglevel error -y -i "$f" -vf "scale='min(1600,iw)':-2" "${n}.png" \
               && rm -f "$f" && echo "cutout $(basename "$n").png"
           done
           # posters: first frame of each manifest video
