@@ -4057,6 +4057,9 @@ html.is-installed .getapp, html.is-installed .getapp-pill { display: none !impor
 
 /* ---- the M tab: the mark itself is the way home ---- */
 .appbar__m { width: 1.75rem; height: 1.75rem; object-fit: contain; display: block; }
+/* daytime only: the dock's center emblem swaps its white M for black so
+   it reads on the light bar — red slashes stay red. This location only. */
+html[data-theme="light"] .appbar__m { content: url("../assets/img/m-mark-dark.png"); }
 
 /* ---- WE · Whip Equipped: the rides wing. The mark is its own black
        app tile, so it rides bare with an ember ring on the dark bar. ---- */
