@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>The Gallery — Matthew McCluster · photography &amp; film</title>
+  <meta name="description" content="The McCluster gallery: every shoot on the wall — find the night, own the work. Prints, files, and films.">
+  <link rel="canonical" href="https://mcclusterishere.github.io/Here/gallery.html">
+  <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0908">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=__STAMP__">
+  <script src="js/theme.js?v=__STAMP__"></script>
+  <style>
+    /* ============ THE GALLERY — portfogallery structure, house blood ============ */
+    @font-face { font-family: "Manrope"; font-weight: 400; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 600; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Manrope"; font-weight: 800; font-style: normal; font-display: swap;
+      src: url("assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); }
+    :root {
+      --gx-ui: "Manrope", "Helvetica Neue", system-ui, sans-serif;
+      --gx-bg: #0b0908; --gx-ink: #f2e9db; --gx-mut: #9d8e82;
+      --gx-line: rgba(242,233,219,0.14); --gx-panel: #151009;
+      --gx-red: #de3a3a; --gx-gold: #c99d45;
+    }
+    html[data-theme="light"] {
+      --gx-bg: #f5f1ea; --gx-ink: #171210; --gx-mut: #80736a;
+      --gx-line: rgba(23,18,16,0.16); --gx-panel: #ffffff;
+    }
+    html { background: var(--gx-bg); }
+    body.gxwall { background: var(--gx-bg); color: var(--gx-ink); font-family: var(--gx-ui); }
+    body.gxwall .grain { display: none; }
+    .gx { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.1rem, 4vw, 2.4rem) 9rem; }
+    .rv { opacity: 0; transform: translateY(1.4rem); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    .rv.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
+    /* ---- nav ---- */
+    .gx__nav { display: flex; align-items: center; gap: 1.2rem; padding: 1.2rem 0; }
+    .gx__links { display: flex; gap: 1rem; font-weight: 600; font-size: 0.76rem; }
+    .gx__links a { color: var(--gx-mut); text-decoration: none; }
+    .gx__links a.on, .gx__links a:hover { color: var(--gx-ink); }
+    .gx__mark { margin-left: auto; margin-right: auto; font-weight: 800; letter-spacing: 0.22em; font-size: 0.82rem;
+      color: var(--gx-ink); text-decoration: none; }
+    .gx__tools { display: flex; gap: 0.5rem; align-items: center; }
+    .gx__moon { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 2.3rem; height: 2.3rem; border-radius: 100px; color: var(--gx-ink); font-size: 0.95rem;
+      background: transparent; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gx__book { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      font-family: var(--gx-ui); font-weight: 800; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gx-bg); background: var(--gx-ink); border-radius: 100px; padding: 0.6rem 1.2rem; }
+    @media (max-width: 46rem) { .gx__links { display: none; } .gx__mark { margin-left: 0; } }
+    /* ---- hero ---- */
+    .gxhero { display: grid; grid-template-columns: 1fr auto; gap: 1.4rem; align-items: end;
+      padding: clamp(2rem, 6vh, 4rem) 0 1.6rem; }
+    .gxhero h1 { font-weight: 800; letter-spacing: -0.035em; line-height: 0.98;
+      font-size: clamp(3rem, 12.5vw, 7rem); margin: 0; }
+    .gxhero h1 .dim { color: var(--gx-mut); }
+    .gxhero__aside { max-width: 17rem; font-weight: 600; font-size: 0.82rem; color: var(--gx-mut);
+      line-height: 1.55; padding-bottom: 0.6rem; }
+    @media (max-width: 46rem) { .gxhero { grid-template-columns: 1fr; align-items: start; } }
+    .gxhero__row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; padding-bottom: 2rem; }
+    .gxhero__row .chip { font-weight: 700; font-size: 0.72rem; color: var(--gx-mut);
+      border-radius: 100px; padding: 0.5rem 1rem; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxhero__row .cta { margin-left: auto; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; font-family: var(--gx-ui); font-weight: 800; font-size: 0.76rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: var(--gx-red);
+      border-radius: 100px; padding: 0.75rem 1.5rem; box-shadow: 0 14px 30px -12px rgba(222,58,58,0.5); }
+    /* ---- the strip: full-bleed staged panels ---- */
+    .gxstrip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      margin: 0 calc(50% - 50vw) 3rem; }
+    .gxstrip .cell { position: relative; aspect-ratio: 4 / 3; background: var(--gx-panel); overflow: hidden; }
+    .gxstrip .cell b { position: absolute; left: 1rem; bottom: 0.9rem; font-weight: 800; font-size: 0.78rem; }
+    .gxstrip .cell small { position: absolute; left: 1rem; bottom: 2.4rem; font-weight: 700; font-size: 0.6rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gx-gold); }
+    .gxstrip .cell::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.05) 45%, transparent 60%);
+      animation: gxShimmer 2.8s ease-in-out infinite; }
+    @keyframes gxShimmer { 0% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
+    @media (prefers-reduced-motion: reduce) { .gxstrip .cell::after { animation: none; } }
+    @media (max-width: 46rem) { .gxstrip { grid-template-columns: 1fr; } .gxstrip .cell { aspect-ratio: 16 / 8; } }
+    /* ---- section labels ---- */
+    .gxlab { font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; color: var(--gx-gold); margin: 0 0 1rem; }
+    .gxstate { font-weight: 800; letter-spacing: -0.025em; line-height: 1.08;
+      font-size: clamp(1.8rem, 6.5vw, 3.2rem); margin: 0 0 1.6rem; max-width: 22ch; }
+    /* ---- about ---- */
+    .gxabout { display: grid; grid-template-columns: minmax(10rem, 16rem) 1fr; gap: 2rem; align-items: center;
+      margin-bottom: 3.6rem; }
+    .gxabout figure { margin: 0; position: relative; background: var(--gx-panel); border-radius: 14px; padding: 1.2rem 1.2rem 0; }
+    .gxabout img { display: block; width: 100%; max-width: 13rem; margin: 0 auto; }
+    .gxabout blockquote { margin: 0; font-weight: 600; font-size: 0.92rem; line-height: 1.65; color: var(--gx-mut); max-width: 40ch; }
+    .gxabout .socials { display: flex; gap: 0.5rem; margin-top: 1.1rem; }
+    .gxabout .socials a { font-weight: 800; font-size: 0.72rem; color: var(--gx-ink); text-decoration: none;
+      border-radius: 100px; padding: 0.5rem 1rem; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    @media (max-width: 46rem) { .gxabout { grid-template-columns: 1fr; } }
+    /* ---- the walls (event rail) ---- */
+    .gxwalls h2 { font-weight: 800; letter-spacing: -0.03em; font-size: clamp(2rem, 7.5vw, 3.6rem); margin: 0 0 1.4rem; }
+    .gxev { display: block; width: 100%; text-align: left; -webkit-appearance: none; appearance: none; border: 0;
+      cursor: pointer; touch-action: manipulation; background: transparent; color: var(--gx-ink);
+      font-family: var(--gx-ui); padding: 0; margin-bottom: 1.6rem; }
+    .gxev__media { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 8;
+      background: var(--gx-panel); isolation: isolate; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxev__media img, .gxev__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .gxev__media .chips { position: absolute; top: 0.85rem; left: 0.85rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .gxev__media .chips span { font-weight: 700; font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gx-ink); background: color-mix(in srgb, var(--gx-bg) 72%, transparent);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: 100px; padding: 0.35rem 0.75rem; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxev__media .soon { position: absolute; inset: 0; display: grid; place-items: center; }
+    .gxev__media .soon i { font-style: normal; font-weight: 800; font-size: 0.64rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gx-mut); }
+    .gxev__media .soon i::before { content: "●"; color: var(--gx-red); margin-right: 0.6rem;
+      animation: gxPulse 1.8s ease-in-out infinite; }
+    @keyframes gxPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    .gxev__media .yr { position: absolute; top: 0.95rem; right: 1rem; font-weight: 700; font-size: 0.68rem;
+      letter-spacing: 0.1em; color: var(--gx-mut); }
+    .gxev__row { display: flex; align-items: center; gap: 0.9rem; margin-top: 0.7rem; }
+    .gxev__row b { font-weight: 800; font-size: clamp(1rem, 3.4vw, 1.3rem); letter-spacing: -0.01em; }
+    .gxev__row small { display: block; font-weight: 600; font-size: 0.72rem; color: var(--gx-mut); margin-top: 0.15rem; }
+    .gxev__row .arr { margin-left: auto; flex: none; width: 2.4rem; height: 2.4rem; border-radius: 100px;
+      display: grid; place-items: center; color: var(--gx-ink); box-shadow: inset 0 0 0 1px var(--gx-line);
+      font-weight: 800; transition: background 0.3s ease, color 0.3s ease; }
+    @media (hover: hover) { .gxev:hover .arr { background: var(--gx-red); color: #fff; box-shadow: none; } }
+    /* ---- services ---- */
+    .gxsv { margin: 3.4rem 0 0; }
+    .gxsv__blk { display: grid; grid-template-columns: 5rem 1fr; gap: 1.2rem; padding: 1.6rem 0;
+      border-top: 1px solid var(--gx-line); }
+    .gxsv__blk:last-child { border-bottom: 1px solid var(--gx-line); }
+    .gxsv__blk .no { font-weight: 800; font-size: 1.4rem; color: var(--gx-mut); }
+    .gxsv__blk h3 { font-weight: 800; font-size: 1.35rem; margin: 0 0 0.5rem; }
+    .gxsv__blk p { font-weight: 600; font-size: 0.86rem; color: var(--gx-mut); line-height: 1.6; margin: 0 0 0.9rem; max-width: 52ch; }
+    .gxsv__blk ol { margin: 0; padding: 0; list-style: none; font-weight: 700; font-size: 0.84rem; }
+    .gxsv__blk ol li { padding: 0.45rem 0; color: var(--gx-ink); }
+    .gxsv__blk ol li.hi { background: var(--gx-red); color: #fff; border-radius: 8px; padding: 0.55rem 0.8rem;
+      font-weight: 800; letter-spacing: 0.04em; }
+    @media (max-width: 46rem) { .gxsv__blk { grid-template-columns: 1fr; gap: 0.4rem; } }
+    /* ---- let's talk ---- */
+    .gxtalk { text-align: left; margin-top: 4rem; border-top: 1px solid var(--gx-line); padding-top: 2.4rem; }
+    .gxtalk h2 { font-weight: 800; letter-spacing: -0.04em; line-height: 0.95;
+      font-size: clamp(3.4rem, 16vw, 9rem); margin: 0 0 1rem; text-transform: uppercase; }
+    .gxtalk p { font-weight: 600; font-size: 0.86rem; color: var(--gx-mut); margin: 0 0 0.7rem; }
+    .gxtalk .mail { display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--gx-ink);
+      font-weight: 800; letter-spacing: -0.02em; font-size: clamp(1.3rem, 5.5vw, 2.6rem); }
+    .gxtalk .mail .arr { flex: none; width: 2.6rem; height: 2.6rem; border-radius: 100px; display: grid;
+      place-items: center; background: var(--gx-red); color: #fff; font-weight: 800; }
+    .gxfoot { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      margin-top: 2.4rem; border-top: 1px solid var(--gx-line); padding-top: 1.1rem;
+      font-weight: 600; font-size: 0.74rem; color: var(--gx-mut); }
+    .gxfoot .pills { display: flex; gap: 0.5rem; }
+    .gxfoot .pills a { font-weight: 800; font-size: 0.7rem; color: var(--gx-ink); text-decoration: none;
+      border-radius: 100px; padding: 0.45rem 0.95rem; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    /* ---- the wall (event detail) ---- */
+    .gxcase { position: fixed; inset: 0; z-index: 240; display: none; overflow-y: auto; background: var(--gx-bg); }
+    .gxcase.on { display: block; }
+    .gxcase__in { max-width: 66rem; margin: 0 auto; padding: 1rem clamp(1.1rem, 4vw, 2rem) 7rem; }
+    .gxcase__bar { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0 1.2rem; }
+    .gxcase__bar .lab { font-weight: 700; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gx-gold); }
+    .gxcase__x { margin-left: auto; -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
+      touch-action: manipulation; width: 2.4rem; height: 2.4rem; border-radius: 100px; font-size: 1rem;
+      color: var(--gx-ink); background: transparent; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxcase h2 { font-weight: 800; letter-spacing: -0.03em; font-size: clamp(1.9rem, 7vw, 3.4rem); margin: 0 0 0.4rem; }
+    .gxcase__meta { font-weight: 600; font-size: 0.82rem; color: var(--gx-mut); margin-bottom: 1.6rem; }
+    .gxcase__meta b { color: var(--gx-ink); font-weight: 800; }
+    .gxgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 0.6rem; }
+    .gxgrid .ghost { position: relative; aspect-ratio: 4 / 5; border-radius: 12px; background: var(--gx-panel);
+      overflow: hidden; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxgrid .ghost::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.05) 45%, transparent 60%);
+      animation: gxShimmer 2.8s ease-in-out infinite; }
+    .gxgrid .it { position: relative; aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden;
+      isolation: isolate; cursor: pointer; box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxgrid .it img, .gxgrid .it video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .gxgrid .it .own { position: absolute; left: 0.6rem; bottom: 0.6rem; font-weight: 800; font-size: 0.62rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: #16110b; background: var(--metal, #e2c279);
+      border-radius: 100px; padding: 0.35rem 0.75rem; }
+    .gxwait { margin-top: 1.6rem; max-width: 30rem; }
+    .gxwait b { display: block; font-weight: 800; font-size: 1rem; }
+    .gxwait small { display: block; font-weight: 600; font-size: 0.8rem; color: var(--gx-mut); margin-top: 0.3rem; }
+    .gxwait input { width: 100%; -webkit-appearance: none; appearance: none; border: 0; margin-top: 0.7rem;
+      font-family: var(--gx-ui); font-weight: 600; font-size: 1rem; color: var(--gx-ink); border-radius: 12px;
+      padding: 0.8rem 0.95rem; background: var(--gx-panel); box-shadow: inset 0 0 0 1px var(--gx-line); }
+    .gxwait input::placeholder { color: var(--gx-mut); }
+    .gxwait .go { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      margin-top: 0.7rem; font-family: var(--gx-ui); font-weight: 800; font-size: 0.86rem; color: #fff;
+      background: var(--gx-red); border-radius: 100px; padding: 0.8rem 1.6rem; }
+    .gxwait .err { color: var(--gx-red); font-weight: 700; font-size: 0.76rem; margin: 0.5rem 0 0; }
+  </style>
+</head>
+<body class="gxwall">
+  <div class="grain" aria-hidden="true"></div>
+  <main class="gx">
+    <!-- nav -->
+    <nav class="gx__nav">
+      <span class="gx__links">
+        <a href="index.html">Home</a>
+        <a class="on" href="gallery.html">Gallery</a>
+        <a href="matthew-mccluster.html">About</a>
+        <a href="hire.html">Contact</a>
+      </span>
+      <a class="gx__mark" href="index.html">McCLUSTER</a>
+      <span class="gx__tools">
+        <button class="gx__moon" id="gxTheme" type="button" aria-label="Flip the lights">&#9789;</button>
+        <button class="gx__book" type="button" data-lead-sheet="">Book me &#8594;</button>
+      </span>
+    </nav>
+
+    <!-- hero -->
+    <header class="gxhero">
+      <h1>I&rsquo;m <span class="dim">McCluster</span><br>a photographer<br>&amp; filmmaker.</h1>
+      <p class="gxhero__aside">I shoot the room, the record, and the rollout — because when we build with a creative mind, it lands with meaningful impact.</p>
+    </header>
+    <div class="gxhero__row">
+      <span class="chip">Photography</span>
+      <span class="chip">Videography</span>
+      <span class="chip">Media management</span>
+      <button class="cta" type="button" data-lead-sheet="">Let&rsquo;s create together &#8594;</button>
+    </div>
+
+    <!-- the strip: three staged panels, edge to edge -->
+    <div class="gxstrip" id="gxStrip" aria-hidden="true"></div>
+
+    <!-- about -->
+    <section class="gxabout rv">
+      <div>
+        <p class="gxlab">/ About me</p>
+        <h2 class="gxstate">Find the night. Own the frame.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(9rem,13rem) 1fr;gap:1.6rem;align-items:center;">
+        <figure><img src="assets/img/mcc-cutout.png" alt="Matthew McCluster"></figure>
+        <div>
+          <blockquote>&ldquo;I&rsquo;m a shooter, but I&rsquo;m more than that. Every event I cover goes on the wall — you find yourself, you own the frame, and the whole night stays on the record.&rdquo;</blockquote>
+          <div class="socials">
+            <a href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">Instagram</a>
+            <a href="album.html">The music</a>
+            <a href="prints.html">Prints</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- the walls -->
+    <section class="gxwalls" id="gxWalls">
+      <p class="gxlab">/ The walls</p>
+      <h2>Great work, on the wall</h2>
+      <div id="gxRail"></div>
+    </section>
+
+    <!-- services -->
+    <section class="gxsv rv">
+      <p class="gxlab">/ My services</p>
+      <h2 class="gxstate">My work is to put your moment on the record.</h2>
+      <div class="gxsv__blk">
+        <span class="no">/01</span>
+        <div><h3>Photography</h3>
+          <p>Events, portraits, ceremonies, festivals — shot on the ground and delivered same week, with every guest able to find their frame on the wall.</p>
+          <ol><li class="hi">1. Event coverage</li><li>2. Portraits &amp; press</li><li>3. Prints, files &amp; licenses</li></ol>
+        </div>
+      </div>
+      <div class="gxsv__blk">
+        <span class="no">/02</span>
+        <div><h3>Videography</h3>
+          <p>Recap films, long-form coverage, and short-form cuts built for the feed — one shoot, every format your rollout needs.</p>
+          <ol><li>1. Recap films</li><li class="hi">2. Long-form coverage</li><li>3. Short-form cuts</li></ol>
+        </div>
+      </div>
+      <div class="gxsv__blk">
+        <span class="no">/03</span>
+        <div><h3>Media management</h3>
+          <p>Your socials, your rollout, your strategy — run like a label, from one desk. Consulting included.</p>
+          <ol><li>1. Rollout strategy</li><li>2. Social operations</li><li class="hi">3. Consulting</li></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- let's talk -->
+    <section class="gxtalk rv">
+      <h2>Let&rsquo;s talk</h2>
+      <p>Have a moment worth keeping? Let&rsquo;s talk with me.</p>
+      <a class="mail" href="mailto:matthew@mccluster.org?subject=Booking%20%E2%80%94%20McCluster">matthew@mccluster.org<span class="arr">&#8594;</span></a>
+      <div class="gxfoot">
+        <span>&copy; 2026 A McCluster Production</span>
+        <span class="pills">
+          <a href="https://instagram.com/McClusterishere" target="_blank" rel="noopener">Instagram</a>
+          <a href="shots.html">Shot Wall</a>
+          <a href="prints.html">Print Shop</a>
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <!-- THE WALL (event detail) -->
+  <div class="gxcase" id="gxCase" role="dialog" aria-label="The wall">
+    <div class="gxcase__in" id="gxCaseIn"></div>
+  </div>
+
+  <!-- THE BAR -->
+  <nav class="appbar" aria-label="Sections">
+    <a class="appbar__tab" href="album.html" data-appnav="music">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="np-bar" d="M5 10v4"/><path class="np-bar" d="M9.5 7v10"/><path class="np-bar" d="M14 9v6"/><path class="np-bar" d="M18.5 11v2"/></svg>
+      <span>Music</span>
+    </a>
+    <a class="appbar__tab" href="index.html" data-appnav="home">
+      <img class="appbar__m" src="assets/img/m-mark.png" alt="">
+      <span>HERE</span>
+    </a>
+    <a class="appbar__tab" href="account.html" data-appnav="profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/analytics.js?v=__STAMP__"></script>
+  <script src="js/crm.js?v=__STAMP__"></script>
+  <script src="js/tabbar.js?v=__STAMP__"></script>
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (x) { var d = document.createElement("i"); d.textContent = x == null ? "" : x; return d.innerHTML; };
+    var track = function (n, p) { if (window.MCC_TRACK) window.MCC_TRACK(n, p || {}); };
+    var EVENTS = [], OPEN = null;
+
+    /* theme */
+    var moon = $("gxTheme");
+    function moonface() { moon.innerHTML = (window.MCC_THEME && MCC_THEME.get() === "dark") ? "&#9788;" : "&#9789;"; }
+    moon.addEventListener("click", function () { if (window.MCC_THEME) { MCC_THEME.flip(); moonface(); } });
+    moonface();
+
+    function whereLine(ev) {
+      return [ev.venue, ev.city, ev.date].filter(Boolean).join(" · ");
+    }
+    function yearOf(ev) {
+      var m = (ev.date || "").match(/\d{4}/);
+      return m ? m[0] : "";
+    }
+
+    /* ---- the strip: first three walls as staged panels ---- */
+    function paintStrip() {
+      $("gxStrip").innerHTML = EVENTS.slice(0, 3).map(function (ev) {
+        var cover = ev.media && ev.media.length && (ev.media[0].poster || ev.media[0].src);
+        return '<div class="cell">' + (cover ? '<img src="' + esc(cover) + '" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">' : "") +
+          "<small>" + esc(ev.date || "On the wall soon") + "</small><b>" + esc(ev.title) + "</b></div>";
+      }).join("");
+    }
+
+    /* ---- the rail ---- */
+    function paintRail() {
+      $("gxRail").innerHTML = EVENTS.map(function (ev) {
+        var cover = ev.media && ev.media.length && (ev.media[0].poster || ev.media[0].src);
+        return '<button class="gxev rv in" type="button" data-id="' + esc(ev.id) + '">' +
+          '<span class="gxev__media">' +
+          (cover ? '<img src="' + esc(cover) + '" alt="" loading="lazy">' : '<span class="soon"><i>The wall is loading</i></span>') +
+          '<span class="chips">' + (ev.tags || []).map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("") + "</span>" +
+          (yearOf(ev) ? '<span class="yr">' + (ev.kind === "video" ? "Film" : "Photo") + "/" + yearOf(ev).slice(2) + "</span>" : "") +
+          "</span>" +
+          '<span class="gxev__row"><span><b>' + esc(ev.title) + "</b><small>" +
+          esc([ev.client, whereLine(ev)].filter(Boolean).join(" — ")) + "</small></span>" +
+          '<span class="arr">&#8594;</span></span></button>';
+      }).join("");
+    }
+
+    /* ---- the wall: event detail ---- */
+    function caseHTML(ev) {
+      var has = ev.media && ev.media.length;
+      return '<div class="gxcase__bar"><span class="lab">' + (ev.kind === "video" ? "The film wall" : "The photo wall") + "</span>" +
+        '<button class="gxcase__x" type="button" data-x aria-label="Close">&#10005;</button></div>' +
+        "<h2>" + esc(ev.title) + "</h2>" +
+        '<p class="gxcase__meta">' +
+        (ev.client ? "For <b>" + esc(ev.client) + "</b> · " : "") + esc(whereLine(ev)) +
+        (ev.tags && ev.tags.length ? " · " + esc(ev.tags.join(" · ")) : "") + "</p>" +
+        '<div class="gxgrid">' +
+        (has
+          ? ev.media.map(function (m) {
+              return '<div class="it" data-media="' + esc(m.id || "") + '">' +
+                (m.type === "video"
+                  ? '<video muted loop playsinline preload="none" data-src="' + esc(m.src) + '"' + (m.poster ? ' poster="' + esc(m.poster) + '"' : "") + "></video>"
+                  : '<img src="' + esc(m.src) + '" alt="" loading="lazy">') +
+                (m.sell ? '<a class="own" href="prints.html#/' + esc(m.id) + '">Own it</a>' : "") + "</div>";
+            }).join("")
+          : '<div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div>') +
+        "</div>" +
+        (has ? "" :
+          '<div class="gxwait"><b>The wall is loading.</b>' +
+          "<small>These frames are in the edit. Leave your email and you get first look the second they land" +
+          (ev.kind === "photo" ? " — plus first claim on prints." : ".") + "</small>" +
+          '<input name="gxName" placeholder="Your name" autocomplete="name" maxlength="80">' +
+          '<input name="gxMail" type="email" placeholder="Email" autocomplete="email" maxlength="120">' +
+          '<button class="go" type="button" data-wait>Put me first &#8594;</button>' +
+          '<p class="err" data-err hidden></p></div>');
+    }
+    function openCase(id, push) {
+      var ev = EVENTS.find(function (x) { return x.id === id; });
+      if (!ev) return;
+      OPEN = ev;
+      $("gxCaseIn").innerHTML = caseHTML(ev);
+      $("gxCase").classList.add("on");
+      $("gxCase").scrollTop = 0;
+      document.body.style.overflow = "hidden";
+      if (push !== false) { try { history.pushState(null, "", "#/" + id); } catch (e) {} }
+      track("gallery_wall", { event: id });
+    }
+    function closeCase(push) {
+      $("gxCase").classList.remove("on");
+      document.body.style.overflow = "";
+      OPEN = null;
+      if (push !== false) { try { history.pushState(null, "", location.pathname + location.search); } catch (e) {} }
+    }
+    window.addEventListener("popstate", function () {
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id && EVENTS.length) openCase(id, false); else closeCase(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && OPEN) closeCase(); });
+
+    $("gxRail").addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest(".gxev");
+      if (b) openCase(b.getAttribute("data-id"));
+    });
+    $("gxCase").addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-x]")) { closeCase(); return; }
+      if (e.target.closest && e.target.closest("[data-wait]")) {
+        var box = $("gxCaseIn");
+        var f = function (n) { var i = box.querySelector('[name="' + n + '"]'); return i ? i.value.trim() : ""; };
+        var name = f("gxName"), email = f("gxMail");
+        var err = box.querySelector("[data-err]");
+        if (!name || !/.+@.+\..+/.test(email)) { err.textContent = "Name and a real email — first look has to land somewhere."; err.hidden = false; return; }
+        var btn = box.querySelector("[data-wait]");
+        btn.disabled = true; btn.textContent = "Locking it…";
+        window.MCC_CRM.send({
+          name: name, email: email, want: "Photography",
+          note: "GALLERY WAITLIST · " + OPEN.title + (OPEN.client ? " (" + OPEN.client + ")" : ""),
+          campaign: "gallery-waitlist",
+        }).then(function () {
+          track("gallery_waitlist", { event: OPEN.id });
+          box.querySelector(".gxwait").innerHTML = "<b>You&rsquo;re first.</b><small>The second this wall goes live, it lands in your inbox.</small>";
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = "Put me first →";
+          err.textContent = "That didn’t go through — try again in a second.";
+          err.hidden = false;
+        });
+      }
+    });
+
+    /* reveal */
+    function reveal() {
+      if (!("IntersectionObserver" in window)) {
+        document.querySelectorAll(".rv").forEach(function (el) { el.classList.add("in"); });
+        return;
+      }
+      var rv = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); rv.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll(".rv:not(.in)").forEach(function (el) { rv.observe(el); });
+    }
+
+    fetch("data/gallery.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (j) {
+      EVENTS = j.events || [];
+      paintStrip();
+      paintRail();
+      reveal();
+      track("gallery_view", { walls: EVENTS.length });
+      var id = (location.hash || "").replace(/^#\//, "");
+      if (id) openCase(id, false);
+    });
+  })();
+  </script>
+</body>
+</html>
