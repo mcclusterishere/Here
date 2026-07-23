@@ -3783,17 +3783,19 @@ html.vr-locked .float-pause:hover { background: var(--vaunt); }
 .sitenote { padding: clamp(3.2rem, 10vh, 5.5rem) 1.4rem; }
 .sitenote__inner {
   max-width: 40rem; margin: 0 auto; text-align: center;
-  border-top: 1px solid rgba(201, 157, 69, 0.3);
-  border-bottom: 1px solid rgba(201, 157, 69, 0.3);
+  border-top: 1px solid rgba(229,56,59, 0.3);
+  border-bottom: 1px solid rgba(229,56,59, 0.3);
   padding: 1.7rem 0.6rem;
 }
 .sitenote__mark {
   font-size: 0.72rem; letter-spacing: 0.34em; text-transform: uppercase;
-  color: rgba(201, 157, 69, 0.95);
+  color: rgba(229,56,59, 0.95);
 }
 .sitenote__line { margin-top: 0.6rem; color: var(--cream-dim); line-height: 1.75; font-size: 0.95rem; }
-.sitenote__line a { color: var(--cream); text-decoration-color: rgba(201, 157, 69, 0.6); text-underline-offset: 3px; }
+.sitenote__line a { color: var(--cream); text-decoration-color: rgba(229,56,59, 0.6); text-underline-offset: 3px; }
 .sitenote__line a:hover { color: #fff; }
+.sitenote__doors { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; margin-top: 1.4rem; }
+.btn--sm { font-size: 0.74rem; letter-spacing: 0.18em; padding: 0.9em 1.7em; }
 
 /* ============ app-style bottom tab bar ============ */
 /* visitors said the old bar was damn near invisible — it's bigger now,
