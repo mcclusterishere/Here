@@ -7,6 +7,9 @@
   <meta name="description" content="Every job Matthew McCluster has shot, cut, and run — videography, photography, and media management. Watch the work, then lock in a date.">
   <link rel="canonical" href="https://mcclusterishere.github.io/Here/portfolio.html">
   <link rel="icon" type="image/png" href="assets/img/m-mark.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0908">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/poppins-normal-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/playfairdisplay-italic-700.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css?v=__STAMP__">
@@ -29,11 +32,18 @@
     }
     :root {
       --tb-bg: #f6f2ec; --tb-ink: #191210; --tb-mut: #7d726b;
+      --tb-sheet: #ffffff; --tb-card: #f4eee5; --tb-chipon: #ece4d7;
+      --tb-cta1: #f4e3da; --tb-cta2: #efd5c9;
       --tb-prim: #de3a3a; --tb-gold: #e2c279; --tb-soft: #eec9b8; --tb-dark: #17100d; --tb-dark2: #221914;
       --tb-red: #de3a3a; --tb-yel: #e2c279; --tb-pur: #8f2020; --tb-grn: #b8914a;
     }
-    /* the page holds its own weather in both site themes */
-    html, html[data-theme="light"], html[data-theme="dark"] { background: var(--tb-bg); }
+    /* THE DARK ROOM — same structure, lights off */
+    html[data-theme="dark"] {
+      --tb-bg: #131008; --tb-ink: #f2e9db; --tb-mut: #a5968a;
+      --tb-sheet: #1e1710; --tb-card: #2a2115; --tb-chipon: #372c1d;
+      --tb-cta1: #2d1a12; --tb-cta2: #21120d;
+    }
+    html { background: var(--tb-bg); }
     body.tenbase { background: var(--tb-bg); color: var(--tb-ink); font-family: var(--tb-ui); }
     body.tenbase .grain { display: none; }
     .tb { max-width: 82.5rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem) 9rem; }
@@ -43,6 +53,10 @@
     .tb__talk { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       font-family: var(--tb-ui); font-weight: 600; font-size: 0.84rem; color: #fff; background: var(--tb-prim);
       border-radius: 100px; padding: 0.62rem 1.35rem; box-shadow: 0 12px 26px -12px rgba(222,58,58,0.55); }
+    .tb__navr { display: flex; align-items: center; gap: 0.5rem; }
+    .tb__moon { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
+      width: 2.4rem; height: 2.4rem; border-radius: 100px; font-size: 1rem; color: var(--tb-ink);
+      background: var(--tb-card); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--tb-ink) 8%, transparent); }
     /* ---- hero ---- */
     .tbhero { position: relative; text-align: center; padding: clamp(3rem, 9vh, 5.5rem) 0 clamp(2.6rem, 7vh, 4.4rem); }
     .hero__k { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tb-prim); }
@@ -60,7 +74,7 @@
     /* short hero on phones: the lower diamonds leave the text alone */
     @media (max-width: 40rem) { .tbhero .dia--3, .tbhero .dia--4 { display: none; } }
     /* ---- the white sheet: three lanes ---- */
-    .sheet { background: #fff; border-radius: 30px; padding: clamp(1.6rem, 5vw, 3.4rem);
+    .sheet { background: var(--tb-sheet); border-radius: 30px; padding: clamp(1.6rem, 5vw, 3.4rem);
       box-shadow: 0 30px 70px -40px rgba(25,18,16,0.35); }
     .sheet__tag, .band__tag, .cta__tag { display: inline-block; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.2em;
       text-transform: uppercase; color: var(--tb-prim); background: rgba(222,58,58,0.09);
@@ -73,7 +87,7 @@
     .lanesrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.9rem; }
     .lcard { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       text-align: left; font-family: var(--tb-ui); border-radius: 24px; padding: 1.5rem 1.4rem 1.4rem;
-      background: #f4eee5; color: var(--tb-ink); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+      background: var(--tb-card); color: var(--tb-ink); transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .lcard:active { transform: scale(0.98); }
     .lcard .dia { display: block; width: 1.05rem; height: 1.05rem; border-radius: 4px; transform: rotate(45deg); margin: 0.2rem 0 1.1rem 0.2rem; }
     .lcard b { display: block; font-weight: 700; font-size: 1.06rem; }
@@ -87,7 +101,7 @@
     .allrow button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer; touch-action: manipulation;
       font-family: var(--tb-ui); font-weight: 600; font-size: 0.8rem; color: var(--tb-mut);
       background: transparent; border-radius: 100px; padding: 0.5rem 1.1rem; }
-    .allrow button.on { color: var(--tb-ink); background: #ece4d7; }
+    .allrow button.on { color: var(--tb-ink); background: var(--tb-chipon); }
     /* ---- the dark band: the work ---- */
     .band { background: var(--tb-dark); border-radius: 30px; margin-top: 1.2rem;
       padding: clamp(1.7rem, 5vw, 3.4rem) clamp(1.2rem, 4vw, 3rem) clamp(2.2rem, 5vw, 3rem);
@@ -106,7 +120,7 @@
     .grp span { display: block; font-weight: 400; font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 0.3rem; max-width: 52ch; }
     .piece { display: block; text-decoration: none; color: #fff; cursor: pointer; }
     .work__media { position: relative; display: block; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3;
-      background: #24264a; isolation: isolate; }
+      background: #2a2115; isolation: isolate; }
     .work__media video, .work__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .work__row { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.85rem; }
     .work__row b { display: block; font-weight: 600; font-size: 0.95rem; line-height: 1.3; }
@@ -131,7 +145,7 @@
       font-size: clamp(3rem, 12vw, 8.5rem); line-height: 1; margin: 2.4rem 0 -1rem;
       color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.14); user-select: none; }
     /* ---- the operator panel: the man, cut out like the template does it ---- */
-    .opr { position: relative; overflow: hidden; background: #fff; border-radius: 30px; margin-top: 1.2rem;
+    .opr { position: relative; overflow: hidden; background: var(--tb-sheet); border-radius: 30px; margin-top: 1.2rem;
       display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: end;
       box-shadow: 0 30px 70px -40px rgba(25,18,16,0.35); }
     .opr__tx { padding: clamp(1.6rem, 5vw, 3.2rem); align-self: center; }
@@ -154,7 +168,7 @@
       .opr__fig img { max-width: 13.5rem; }
     }
     /* ---- the CTA panel ---- */
-    .cta { background: linear-gradient(180deg, #f4e3da, #efd5c9); border-radius: 30px; margin-top: 1.2rem;
+    .cta { background: linear-gradient(180deg, var(--tb-cta1), var(--tb-cta2)); border-radius: 30px; margin-top: 1.2rem;
       text-align: center; padding: clamp(2.4rem, 7vw, 4.4rem) clamp(1.2rem, 4vw, 3rem); }
     .cta h2 { font-size: clamp(2rem, 8vw, 3.6rem); }
     .cta p { font-weight: 400; color: var(--tb-mut); font-size: 0.94rem; max-width: 40ch; margin: 0.7rem auto 1.5rem; }
@@ -162,8 +176,8 @@
     .cta__row a, .cta__row button { -webkit-appearance: none; appearance: none; border: 0; cursor: pointer;
       touch-action: manipulation; text-decoration: none; font-family: var(--tb-ui); font-weight: 600; font-size: 0.92rem;
       border-radius: 100px; padding: 0.95rem 1.9rem; }
-    #pfLock { background: var(--tb-ink); color: #fff; box-shadow: 0 18px 40px -18px rgba(25,18,16,0.8); }
-    .cta__call { color: var(--tb-ink); background: transparent; box-shadow: inset 0 0 0 1.5px rgba(25,18,16,0.35); }
+    #pfLock { background: var(--tb-ink); color: var(--tb-bg); box-shadow: 0 18px 40px -18px rgba(25,18,16,0.8); }
+    .cta__call { color: var(--tb-ink); background: transparent; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--tb-ink) 40%, transparent); }
     /* footer line */
     .tb__foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
       font-weight: 400; font-size: 0.78rem; color: var(--tb-mut); padding: 2rem 0.3rem 0; }
@@ -176,7 +190,10 @@
     <!-- top row -->
     <div class="tb__nav">
       <a class="tb__mark" href="index.html">McCLUSTER</a>
-      <button class="tb__talk" type="button" data-lead-sheet="">Let's talk</button>
+      <span class="tb__navr">
+        <button class="tb__moon" id="tbTheme" type="button" aria-label="Flip the lights">&#9789;</button>
+        <button class="tb__talk" type="button" data-lead-sheet="">Let's talk</button>
+      </span>
     </div>
 
     <!-- hero -->
@@ -365,6 +382,10 @@
       var deep = new URLSearchParams(location.search).get("cat");
       setLane(deep && LANES[deep] ? deep : "All");
     });
+    var moon = document.getElementById("tbTheme");
+    function moonface() { moon.innerHTML = (window.MCC_THEME && MCC_THEME.get() === "dark") ? "&#9788;" : "&#9789;"; }
+    moon.addEventListener("click", function () { if (window.MCC_THEME) { MCC_THEME.flip(); moonface(); } });
+    moonface();
     document.addEventListener("click", function (e) {
       var b = e.target.closest && e.target.closest("[data-lane]");
       if (!b) return;
